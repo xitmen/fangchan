@@ -486,6 +486,9 @@ dl:last-child {
 .jia-zheng dl dd.title {
   font-weight: bold;
 }
+.new-list {
+  position: relative;
+}
 .new-list dd {
   margin-left: -6rem;
   width: 15rem !important;
