@@ -1,0 +1,13 @@
+@import "../../lib/main.css";
+.page-info-text {
+  background-color: rgba(255, 255, 255, 0);
+}
+.page-info-text .arrow-left {
+  background-image: url("../../lib/img/arrow-w.png");
+}
+.page-info-text p {
+  color: #fff;
+}
+.ad-list {
+  margin-top: -3rem;
+}
