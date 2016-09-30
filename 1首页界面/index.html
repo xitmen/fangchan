@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>姑苏蓝页</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="home-page">
+        <div class="banner">
+            <img src="./source/modules/usersvip/style/index/img/banner.jpg" class="width100" />
+        </div>
+        <div class="contact line-tel">
+            <label>{$city['region_name']}</label>
+            <span>咨询热线:400-6288-609</span>
+        </div>
+        <div class="nav-list">
+            <ul>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=ershou&do=index&weid={$_W['weid']}'"><a>二手房</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=chuzu&do=index&weid={$_W['weid']}'"><a>出租房</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=new&do=index&weid={$_W['weid']}'"><a>新房</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=publish&weid={$_W['weid']}'"><a>房源发布</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=jiazheng&do=index&weid={$_W['weid']}'"><a>家政联盟</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=shangmen&do=index&weid={$_W['weid']}'"><a>上门维修</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=baoxiang&do=index&weid={$_W['weid']}'"><a>包厢预订</a></li>
+                <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=qiye&weid={$_W['weid']}'"><a>企业策划</a></li>
+            </ul>
+        </div>
+        <div class="ad-page">
+            <img src="./source/modules/usersvip/style/index/img/ad01.jpg" class="width100" />
+        </div>
+        <div class="ad-page">
+            <img src="./source/modules/usersvip/style/index/img/ad02.jpg" class="width100" />
+        </div>
+    </div>
+    <div class="menu-list">
+        <ul>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}'" class="on"><a>首页</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}'"><a>使用须知</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}'"><a>投诉评价</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}'"><a>我的</a></li>
+        </ul>
+    </div>
+</body>
+</html>
+<script>
+	$('.line-tel label').click(function (){
+		window.location.href="{php echo $this->createMobileUrl('city')}";
+	});
+</script>

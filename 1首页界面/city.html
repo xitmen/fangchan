@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>城市切换</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css">
+	<link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">
+	<script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="select-city">
+        <h3>首页 &gt; 当前城市:<span><?=$city_name['region_name']?$city_name['region_name']:'无'?></span></h3>
+		<?php
+		if (!empty($city)){
+		?>
+			<h3>当前定位:<span>{$city['region_name']}</span><a href="{php echo $this->createMobileUrl('city', array('city_id' => $city['region_id'], 'province_id' => $city['parent_id'], 'op' => 'change'))}">使用当前位置</a></h3>
+		<?php } else if(!empty($key_city)) { ?>
+			<h3>当前定位:<span>{$key_city}</span>不在我们的服务范围内</h3>
+		<?php } else { ?>
+			<h3>当前定位:<span>失败</span></h3>
+		<?php } ?>
+        
+		<?php
+		$categorys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." WHERE parent_id = 0 and status=1");
+		foreach($categorys as $category)
+		{
+		?>
+        <div class="list">
+            <h4>{$category['region_name']}</h4>
+            <ul>
+				<?php
+				$items = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." WHERE parent_id = ".$category['region_id']." and status=1");
+				foreach($items as $item)
+				{
+				?>
+                <li><a href="{php echo $this->createMobileUrl('city', array('city_id' => $item['region_id'], 'province_id' => $category['region_id'], 'op' => 'change'))}" style="color:#000;">{$item['region_name']}</a></li>
+				<?php } ?>
+            </ul>
+        </div>
+		<?php } ?>
+    </div>
+</body>
+</html>
