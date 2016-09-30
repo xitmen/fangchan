@@ -532,3 +532,9 @@ dl:last-child {
 .pop-box .btn-list a:last-child {
   border-right: 1px solid #484340 !important;
 }
+.menu-link li.down-right {
+  background-image: url("../img/donw-arrow.jpg");
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: 1rem auto;
+}
