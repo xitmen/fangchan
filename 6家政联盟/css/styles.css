@@ -93,6 +93,7 @@
   padding: .5rem .3rem;
   border: 0px solid #5B5451;
   margin-left: -0.2rem;
+  height:2rem;
 }
 .send-list li.two span {
   border: 1px solid #5B5451;
@@ -116,6 +117,7 @@
   padding: .2rem .3rem;
   border: 0 none;
   border: 1px solid #5B5451;
+  border-radius:0;
 }
 .send-list li input.one {
   width: 3rem;

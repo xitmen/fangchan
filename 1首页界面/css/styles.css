@@ -448,3 +448,112 @@
   font-size: .7rem;
   border-radius: 0.3rem;
 }
+.custom-page {
+  border-top: 0.05rem solid #89827D;
+}
+.custom-page p {
+  line-height: 2rem;
+  font-size: .7rem;
+  padding-left: .5rem;
+}
+.custom-page ul li {
+  width: 15rem;
+  margin: .6rem auto;
+}
+.custom-page ul li input {
+  width: 14.5rem;
+  height: 1.5rem;
+  padding: .2rem;
+  font-size: .7rem;
+  border: .05rem solid #242322;
+  line-height: 1.5rem;
+}
+.custom-page ul li span {
+  width: 4.45rem;
+  display: inline-block;
+  height: 1.9rem;
+  background-color: #B8B7B5;
+  font-size: .7rem;
+  vertical-align: middle;
+  border: .05rem solid #242322;
+  line-height: 1.9rem;
+  text-align: center;
+  margin-left: -0.05rem;
+  float: right;
+}
+.custom-info h3.title {
+  font-size: .8rem;
+  font-weight: normal;
+  text-indent: .5rem;
+  padding-top: .5rem;
+}
+.custom-page {
+  border-top: 0.05rem solid #89827D;
+}
+.custom-page p {
+  line-height: 2rem;
+  padding: .4rem 0;
+  padding-left: .5rem;
+}
+.custom-page ul li {
+  width: 15rem;
+  margin: .6rem auto;
+}
+.custom-page ul li input {
+  width: 14.5rem;
+  height: 1.5rem;
+  padding: .2rem;
+  font-size: .7rem;
+  border: .05rem solid #242322;
+  line-height: 1.5rem;
+}
+.custom-page ul li span {
+  width: 4.45rem;
+  display: inline-block;
+  height: 1.9rem;
+  background-color: #B8B7B5;
+  font-size: .7rem;
+  vertical-align: middle;
+  border: .05rem solid #242322;
+  line-height: 1.9rem;
+  text-align: center;
+  margin-left: -0.05rem;
+  float: right;
+}
+.banner{
+  overflow:hidden;
+}
+.loop {
+  width: 16rem;
+  position: relative;
+  overflow: hidden;
+}
+.loop .img-list {
+  position: relative;
+  top: 0; height:7.7rem;
+  left: 0;
+  overflow: hidden;
+}
+.loop .img-list img {
+  float: left;
+  position: static;
+}
+.loop .page-list {
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 2rem;
+  text-align: center;
+}
+.loop .page-list i {
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  border-radius: .5rem;
+  background-color: #fff;
+  margin: 0 .1rem;
+}
+.loop .page-list i.on {
+  background-color: #333;
+}

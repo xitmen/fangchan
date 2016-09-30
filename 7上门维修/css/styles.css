@@ -1,11 +1,11 @@
-@import "../../lib/main.css";
+
 .nav-list ul {
   border: .05rem solid #716965;
   border-right: 0;
   border-bottom: 0;
 }
 .nav-list ul li {
-  width: 5.3rem;
+  width: 5.25rem;
   height: 5.3rem;
   vertical-align: middle;
   text-align: center;
@@ -46,7 +46,7 @@
   display: block;
 }
 .two-nav li {
-  width: 7.8rem !important;
+  width: 7.4rem !important;
 }
 .two-nav .search-add {
   width: 8rem;
@@ -54,9 +54,6 @@
 .two-nav .search-type {
   width: 8rem;
   left: 8rem;
-}
-.new-list dl {
-  position: relative;
 }
 .new-list dd {
   margin-left: -6rem;
@@ -72,34 +69,10 @@
   margin: 0 .1rem;
 }
 .new-list dd span.c-icon {
-  background-image: url("../img/c-icon.png");
+  background-image: url("/source/modules/shangmen/asset/img/c-icon.png");
 }
 .new-list dd span.v-icon {
-  background-image: url("../img/v-icon.png");
-}
-.new-list dt.follow-tag {
-  width: 2rem;
-  position: absolute;
-  top: .7rem;
-  right: -0.1rem;
-  background-image: url("../img/follow.png");
-  background-size: 1rem 1rem;
-  background-repeat: no-repeat;
-  background-position: center top;
-  padding-top: 1.2rem;
-  text-align: center;
-  color: #767676;
-  font-size: .5rem;
-}
-.new-list dt.follow-ing {
-  background-image: url("../img/follow-ing.png");
-  background-size: 1rem 1rem;
-  background-repeat: no-repeat;
-  background-position: center top;
-  padding-top: 1.2rem;
-  text-align: center;
-  color: #767676;
-  font-size: .5rem;
+  background-image: url("/source/modules/shangmen/asset/img/v-icon.png");
 }
 .custom-page {
   border-top: 0.05rem solid #89827D;
@@ -252,4 +225,31 @@
   background-color: #EA8838;
   font-size: .7rem;
   border-radius: 0.3rem;
+}
+.new-list dt.follow-tag {
+  width: 2rem;
+  position: absolute;
+  top: 1.7rem;
+  right: -0.1rem;
+  background-image: url("/source/modules/shangmen/asset/img/follow.png");
+  background-size: 1rem 1rem;
+  background-repeat: no-repeat;
+  background-position: center top;
+  padding-top: 1.2rem;
+  text-align: center;
+  color: #767676;
+  font-size: .5rem;
+}
+.new-list dt.follow-ing {
+  background-image: url("/source/modules/shangmen/asset/img/follow-ing.png");
+  background-size: 1rem 1rem;
+  background-repeat: no-repeat;
+  background-position: center top;
+  padding-top: 1.2rem;
+  text-align: center;
+  color: #767676;
+  font-size: .5rem;
+}
+.new-list dl {
+  position: relative;
 }

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>家政联盟</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/jiazheng/asset/css/styles.css">   
+    <script src="./source/modules/jiazheng/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/jiazheng/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title purple-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>求职简历</p>
+    </div>
+	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('saveresume', array('op' => 'submit'))}">
+		<input type="hidden" name="data[province]"  value="{$province_id}"/>
+		<input type="hidden" name="data[gangwei]" id="gangwei" value="长期钟点工"/>
+		<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+    <ul class="send-list">
+        <li class="two">
+            <label>姓名</label><input type="text" class="one" name="data[name]" id="name"/>
+        </li>
+        <li class="two" style="margin-left: -1.5rem;width: 9rem;">
+            <label>年龄</label>
+            <span style="width: 6rem;">
+                <input type="text" style="width:2rem;" class="two" value="1975" name="nian"/>年
+                <input type="text" class="two"value="5" name="yue"/>月
+            </span>
+        </li>
+        <li class="two">
+            <label>性别</label>
+            <select name="data[sex]"><option value="女">女</option><option value="男">男</option></select>
+        </li>
+        <li class="two">
+            <label>学历</label>
+            <select name="data[xueli]">
+				<option value="初中">初中</option>
+				<option value="高中">高中</option>
+				<option value="大专">大专</option>
+				<option value="本科">本科</option>
+				<option value="本科以上">本科以上</option>
+			</select>
+        </li>
+        <li>
+            <label>工作经验</label>
+            <select name="data[gzjy]">
+				<option value="暂无">暂无</option>
+				<option value="1-2年">1-2年</option>
+				<option value="3-5年">3-5年</option>
+				<option value="5年以上">5年以上</option>
+			</select>
+        </li>
+        <li class="two">
+            <label name="data[city]">求职地区</label>
+            <select><option value="{$city['region_id']}">{$city['region_name']}</option></select>
+        </li>
+        <li class="two">
+            <select name="data[area]">
+			{loop $areas $are}
+			<option value="{$are['region_id']}">{$are['region_name']}</option>
+			{/loop}
+			</select>
+        </li>
+        <li class="lis">
+            <label>应聘岗位(最多选3项）</label><br />
+            <a href="#">住家保姆</a>
+            <a href="#" class="on">长期钟点工</a>
+            <a href="#">月嫂</a>
+            <a href="#">看护老人</a>
+            <a href="#">临时钟点工</a>
+            <a href="#">育儿嫂</a>
+        </li>
+		<script>
+		$('.lis a').click(function (){
+			var cla = $(this).attr('class');
+			if(cla == 'on')
+			{
+				$(this).removeClass('on');
+			}
+			else
+			{
+				var len = $('.lis .on').size();
+				if(len < 3)
+				{
+					$(this).addClass('on');
+				}
+			}
+			var gangwei = '';
+			$(".lis .on").each(function(i){
+			   gangwei += ' '+$(this).html();
+			 });
+			 $('#gangwei').val(gangwei);
+		});
+		</script>
+        <li class="noBorder"><label>薪资要求</label>
+            <input type="text" placeholder="填写月工资或小时报酬" name="data[xinzi]" id="xinzi"/>元
+        </li>
+        <li class="noBorder"><label>相关证书</label>
+            <input type="text" placeholder="填写证书名称" name="data[zhengshu]"/>
+        </li>
+    </ul>
+    <p class="upload-img"><a href="#">证书及本人照片上传</a>图片最多上传8张</p>
+    <ul class="send-list">
+        <li class="noBorder"><label>居住小区</label>
+            <input type="text" placeholder="填写小区名称" name="data[xiaoqu]"/>
+        </li>
+    </ul>
+	{if !empty($member['mobile'])}
+		<input type="hidden" name="data[phone]" value="{$member['mobile']}"/>
+		<script>
+		function sb()
+		{
+			var name=$('#name').val();
+			var xinzi=$('#xinzi').val();
+			if(name == '')
+			{
+				alert('请填写姓名');
+			}
+			else if(xinzi == '')
+			{
+				alert('请填写薪资要求');
+			}
+			else
+			{
+				document.form1.submit();
+			}
+		}
+		</script>
+	{else}
+    <div class="custom-page">
+        <p>您的联系电话</p>
+        <ul>
+            <li><input type="text" placeholder="请输入您的手机号码" name="data[phone]" class="number"/></li>
+            <li><input type="text" style="width:10rem;" placeholder="请输入验证" id="yan"/><span class="vcode yz">获取验证码</span></li>
+        </ul>
+    </div>
+	<script>
+			$('.yz').click(function (){
+				 var phone=$('.number').val();
+				 var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+				 if(!reg.test(phone))
+				 {
+					alert('电话格式不正确');
+				 }
+				 else
+				 {
+					  $('.yz').html('正在发送...');
+					  var data={phone:phone};
+					  $.ajax({
+						data:data,
+						type: 'POST',
+						url: "{php echo $this->createMobileUrl('yzm')}",
+						dataType:'html',
+						success: function(html){
+						 if(html=='0')
+						 {
+							alert('对不起短信通道暂时关闭，稍等后再试!'); 
+							$('.yz').html('暂时关闭');
+							$('.yz').removeClass('yz');
+						 }
+						 else
+						 {
+							$('.yz').html('已发送,再发');
+							$.cookie('yzm',html);
+							$.cookie('mtel',phone);
+							alert($.cookie('yzm'));
+						 }
+						}
+					 });	
+				 }
+			 });
+			$('#yan').blur(function (){
+				if(this.value == $.cookie('yzm')){
+					$(this).css('color','green');
+				}
+				else if(this.value!=''){
+					$(this).val('错误');
+					$(this).css('color','red');
+				}
+			});
+			function sb()
+			{
+				var name=$('#name').val();
+				var xinzi=$('#xinzi').val();
+				var number=$('.number').val();//手机号码
+				var yan=$('#yan').val();//验证码
+				var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+				if(name == '')
+				{
+					alert('请填写姓名');
+				}
+				else if(xinzi == '')
+				{
+					alert('请填写薪资要求');
+				}
+				else if(!reg.test(number))
+				{
+					alert('手机号格式不正确');
+				}
+				else if(number!=$.cookie('mtel'))
+				{
+					alert('此手机号需要从新验证');
+				}
+				else if(yan=='' || yan!=$.cookie('yzm'))
+				{
+					alert('请填写正确的验证码');
+				}
+				else
+				{
+					document.form1.submit();
+				}
+			}
+			</script>
+			<script src="./source/modules/ershou/asset/js/cookie.js"></script>
+		{/if}
+	</form>
+    <a href="javascript:sb();" class="yellow-btn">下一步</a>
+</body>
+</html>
