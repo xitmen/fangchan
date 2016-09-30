@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>新房</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/new/asset/css/styles.css">   
+    <script src="./source/modules/new/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/new/asset/js/base.js?_=v1.1"></script>
+	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
+</head>
+<style>
+.info-box img{width:100%;}
+</style>
+<body>
+    <div class="top-title page-info-text">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>{$item['name']}</p>
+    </div>
+    <div class="custom-page-info">
+        <div class="custom-page-ppt">
+            <img src="{$item['pic']}" class="width100" style="height:220px;"/>
+        </div>
+        <div class="title">
+            {$item['name']}<span><em>{$item['jiage']}</em>元/平米</span>
+        </div>
+        <div class="focus">
+		{if !empty($tags)}
+            <p class="new-tips">
+			{loop $tags $tag}
+                <span>{$tag}</span>
+			{/loop}
+            </p>
+		{/if}
+            <p>
+                <span>开盘时间：{$item['open_time']}</span>
+                <span class="right">交房时间：{$item['end_time']}</span>
+            </p>
+            <p>
+                <label>地址：</label><?=$this->getRegion($item['area'])?>{$item['dizhi']}
+            </p>
+			{if $member['mobile']}
+			<p class="text-center">
+                <a href="javascript:ajax(2);" class="gary-btn">变价通知</a>
+				<a href="javascript:ajax(3);" class="gary-btn">新优惠通知</a>
+            </p>
+			<script>
+				function ajax(type)
+				{
+					var data={op:'ajax',type:type,mobile:'<?=$member['mobile']?>',info:'<?=$item['name']?>'};
+					$.ajax({
+						data:data,
+						type: "post",
+						url: "{php echo $this->createMobileUrl('savedingzhi')}",
+						dataType: "html",//json针对数组
+						success: function(res){
+							alert('投递成功！');
+						}
+					});
+				}
+			</script>
+			{else}
+            <p class="text-center">
+                <a href="javascript:show(2);" class="gary-btn">变价通知</a>
+				<a href="javascript:show(3);" class="gary-btn">新优惠通知</a>
+            </p>
+			{/if}
+        </div>
+        <div class="item-list-hos">
+            <h2>主力户型</h2>
+			{loop $types $type}
+            <dl class="block-item">
+                <dt><img src="{$type['pic']}" /></dt>
+                <dd>{$type['name']}<br />
+					<?php 
+					$tags = explode('/', $type['tags']);
+					?>
+					{if !empty($tags)}
+						{loop $tags $tag}
+							<span>{$tag}</span>
+						{/loop}
+					{/if}
+					<br />
+                    {$type['shi']}室{$type['ting']}厅{$type['wei']}卫{$type['chu']}厨&nbsp;&nbsp;{$type['pingfang']}㎡&nbsp;&nbsp;&nbsp;
+                    <em>{$type['jiage']}</em>万起
+                </dd>
+                <dd class="info">{$type['info']}</dd>
+            </dl>
+            {/loop}
+            <h2>楼盘特色</h2>
+            <div class="info-box">
+				{php echo htmlspecialchars_decode($item['tese'])}	
+            </div>
+        </div>
+		{if $member['mobile'] == ''}
+		<div class="pop" style="display:none;">
+			<form name="form1" method="POST" action="{php echo $this->createMobileUrl('savedingzhi', array('op' => 'submit'))}">
+			<input type="hidden" value="" name="type" id="types">
+			<input type="hidden" value="{$item['name']}" name="info">
+			<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+			<div class="pop-box">
+				<h4>楼盘通知信息</h4>
+				<h5>新盘优惠通过推送消息通知您</h5>
+				<ul>
+					<li><label>手机号</label><input type="text" placeholder="请输入你的手机号" class="number" name="mobile"></li>
+					<li><label>验证码</label><input type="text" style="width:4.9rem;" placeholder="请输入你验证码" id="yan"><span class="vcode yz">获取验证码</span></li>
+				</ul>
+				<p class="btn-list">
+					<a href="javascript:hid();">取消</a>
+					<a href="javascript:sb();" class="ok-submit red-text">确定</a>
+				</p>
+			</div>
+			</form>
+		</div>
+		<script>
+		function show(type)
+		{
+			$('#types').val(type);
+			$('.pop').show();
+		}
+		function hid()
+		{
+			$('.pop').hide();
+		}
+		$('.yz').click(function (){
+			 var phone=$('.number').val();
+			 var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+			 if(!reg.test(phone))
+			 {
+				alert('电话格式不正确');
+			 }
+			 else
+			 {
+				  $('.yz').html('正在发送...');
+				  var data={phone:phone};
+				  $.ajax({
+					data:data,
+					type: 'POST',
+					url: "{php echo $this->createMobileUrl('yzm')}",
+					dataType:'html',
+					success: function(html){
+					 if(html=='0')
+					 {
+						alert('对不起短信通道暂时关闭，稍等后再试!'); 
+						$('.yz').html('暂时关闭');
+						$('.yz').removeClass('yz');
+					 }
+					 else
+					 {
+						$('.yz').html('已发送,再发');
+						$.cookie('yzm',html);
+						$.cookie('mtel',phone);
+						alert($.cookie('yzm'));
+					 }
+					}
+				 });	
+			 }
+		 });
+		$('#yan').blur(function (){
+			if(this.value == $.cookie('yzm')){
+				$(this).css('color','green');
+			}
+			else if(this.value!=''){
+				$(this).val('错误');
+				$(this).css('color','red');
+			}
+		});
+		function sb()
+		{
+			var number=$('.number').val();//手机号码
+			var yan=$('#yan').val();//验证码
+			var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+			if(!reg.test(number))
+			{
+				alert('手机号格式不正确');
+			}
+			else if(number!=$.cookie('mtel'))
+			{
+				alert('此手机号需要从新验证');
+			}
+			else if(yan=='' || yan!=$.cookie('yzm'))
+			{
+				alert('请填写正确的验证码');
+			}
+			else
+			{
+				document.form1.submit();
+			}
+		}
+		</script>
+		{/if}
+		<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
+        <div class="follow-box">
+            <a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
+            <a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+function guanzhu(id)
+{
+	var data={id:id,type:3,url:'<?=$_SERVER['REQUEST_URI']?>'};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "{php echo $this->createMobileUrl('guanzhu')}",
+		dataType: "json",
+		success: function(res){
+			if(res.ret == 1){
+				alert(res.msg);
+			}
+			else{
+				alert(res.msg);
+			}
+		}
+	});
+}
+</script>

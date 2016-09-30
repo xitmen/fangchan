@@ -1,4 +1,4 @@
-@import "../../lib/main.css";
+
 .custom-page {
   border-top: 0.05rem solid #89827D;
 }
@@ -36,7 +36,7 @@
   background-color: rgba(137, 130, 125, 0.8);
 }
 .page-info-text .arrow-left {
-  background-image: url("../../lib/img/arrow-w.png");
+  background-image: url("/source/modules/lib/img/arrow-w.png");
 }
 .page-info-text p {
   color: #fff;
@@ -56,7 +56,7 @@
   background-size: .8rem;
 }
 .item-list dl dd span.start {
-  background-image: url("../img/statr.png");
+  background-image: url("/source/modules/baoxiang/asset/img/statr.png");
   background-repeat: repeat-x;
   display: inline-block;
   height: .8rem;
@@ -95,10 +95,11 @@
 .info-box,
 .server-box,
 .info-address {
-  font-size: .6rem;
+  font-size: .7rem;
   position: relative;
   padding: .8rem;
   border-bottom: .05rem dotted #373533;
+  line-height:1.1rem;
 }
 .info-box h4,
 .server-box h4,
@@ -113,7 +114,7 @@
   display: inline-block;
   width: 4rem;
   height: 1.5rem;
-  background-image: url("../../lib/img/daohang.png");
+  background-image: url("/source/modules/lib/img/daohang.png");
   background-size: contain;
   background-repeat: no-repeat;
   position: absolute;
@@ -248,7 +249,7 @@
   margin-right: .5rem;
 }
 .tou-shu ul li label.down-icon {
-  background-image: url("../img/donw-arrow.jpg");
+  background-image: url("/source/modules/baoxiang/asset/img/donw-arrow.jpg");
   background-repeat: no-repeat;
   background-size: .5rem;
   background-position: right center;
@@ -327,19 +328,19 @@
   width: 14.5rem;
   height: 1.2rem;
   padding: .2rem;
-  font-size: .5em;
+
   border: .05rem solid #242322;
   line-height: 1.2rem;
 }
 .custom-page ul li span {
   width: 4.45rem;
   display: inline-block;
-  height: 1.2rem;
+  height: 1.6rem;
   background-color: #B8B7B5;
-  font-size: .5rem;
+
   vertical-align: middle;
   border: .05rem solid #242322;
-  line-height: 1.2rem;
+  line-height: 1.6rem;
   text-align: center;
   margin-left: -0.05rem;
   float: right;

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>二手房产</title>
+	<link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/ershou/asset/css/styles.css">   
+    <script src="./source/modules/ershou/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/ershou/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title page-info-text">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>{$item['name']}</p>
+    </div>
+    <div class="custom-page-info">
+        <div class="custom-page-ppt">
+            <div class="loop img-box">
+                <div class="img-list">
+                    {loop $photos $photo}
+                    <img src="{$photo}" class="width100" />
+                    {/loop}
+                </div>
+                <p class="line">
+                    房源编号 {$item['number']}
+                    <span>1/{$len}</span>
+                </p>
+            </div>
+        </div>
+		<!--住宅-->
+		{if $item['type'] == 1}
+        <div class="custom-info-list">
+            <a>售价<em>{$item['jiage']}万</em></a>
+            <a>户型<em>{$item['shi']}室{$item['ting']}厅{$item['wei']}卫{$item['chu']}厨</em></a>
+            <a>面积<em>{$item['pingfang']}m<sup>2</sup></em></a>
+        </div>
+		<ul class="list">
+            <li><span style="width:49%"><label>单价:</label><?=sprintf("%.2f",$item['jiage']/$item['pingfang'])?> 万/㎡</span>
+                <span style="width:49%"><label>楼层:</label>{$item['louceng']}/{$item['zongceng']}F</span>
+            </li>
+            <li><span style="width:49%"><label>装修:</label>{$item['zhuangxiu']}</span>
+                <span style="width:49%"><label>产权:</label>{$item['chanquan']}年</span>
+            </li>
+			<li><label>朝向:</label>{$item['chaoxiang']}</li>
+            <li><label>配套:</label>{$item['peitao']}</li>
+            <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
+			<li><label>房东描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+        </ul>
+		{/if}
+		<!--别墅-->
+		{if $item['type'] == 2}
+        <div class="custom-info-list">
+            <a>售价<em>{$item['jiage']}万</em></a>
+            <a>面积<em>{$item['pingfang']}m<sup>2</sup></em></a>
+			<a>单价<em><?=sprintf("%.2f",$item['jiage']/$item['pingfang'])?> 万/㎡</em></a>
+        </div>
+		<ul class="list">
+            <li><span style="width:49%"><label>卧室个数:</label>{$item['woshi']}个</span>
+                <span style="width:49%"><label>建筑形式:</label>{$item['xingshi']}</span>
+            </li>
+			<li><label>装修:</label>{$item['zhuangxiu']}</li>
+            <li><label>其他配套:</label>{$item['peitao']}</li>
+            <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
+			<li><label>卖家描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+        </ul>
+		{/if}
+		<!--商铺、写字楼、商住两用-->
+		{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
+        <div class="custom-info-list">
+            <a>售价<em>{$item['jiage']}万</em></a>
+            <a>面积<em>{$item['pingfang']}m<sup>2</sup></em></a>
+			<a>单价<em><?=sprintf("%.2f",$item['jiage']/$item['pingfang'])?> 万/㎡</em></a>
+        </div>
+		<ul class="list">
+            <li><span style="width:68%"><label>物业费:</label>{$item['wyf']}元/平米/月</span>
+                <span style="width:30%"><label>楼层:</label>{$item['louceng']}/{$item['zongceng']}F</span>
+            </li>
+			<li><label>装修:</label>{$item['zhuangxiu']}</li>
+            <li><label>其他配套:</label>{$item['peitao']}</li>
+            <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
+			<li><label>卖家描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+        </ul>
+		{/if}
+        <ul class="list">
+			{if !empty($branch)}
+            <li class="gray-bg"><label>看房联系人:</label>{$branch['linkman']} <a href="tel:{$branch['tel']}" style="color:#5f5e5d">{$branch['tel']}</a></li>
+            <li class="gray-bg"><label>网点名称:</label>{$branch['name']}</li>
+			<li class="gray-bg"><label>网点编号:</label>{$branch['number']}</li>
+            <li class="gray-bg"><?=$this->getRegion($branch['area'])?> {$branch['address']}
+			<a href="http://api.map.baidu.com/marker?location={$branch['lat']},{$branch['lng']}&output=html" class="daohang"></a>
+                <img src="{$branch['pic']}" class="width100" />
+            </li>
+			{/if}
+        </ul>
+		<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
+        <div class="follow-box">
+            <a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
+            <a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+function guanzhu(id)
+{
+	var data={id:id,type:1,url:'<?=$_SERVER['REQUEST_URI']?>'};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "{php echo $this->createMobileUrl('guanzhu')}",
+		dataType: "json",
+		success: function(res){
+			if(res.ret == 1){
+				alert(res.msg);
+			}
+			else{
+				alert(res.msg);
+			}
+		}
+	});
+}
+</script>

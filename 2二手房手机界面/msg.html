@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>二手房产</title>
+    <link rel="stylesheet" type="text/css" href="/source/modules/lib/main.css?t=1"> 
+    <link rel="stylesheet" type="text/css" href="/source/modules/ershou/asset/css/styles.css?t=1">   
+    <script src="/source/modules/ershou/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="/source/modules/ershou/asset/js/base.js?_=v1.1"></script>
+	<script src="/source/modules/ershou/asset/js/cookie.js"></script>
+</head>
+<body>
+    <div class="top-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>定制二手房</p>
+    </div>
+    <div class="custom-page">
+		<form name="form1" method="POST" action="{php echo $this->createMobileUrl('dingzhi', array('op' => 'submit'))}">
+			<p>您的联系电话</p>
+			<ul>
+				<li><input type="text" placeholder="请输入您的手机号码" class="number" name="mobile"/></li>
+				<li><input type="text" style="width:10rem;" id="yan"/><span class="vcode yz">获取验证码</span></li>
+			</ul>
+			<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+		</form>
+        <a href="javascript:sb();" class="yellow-btn">下一步</a>
+    </div>
+</body>
+</html>
+<script>
+$('.yz').click(function (){
+	 var phone=$('.number').val();
+	 var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	 if(!reg.test(phone))
+	 {
+		alert('电话格式不正确');
+	 }
+	 else
+	 {
+		  $('.yz').html('正在发送...');
+		  var data={phone:phone};
+		  $.ajax({
+			data:data,
+			type: 'POST',
+			url: "{php echo $this->createMobileUrl('yzm')}",
+			dataType:'html',
+			success: function(html){
+			 if(html=='0')
+			 {
+				alert('对不起短信通道暂时关闭，稍等后再试!'); 
+				$('.yz').html('暂时关闭');
+				$('.yz').removeClass('yz');
+			 }
+			 else
+			 {
+				$('.yz').html('已发送,再发');
+				$.cookie('yzm',html);
+				$.cookie('mtel',phone);
+				alert($.cookie('yzm'));
+			 }
+			}
+		 });	
+	 }
+ });
+$('#yan').blur(function (){
+	if(this.value == $.cookie('yzm')){
+		$(this).css('color','green');
+	}
+	else if(this.value!=''){
+		$(this).val('错误');
+		$(this).css('color','red');
+	}
+});
+function sb()
+{
+	var number=$('.number').val();//手机号码
+	var yan=$('#yan').val();//验证码
+	var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	if(!reg.test(number))
+	{
+		alert('手机号格式不正确');return false;
+	}
+	if(number!=$.cookie('mtel'))
+	{
+		alert('此手机号需要从新验证');return false;
+	}
+	if(yan=='' || yan!=$.cookie('yzm'))
+	{
+		alert('请填写正确的验证码');return false;
+	}
+	document.form1.submit();
+}
+</script>

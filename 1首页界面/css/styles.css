@@ -373,3 +373,78 @@
 .select-city .list ul li.on em {
   color: #000;
 }
+.send-list {
+  overflow: hidden;
+}
+.send-list li {
+  font-size: .7rem;
+  padding: .2rem 0;
+  margin: .2rem 0;
+  padding-left: .2rem;
+}
+.send-list li.two {
+  width: 7.5rem;
+  float: left;
+}
+.send-list li label {
+  display: inline-block;
+  width: 2rem;
+  text-align: right;
+  padding-right: .5rem;
+}
+.send-list li input {
+  height: 1.5rem;
+  padding: .2rem .3rem;
+  border: 0 none;
+  border: 1px solid #5B5451;
+}
+.send-list li input.one {
+  width: 3rem;
+}
+.send-list li span {
+  display: inline-block;
+  width: 13rem;
+}
+.send-list li span.border {
+  border: 1px solid #5B5451;
+  width: 11.6rem;
+  color: #949495;
+}
+.send-list li span select {
+  padding: .5rem .3rem;
+  border: 1px solid #5B5451;
+}
+.send-list li span input {
+  height: 1.5rem;
+  padding: .1rem .3rem;
+  border: 0 none;
+}
+.send-list li span input.three {
+  width: 2rem;
+}
+.send-list li span input.border {
+  border: 1px solid #5B5451;
+}
+.send-list li span input.long {
+  width: 11rem;
+  border: 1px solid #5B5451;
+}
+.send-list li span .two {
+  border: 1px solid #5B5451;
+  width: 5.35rem;
+  margin-right: 1rem;
+}
+.upload-img {
+  color: #949495;
+  font-size: .5rem;
+}
+.upload-img a {
+  padding: .3rem .5rem;
+  display: inline-block;
+  width: 3rem;
+  margin: 0 .5rem;
+  color: #fff;
+  background-color: #EA8838;
+  font-size: .7rem;
+  border-radius: 0.3rem;
+}

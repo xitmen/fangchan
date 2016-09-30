@@ -26,7 +26,6 @@ $(function(){
 		divBox.hide().eq(index).show();
 		$('.mark').show();
 	});
-
 	(function(){
 		var w = document.body.clientWidth;
 		$('.loop').each(function(){

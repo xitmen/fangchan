@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>二手房产</title>
+	<link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/ershou/asset/css/styles.css">   
+    <script src="./source/modules/ershou/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/ershou/asset/js/base.js?_=v1.1"></script>
+	<script src="./source/modules/ershou/asset/js/jquery.lazyload.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="top-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <span>二手房</span>
+        <div class="top-search">
+            <input type="text" placeholder="输入小区名称搜索" name="key" value="{$key}">
+        </div>
+    </div>
+    <div class="search-box">
+        <ul>
+            <li>{$region_name['region_name']}<i></i></li>
+            <li>{$tags['types'][$type]}<i></i></li>
+            <li>筛选<i></i></li>
+        </ul>
+        <div class="search-add" style="display:none">
+		    <a href="{php echo $this->createMobileUrl('index', array('city_id' => $city_id))}">
+			<?=$this->getRegion($city_id)?>
+			</a>
+			{loop $regions $region}
+            <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $region['region_id']))}">{$region['region_name']}</a>
+            {/loop}
+        </div>
+        <div class="search-type" style="display:none">
+		{loop $tags['types'] $k=>$v}	
+            <a href="{php echo $this->createMobileUrl('index', array('type' => $k, 'area_id' => $area_id))}">{$v}</a>
+		{/loop}
+        </div>
+        <div class="search-info" style="display:none">
+			{loop $tags['items'][$type] $k=>$v}
+            <dl>
+                <dt>{$v['name']}</dt>
+				{loop $v['items'] $ks=>$vs}
+                <dd id="{$ks}" class="<?=in_array($ks,$tagarrs)?'on':''?>">{$vs}</dd>
+				{/loop}
+            </dl>
+			{/loop}
+			{if $type == 1}
+            <p>注：房源在整栋楼中所处的位置（例如：6层以下为低区，7-15层为中区，15层以上为高区。）</p>
+			{/if}
+			<input type="hidden" value="{$tag}" id="tegs" autocomplete="off">
+            <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" class="yellow-btn" style="margin-bottom: 68px;">确认</a>
+        </div>
+        <div class="mark" style="display:none"></div>
+    </div>
+    <div class="item-list">
+		{loop $items $item}
+		<a href="{php echo $this->createMobileUrl('info', array('id' => $item['id']))}">
+        <dl>
+            <dt><img data-original="{$item['pic']}" class="lazy" /></dt>
+            <dd class="title">{$item['name']}</dd>
+            <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+			{if $item['type'] == 1}
+            <dd class="info">{$item['shi']}室{$item['ting']}厅{$item['wei']}卫{$item['chu']}厨 {$item['pingfang']}㎡<span class="right">{$item['louceng']}/{$item['zongceng']}F</span></dd>
+			{/if}
+			{if $item['type'] == 2}
+            <dd class="info">{$item['xingshi']} {$item['woshi']}个卧室<span class="right">{$item['pingfang']}㎡</span></dd>
+			{/if}
+			{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
+            <dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right">{$item['louceng']}/{$item['zongceng']}F</span></dd>
+			{/if}
+            <dd class="price">售价<em>{$item['jiage']}</em>万</dd>
+        </dl>
+		</a>
+        {/loop}
+    </div>
+    <div class="tips">
+        <i><img data-original="./source/modules/ershou/asset/img/icon1.png" class="lazy" /></i>
+        有意向房源立即通知你
+        <a href="{php echo $this->createMobileUrl('dingzhi', array('city_id' => $city_id, 'area_id' => $area_id))}">立即定制</a>
+    </div>
+</body>
+</html>
+<script>
+	$('.search-info dl dd').click(function(){
+		$(this).siblings().attr('class', '');
+		$(this).attr('class', 'on');
+		var id = $(this).attr('id');
+		var str = '';
+		$('.search-info dl dd').each(function(i){
+		   var cl = $(this).attr('class');
+		   if(cl == 'on'){
+			if(str){
+				str += ','+$(this).attr('id');
+			}
+			else{
+				str += $(this).attr('id');
+			}
+		   }
+		 });
+		 $('#tegs').val(str);
+	});
+	$('.yellow-btn').click(function(){
+		$('.yellow-btn').attr('href', $('.yellow-btn').attr('href') + '&tags=' + $('#tegs').val());
+	});
+	$(function() {
+		$("img.lazy").lazyload();
+	});
+	$('.top-search').click(function (){
+		var key = $('.top-search input').val();
+		if(key)
+		{
+			window.location.href = "{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" + '&key='+key;
+		}
+	});
+	$('.top-search input').click(function (){
+		return false;
+	});
+</script>

@@ -1,6 +1,7 @@
 body {
   font-family: "\5FAE\8F6F\96C5\9ED1", "\5B8B\4F53", "\9ED1\4F53", "Lucida Grande", "Verdana", "Tahoma", "Lucida", "Arial", "Helvetica", "sans-serif";
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 * {
   margin: 0;
@@ -66,10 +67,14 @@ input {
 .top-title {
   height: 2rem;
   line-height: 1.7rem;
+  padding-top: .5rem;
   background-color: #fff;
   position: relative;
   z-index: 4;
+  padding-bottom: .5rem;
   font-size: .8rem;
+  width: 16rem;
+  overflow: hidden;
 }
 .top-title.new .top-search {
   margin-left: 1.2rem;
@@ -79,7 +84,7 @@ input {
   position: absolute;
   top: 0;
   left: 0;
-  line-height: 2rem;
+  line-height: 3rem;
   text-align: center;
   width: 16rem;
 }
@@ -93,9 +98,9 @@ input {
   color: #BBBCBD;
   font-size: 1.5rem;
   text-indent: -999rem;
-  background-image: url("/source/modules/lib/img/arrow.png");
+  background-image: url("img/arrow.png");
   background-repeat: no-repeat;
-  background-size: .5rem;
+  background-size: 0.6rem;
   background-position: center;
 }
 .top-title span {
@@ -111,7 +116,7 @@ input {
   vertical-align: middle;
   border-radius: 0.2rem;
   padding-left: 2rem;
-  background-image: url("/source/modules/lib/img/search.png");
+  background-image: url("img/search.png");
   background-repeat: no-repeat;
   background-size: 1.2rem;
   background-position: .5rem center;
@@ -158,7 +163,7 @@ input {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  background-image: url("/source/modules/lib/img/down-link.png");
+  background-image: url("img/down-link.png");
   background-repeat: no-repeat;
   background-size: 0.4rem;
   background-position: center;
@@ -332,7 +337,6 @@ input {
   line-height: 2rem;
   color: #000;
   padding-bottom: .5rem;
-  font-size:.8rem;
 }
 .custom-info dl dd {
   display: inline-block;
@@ -364,9 +368,9 @@ input {
 }
 .menu-link li {
   background-color: #fff;
-  border-top: 1px solid #6b6b6b;
+  border-top: 0.05rem solid #242322;
   padding: .8rem .5rem;
-  font-size: .6rem;
+  font-size: .8rem;
   vertical-align: middle;
 }
 .menu-link li a {
@@ -376,7 +380,7 @@ input {
   color: #332D2B;
 }
 .menu-link li.arrow-right {
-  background-image: url("/source/modules/lib/img/right-arrow.jpg");
+  background-image: url("img/right-arrow.jpg");
   background-repeat: no-repeat;
   background-position: 95% center;
   background-size: .5rem;
@@ -399,9 +403,10 @@ input {
   position: relative;
   width: 16rem;
   height: 10.7rem;
+  overflow: hidden;
 }
 .custom-page-info .custom-page-ppt img {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
 }
@@ -475,7 +480,7 @@ input {
   display: inline-block;
   width: 4rem;
   height: 1.5rem;
-  background-image: url("/source/modules/lib/img/daohang.png");
+  background-image: url("img/daohang.png");
   background-size: contain;
   background-repeat: no-repeat;
   vertical-align: middle;
@@ -505,14 +510,13 @@ input {
 }
 .follow-box {
   height: 2rem;
-  padding: .2rem 0;
+  padding: .5rem 0;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 16rem;
   z-index: 4;
   background-color: #fff;
-  border-top:1px solid #89827D;
 }
 .follow-box a {
   display: inline-block;
@@ -526,17 +530,17 @@ input {
   color: #808081;
 }
 .follow-box a.follow-icon {
-  background-image: url("/source/modules/lib/img/xinxin.png");
+  background-image: url("img/xinxin.png");
   background-repeat: no-repeat;
   float: left;
 }
 .follow-box a.share-icon {
-  background-image: url("/source/modules/lib/img/follow.png");
+  background-image: url("img/follow.png");
   background-repeat: no-repeat;
   float: right;
 }
 .follow-box a.msg-icon {
-  background-image: url("/source/modules/lib/img/msg.jpg");
+  background-image: url("img/msg.jpg");
   background-repeat: no-repeat;
   margin-left: 3.5rem;
 }
@@ -653,5 +657,3 @@ input {
 .loop .page-list i.on {
   background-color: #333;
 }
-#mcover{ position: fixed;	top:0;	left:0;	width:100%;	height:100%;background:rgba(0, 0, 0, 0.7);	display:none;z-index:20000;}
-#mcover img {position: fixed;right: 18px;top:5px;width: 260px;height: 180px;z-index:20001;}
