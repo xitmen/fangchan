@@ -1,0 +1,180 @@
+@import "../../lib/main.css";
+.right {
+  float: right;
+}
+.text-center {
+  text-align: center;
+}
+h3.title {
+  font-size: .8rem;
+  font-weight: normal;
+  text-indent: .5rem;
+  line-height: 1.5rem;
+}
+.new-item-list dl {
+  width: 8rem;
+  padding: .8rem .8rem .4rem .8rem;
+  overflow: hidden;
+  padding-left: 7rem;
+  border-top: .05rem solid #89827D;
+}
+.new-item-list dl dt {
+  width: 6rem;
+  height: 5rem;
+  margin-left: -6.5rem;
+  float: left;
+  margin-right: .4rem;
+}
+.new-item-list dl dt img {
+  width: 100%;
+  height: 100%;
+}
+.new-item-list dl dd {
+  float: left;
+  font-size: .6rem;
+  line-height: 1.3rem;
+  width: 9rem;
+  color: #6C6B6B;
+}
+.new-item-list dl dd .right {
+  float: right;
+  padding-right: .5rem;
+}
+.new-item-list dl dd.price {
+  font-size: .7rem;
+}
+.new-item-list dl dd.price em {
+  font-size: 1.2rem;
+  color: #EE804F;
+  font-style: normal;
+}
+.new-item-list dl dd.title {
+  color: #332D2B;
+}
+.new-item-list dl dd.title span {
+  display: inline-block;
+  font-size: .5rem;
+  line-height: .8rem;
+  padding: 0 .2rem;
+  margin-left: .2rem;
+  background-color: #75B470;
+  color: #fff;
+  border-radius: 0.2rem;
+}
+.page-info-text {
+  background-color: rgba(137, 130, 125, 0.8);
+}
+.page-info-text .arrow-left {
+  background-image: url("../../lib/img/arrow-w.png");
+}
+.page-info-text p {
+  color: #fff;
+}
+.custom-page-info .custom-page-ppt {
+  height: 9.5rem;
+}
+.custom-page-info .title {
+  font-size: .8rem;
+  color: #332D2B;
+  padding: 0 .5rem;
+  border-bottom: .05rem solid #5B5451;
+  height: 1.7rem;
+  line-height: 1.7rem;
+}
+.custom-page-info .title span {
+  float: right;
+  color: #727172;
+}
+.custom-page-info .title span em {
+  color: #ED7645;
+  font-style: normal;
+}
+.custom-page-info .focus {
+  font-size: .5rem;
+}
+.custom-page-info .focus p {
+  padding: .5rem;
+  border-bottom: 0.05rem dotted #515050;
+}
+.custom-page-info .focus p:last-child {
+  border-bottom: 0 none;
+}
+.custom-page-info .focus p label,
+.custom-page-info .focus p span {
+  color: #6C6B6B;
+}
+.custom-page-info .focus p.new-tips {
+  border-bottom: 0 none;
+}
+.custom-page-info .focus p.new-tips span {
+  color: #D6472C;
+  border: .05rem solid #D6472C;
+  padding: .2rem;
+}
+.custom-page-info .focus p .gary-btn {
+  width: 5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  background-color: #DBD9D6;
+  text-align: center;
+  border: 0.05rem solid #AFA9A7;
+  padding: .3rem .8rem;
+  margin: 0 .8rem;
+  color:#000;
+}
+.item-list-hos h2 {
+  line-height: 2rem;
+  height: 2rem;
+  background-color: #67955B;
+  color: #fff;
+  text-indent: .5rem;
+  font-size: .7rem;
+  font-weight: normal;
+}
+.item-list-hos dl {
+  width: 8rem;
+  padding: .8rem .8rem .4rem .8rem;
+  overflow: hidden;
+  padding-left: 7rem;
+  border-top: .05rem solid #89827D;
+}
+.item-list-hos dl dt {
+  width: 6rem;
+  margin-left: -6.5rem;
+  float: left;
+  margin-right: .4rem;
+}
+.item-list-hos dl dt img {
+  width: 100%;
+  height: 100%;
+}
+.item-list-hos dl dd {
+  float: left;
+  font-size: .6rem;
+  line-height: 1.8rem;
+  width: 9rem;
+  color: #6C6B6B;
+}
+.item-list-hos dl dd span {
+  color: #D6472C;
+  border: .05rem solid #D6472C;
+  padding: .2rem;
+  margin-right: .5rem;
+}
+.item-list-hos dl dd em {
+  font-style: normal;
+  color: #CA5035;
+  font-weight: bold;
+}
+.item-list-hos dl dd.info {
+  width: 16rem;
+  margin-left: -7rem;
+  line-height: 1.5rem;
+  display: block;
+  clear: left;
+  background-color: #EAE8E6;
+  border: 0.05rem solid #CFCBC9;
+  border-right: 0;
+  border-left: 0;
+  padding-left: .5rem;
+}

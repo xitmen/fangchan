@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商品评论</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/index.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/my.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+<style>
+.address{padding:0 5px 1em;margin:0.5em auto;background:#Fff;}
+.address ul{border:1px solid #ccc;border-radius:1em;background-color:#fff;font-size:12px;padding:5px;}
+.address ul li{line-height:2em;}
+.address ul li hr{color:green;}
+.address .info{padding:0 0.5em;line-height:2.5em;color:#999;}
+.wrap ul li .product_list .img{float:left;width:30%;}
+.wrap ul li .product_list .img img{width:100%;padding-top:5px;}
+.wrap ul li .product_list .info{float:right;width:65%;line-height:2em;}
+.wrap ul li a{width:20%;}
+.address ul li textarea{border:1px solid #ccc;border-radius:5px;width:100%;color:#ccc;}
+</style>
+</head>
+<body> 
+{template nav}
+<div class="wrap" id="m">
+{template my_top}
+  <div class="address">
+    <div class="info">商品评论</div>
+
+		<ul>
+			<li>
+				  <div class="product_list clearfix">
+					  <div class="img"><img src="<?=$this->is_img('./resource/attachment/'.$product['pic'])?>"></div>
+					  <div class="info">
+						  <div class="name">名称:{$product['name']}</div>
+						  <div class="price">总积分:{$product['price']}</div>
+						  <div class="num">数量:{$product['num']}</div>
+						  <div class="in">订单信息:<b>{$product['info']}</b></div>
+					  </div>
+					  
+				  </div>
+			</li>
+			<li style="border-bottom:1px dashed #000;">请在下方填写您的评论信息</li>
+			<li>
+			 <form method="post" action="">
+			    <table style="width:90%;">
+					<tr>
+						<td>
+						星级:   <input type="radio" name="xing" value="1">1颗
+								<input type="radio" name="xing" value="2">2颗
+								<input type="radio" name="xing" value="3">3颗
+								<input type="radio" name="xing" value="4">4颗
+								<input type="radio" name="xing" value="5" checked>5颗
+						</td>
+					</tr>
+					<tr>
+						<td>
+						  <textarea name="content" rows="3" class="txt">请在这里填写评论内容...</textarea>	
+						</td>
+					</tr>
+					<tr>
+						<td>
+						  <input name="submit" type="submit" value="提交">
+						  <input name="id" type="hidden" value="{$product['id']}">
+						</td>
+					</tr>
+				</table>
+			 </form>
+			</li>
+			
+		</ul>
+    </div>
+</div>
+{template 'chat'}
+</body>
+</html>
+<script>
+$('.txt').click(function()
+{
+ var f= $('.txt').html();
+ if(f=='请在这里填写评论内容...')
+ {
+    $('.txt').html('');
+	$('.txt').css('color','#000');
+ }
+});
+</script>

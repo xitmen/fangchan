@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商品列表</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/plist.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<body>
+{template nav}
+<div id="m" class="wrap">
+	<div class="m wrap">
+		<ul class="clearfix">
+			<li><a href="<?=$this->createMobileUrl('product_lists', array('cid' => $cid))?>">综合</a></li>
+			<li class="r"><a class="px {if $_GPC['action']=='px'}on{/if}" href="javascript:;">排序</a></li>
+			<li class="r"><a class="sx {if $_GPC['action']=='sx'}on{/if}" href="javascript:;">筛选</a></li>
+		</ul>
+	</div>
+	<div class="sub">
+		<div class="m">loading...</div>
+	</div>
+	<div class="mb">&nbsp;</div>
+	<div class="p">
+		<ul class="clearfix">
+		{loop $products $k $item}
+			<li {if ($k%2)}class="nr"{/if}>
+			<a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>">
+				<img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" style="display:block;height:150px;"/><br/>
+				<p><img src="./source/modules/integal/style/images/jb.png" > {$item['price']}</p>
+				<i>{$item['name']}</i>
+				<p style="width:70%;float:left;">{$item['xiaoliang']}人兑换</p>
+				<p style="width:25%;height:18px;border:1px solid #0cc;text-align:center;float:left;padding-top:3px;">
+				<a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>">兑换</a>
+				</p>
+			</a>
+			</li>
+		{/loop}	
+		</ul>
+		{$pager}
+	</div>
+</div>
+
+<style>
+	.subm{font-size:0.9em;padding:0.5em;}
+	.subm>ul>li{border-bottom:1px solid #eee;}
+	.subm>ul>li>a{color:#666;font-size:1.1em;line-height:2.5em;display:block;}
+	.subm>ul>li>a:after{content:'>';float:right;}
+	.subm>ul>li>ul{color:#999;display:none;padding-left:1em;line-height:2em;}
+</style>
+<script type="text/javascript" src="./source/modules/integal/style/js/common.js"></script>
+<script type="text/javascript">
+	function px(a,b){
+		if(b==undefined)
+		{
+		 window.location.href="mobile.php?act=module&cid=<?=$cid?>&name=integal&do=Product_lists&weid=<?=$_W['weid']?>&a="+a+'&b='+b+'&action=px';
+		}
+		else
+		{
+		 window.location.href="mobile.php?act=module&cid=<?=$cid?>&name=integal&do=Product_lists&weid=<?=$_W['weid']?>&a="+a+'&b='+b+'&action=sx';
+		}
+	}
+	//排序用菜单
+	var pxl=[{'n':'人气','c':null,'e':'javascript:px(0);'},
+	{'n':'上架时间','c':null,'e':'javascript:px(1);'},
+	{'n':'积分：由高到低','c':null,'e':'javascript:px(2);'},
+	{'n':'积分：由低到高','c':null,'e':'javascript:px(3);'},
+	{'n':'用户评价','c':null,'e':'javascript:px(4);'},
+	{'n':'销量','c':null,'e':'javascript:px(5);'}];
+	//筛选用菜单
+	var sxl=[{'n':'积分','c':[
+	                        {'n':'0-499(<?=($this->Number('ace_integal_products',' and price<=499 and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,0);'},
+							{'n':'500-999(<?=($this->Number('ace_integal_products',' and (price between 500 and 999) and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,1);'},
+							{'n':'1000-1499(<?=($this->Number('ace_integal_products',' and (price between 1000 and 1499) and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,2);'},
+							{'n':'1500-1999(<?=($this->Number('ace_integal_products',' and (price between 1500 and 1999) and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,3);'},
+							{'n':'2000-2999(<?=($this->Number('ace_integal_products',' and (price between 2000 and 2999) and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,4);'},
+							{'n':'3000以上(<?=($this->Number('ace_integal_products',' and price>=3000 and type_id in ('.$t_ids.')'))?>)','c':null,'e':'javascript:px(0,5);'}
+							],'e':''},
+	{'n':'类别','c':[
+	                {loop $class $k $item}
+	                {'n':'{$item['name']}','c':null,'e':'javascript:px(1,<?=$k?>);'},
+					{/loop}
+					
+					
+					],'e':''},
+
+	
+						
+						];
+
+</script>
+<script type="text/javascript">
+	var osel=null;
+	var m_0="<div class='subm'>"+bs.mk(pxl)+"</div>";
+	var m_1="<div class='subm'>"+bs.mk(sxl)+"</div>";
+	$(document).ready(function(){
+		$(".mb").width($(".p").width());
+		$(".sub").css("width",$(".p").width()+"px");
+		//默认选择第一个条件项
+		{if $_GPC['action']==''}sel();{/if}
+		{if $_GPC['action']=='px'}
+			osel=$("#m>.m ul li:nth-child(2)>a").get(0);
+		{/if}
+		{if $_GPC['action']=='sx'}
+			osel=$("#m>.m ul li:nth-child(3)>a").get(0);
+		{/if}
+		$(".m a.px").bind("click",function(){
+							$(".sub").html(m_0);
+							sel(2);showMenu();
+						});
+		$(".m a.sx").bind("click",function(){
+							$(".sub").html(m_1);
+							sel(3);showMenu();
+						});
+		$(".mb").bind("click",function(){
+							$(this).hide();
+							$(".sub").slideUp().hide();
+						});
+	});
+</script>
+{template 'chat'}
+</body>
+</html>

@@ -1,0 +1,37 @@
+{template 'common/header'}
+<div class="main">
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('Allsend');}">消息群发</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('Allsendlog');}">群发记录</a></li>
+</ul>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:100px;text-align:center;">消息类型</th>
+					<th style="text-align:center;">创建时间</th>
+					<th style="text-align:center;">状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td style="text-align:center;">{if $item['mediatype'] == 'mpnews'}图文消息{else}{$item['mediatype']}{/if}</td>
+					<td style="text-align:center;">{php echo date('Y-m-d H:i:s',$item['createtime'])}</td>
+					<td style="text-align:center;">
+						{$item['status']}
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+			<tr>
+				<td colspan="5">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary" name="submit" value="提交" />
+				</td>
+			</tr>
+		</table>
+		{$pager}
+	</div>
+</div>
+{template 'common/footer'}

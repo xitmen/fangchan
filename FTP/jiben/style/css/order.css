@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+#m{padding-bottom:45px;}
+
+.i{background:#fff;margin-bottom:6px;}
+.i dl>*{float:left;}
+.i dt{width:28%;position:relative;}
+.i dt>img{width:100%;}
+.i dt>b{position:absolute;bottom:0;left:0;width:100%;background-color:rgba(0,0,0,0.5);color:#fff;text-align:center;font-weight:normal;font-size:0.8em;line-height:1.5em;}
+.i dd{width:70%;padding:0 1%;}
+.i dd.t{font-size:0.95em;line-height:1.3em;height:2.6em; overflow:hidden;}
+.i dd.t a{color:#666;}
+.i dd.p{font-size:0.8em;color:#999;line-height:2.5em;}
+.i dd.p i{font-size:1.5em;color:#FF6600;float:right;}
+.i dd.b a{float:right;display:block;font-size:1.2em;line-height:1.6em;padding:0 0.6em;background:#FF6600;color:#fff;margin-right:5px;}
+
+.oi{background:#fff;}
+.oi .ot{font-size:0.9em;color:#333;padding:0.6em;border-bottom:1px solid #eee;}
+.oi .ot i{color:#FF6600;float:right;}
+
+.om{border-bottom:1px solid #eee;}
+.om dl{padding:0 0.2em;}
+.om dl>*{float:left;}
+.om dt{width:20%;padding:1.5% 1.5% 0 0;}
+.om dt img{width:100%;}
+.om dd{width:75%;}
+.om dd.it{padding-top:0.5em;line-height:1.2em;height:2.4em;overflow:hidden;}
+.om dd.it a{color:#333;}
+.om dd.it a.l{width:70%;display:block;float:left;}
+.om dd.it a.btn{width:29%;text-align:center;display:block;line-height:2em;background:#FF6600;color:#fff;_padding:0 0.5em;float:right;}
+.om dd.ic{font-size:0.85em;color:#999;padding-top:1em;}
+.om dd.ic>b{float:right;color:#FF6600;font-size:1.2em;font-weight:normal;}
+
+.om table{width:100%;}
+.om table td{font-size:0.9em;padding:0.2em;color:#666;}
+.om table td.t1{color:#999; white-space:nowrap; font-size:0.8em;width:4.5em;}
+
+.pbtn{width:98%;font-size:0.9em;position:fixed;bottom:0;left:0;background:#fff;padding:5px 1%;}
+.pbtn .pr{color:#FF6600;font-size:1.2em;}
+.pbtn .btn{float:right;}
+.pbtn .btn a{display:block;background-color:#FF6600;line-height:2.3em;color:#fff;text-align:center;padding:0 0.5em;float:left;}
+.pbtn .btn a.sh{margin-left:5px;}

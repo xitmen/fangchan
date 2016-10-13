@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.veny.com" versionCode="0.5,0.51">
+	<application setting="false">
+		<name><![CDATA[包厢预定]]></name>
+		<identifie><![CDATA[baoxiang]]></identifie>
+		<version><![CDATA[1.0]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[包厢预定]]></ability>
+		<description><![CDATA[包厢预定]]></description>
+		<author><![CDATA[lihui]]></author>
+		<url><![CDATA[lihui]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="手机首页" do="Index" />
+		</cover>
+		<menu>
+		   <entry title="包厢管理" do="Houses" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

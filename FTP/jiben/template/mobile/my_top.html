@@ -1,0 +1,13 @@
+<div class="u clearfix">
+		<div class="avatar"><img src="{if $info['avatar']==''}./source/modules/veshop/images/avatar/default.png{else}{$info['avatar']}{/if}"/></div>
+		<div class="i">
+			<div class="ui"><span>用户昵称：{if trim($info['uname'])!='null' && $info['uname']!=''}{$info['uname']}{else}微信用户{/if}</span>&nbsp;&nbsp;<a href="{php echo $this->createMobileUrl('Logout');}" style="display:none;">退出</a><a href="{php echo $this->createMobileUrl('Profile');}" class="modi">&nbsp;</a></div>
+			<div class="uc clearfix">
+				<ul>
+					<li class="r">消费总额<br/>{$info['totalpay']}</li>
+					<li>剩余积分<br/>{$info['totalcredit']}分</li>
+					<li class="l">剩余金额<br/>{$info['balance']}</li>
+				</ul>
+			</div>
+		</div>
+	</div>

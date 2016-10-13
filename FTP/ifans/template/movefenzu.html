@@ -1,0 +1,33 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="">粉丝聊天</a></li>
+</ul>
+<div class="main">
+	<div class="search">
+		<h4 class="sub-title">将用户{$list['nickname']}分组到</h4>
+		<form action="" method="post" onsubmit="">
+			<table class="table table-bordered tb">
+				<tbody>
+					<tr>
+						<td>
+				<select id="select01" name="gid">
+                <option value="-1">不选择分组</option>
+                {loop $groups $row}
+                <option value="{$row['id']}">{$row['name']}({$row['count']}人)</option>
+                {/loop}
+                
+              </select>
+						</td>
+					</tr>
+					<tr class="search-submit">
+						<td colspan="2">
+							<input type="submit" name="submit" value="发送" class="btn btn-primary" />
+							<input type="hidden" name="token" value="{$_W['token']}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+{template 'common/footer'}

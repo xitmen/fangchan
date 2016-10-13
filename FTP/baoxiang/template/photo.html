@@ -1,0 +1,69 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $id))}">相册管理</a></li>
+	{if $item['type'] == 1}
+	<li><a href="{php echo $this->createWebUrl('datang', array('op' => 'display', 'id' => $id))}">大堂相册管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('caipu', array('op' => 'display', 'id' => $id))}">菜谱相册管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('tese', array('op' => 'display', 'id' => $id))}">特色相册管理</a></li>
+	{/if}
+	<li><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">包厢管理</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$id}" />
+		<h4>相册基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">缩略图</label></th> 
+				<td>
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;"></div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更改</span><input name="pic" type="file" /></span>
+							<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+							{if $item['pic']}<button type="submit" name="fileupload-delete" value="{$item['pic']}" class="btn fileupload-new">删除</button>{/if}
+						</div>
+					</div>
+					<span class="help-block">最佳尺寸(750px * 450px 72分辨率)</span>
+				</td>
+			</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+{elseif $operation == 'display'}
+<div class="main">
+	<div style="padding:15px;">
+		<p style="padding-bottom:10px;"><a href="{php echo $this->createWebUrl('photo', array('op' => 'post', 'id' => $id))}">添加相册</a></p>
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:30%;">房源名称</th>
+					<th style="width:50%;">图片</th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $v}
+				<tr>
+					<td>{$item['name']}</td>
+					<td><img src="{$v}" style="width:220px;"></td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('photo', array('id' => $item['id'], 'op' => 'delete', 'url' => $v))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

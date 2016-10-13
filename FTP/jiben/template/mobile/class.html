@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商品分类</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/list.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<body>
+{template nav}
+<div id="m" class="wrap">
+	<div class="f">
+	  <!-- 幻灯片代码 开始 -->
+		   <link href="./source/modules/integal/style/css/banner.css" type="text/css" rel="stylesheet" media="all"/>
+		   <div id="wrapper">
+		    <div id="scroller">
+				<ul id="thelist">               
+					{loop $t_ads $item}
+			        <li><a href="<?=($item['url'])?$item['url']:($this->createMobileUrl('ads', array('id' => $item['id'])))?>"><img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" /></a></li>
+			        {/loop}					
+				</ul>
+			</div>
+			
+			<div id="nav">
+				<ul id="indicator">     
+                    {loop $t_ads $k $item}				
+					<li class="<?=(($k+1)=='1')?'active':''?>">{$k}</li> 
+					{/loop}
+				</ul>
+			</div>
+			</div>
+			<script type="text/javascript" src="./source/modules/integal/style/js/banner.js"></script>
+		<!-- 幻灯片代码 结束 -->
+	</div>
+	<div class="m1">
+		{if $class['parent_id']!='0'}<div style="background-color:#E2E2E2;line-height:1.8em;"><a href="{php echo($this->createMobileUrl('Product_lists', array('cid' => $class['id'])));}" style="background:#A8A8A8;font-weight:bolder;color:#fff;padding:0.5em;">查看所有{$class['name']}产品</a></div>{/if}
+		<ul>
+		{loop $product_types $k $item}
+			<li><img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>"/><b><a href="<?=($this->createMobileUrl('Product_lists', array('cid' => $item['id'])))?>">{$item['name']}</a><br/>
+			<ins class="clearfix">
+			{loop $item['subclass'] $ite}
+			 <a href="<?=($this->createMobileUrl($this->doMobileProduct_types($ite['id']), array('cid' => $ite['id'])))?>">{$ite['name']}</a>
+			{/loop}	
+			</ins>
+			</b>
+			</li>
+		{/loop}	
+		</ul>
+	</div>
+	<div class="m2">
+		<ins>{$class['name']} 销售排行</ins>
+		<div class="m">
+			<ul class="clearfix">
+			{loop $rexiao_products $item}
+				<li><a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>"><img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>"/><p>¥{$item['price']}<ins>销量：{$item['xiaoliang']}</ins></p></a></li>
+			{/loop}		
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var iw=$(".m2 .m ul li").width();
+		$(".m2 .m ul li").each(function(){$(this).width(iw);});
+		$(".m2 .m ul").css("width",($(".m2 .m ul li").size()*$(".m2 .m ul li").width()+50)+"px");
+	});
+</script>
+{template 'chat'}
+</body>
+</html>

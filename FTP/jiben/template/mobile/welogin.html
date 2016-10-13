@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>微信用户绑定</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/login.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<style>
+a.ayb{display:block;width:70%;margin:0 auto;}
+input.show{width:90%;}
+input.yb{width:100%;color:#fff;line-height:2.1em;border-radius:0.3em;margin-left:20px;}
+p{color:#666;padding:2em 1.5em;}
+</style>
+</head>
+<body>
+{template nav}
+  <div class="wrap" id="m">
+  <p>我没有账户，我要通过我的微信访问商城！</p>
+  <a href="<?=($this->createMobileUrl('New'))?>" class="ayb"><input type="button" value="我是新用户" class="yb"/></a>
+  <div style="font-size:0;width:100%;border-bottom:1px solid #ccc;margin:10px 0;">&nbsp;</div>
+  <form action="{php echo $this->createMobileUrl('Binding');}" method="post">
+  <input type="hidden" name="token" value="{$_W['token']}" />
+     <div class="main">
+     <p>我有账户，我想绑定我的微信！</p>
+	    <table class="table">
+		<tr>
+			<td><label>用户名：</label></td>
+			<td><input type="text" class="txt" autocomplete="off" name="data[uname]"></td>
+		</tr>
+		<tr>
+			<td><label>密　码：</label></td>
+			<td><input type="password" class="txt" autocomplete="off" name="data[password]"></td>
+		</tr>
+	</table>
+     </div>
+	 <div class="btn">
+	     <ul>
+		    <li>
+			    <input type="submit"  value="绑定到已注册账户" class="show"/>
+			</li>
+		</ul>
+	 </div>
+  </form>	 
+  </div>
+{template 'chat'}
+</body>
+</html>

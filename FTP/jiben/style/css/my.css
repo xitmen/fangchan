@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+.u{background:#fff;padding:5px 1.5%;}
+.u>div{float:left;}
+.u .avatar{width:30%;border:1px solid #eee;font-size:0;}
+.avatar img{width:92%;margin:4%;}
+
+.u .i{font-size:0.9em;width:69%;margin-top:5px;}
+.i .ui{position:relative;}
+.i .ui span{padding-left:2%;line-height:40px;}
+.i .modi{position:absolute;top:0;right:0;width:35px;height:35px;background:url(../images/btn_modi.png) scroll no-repeat center center;background-size:24px 24px;border-radius:35px;border:2px solid #555;}
+
+.i .uc{width:93%;border-radius:5px;border:1px solid #ddd;margin:5px auto 0;padding:2%;}
+.uc li{float:left;display:block;width:33%;text-align:center;color:#888;font-size:0.9em;line-height:1.5em;overflow:hidden;}
+.uc li.r{border-right:1px solid #ddd;}
+.uc li.l{border-left:1px solid #ddd;}
+
+.m{border-radius:10px;border:1px solid #ddd;background:#fff;margin:3px;margin-top:10px;}
+.m li{line-height:3.2em;color:#666;border-bottom:1px solid #ddd;padding:0 10px;}
+.m li a{display:block;width:100%;float:left;color:#666;}
+.m li span{display:block;float:right;}
+.m li span>b{display:block;height:1.8em;font-size:0.9em;line-height:1.8em;text-align:center;background:#00Cc00;border-radius:1.8em;float:left;min-width:1.8em;color:#fff;font-weight:normal;margin-top:0.9em;}
+.m li span>b.fh{background:#FF6600;}
+.m li span:after{content:'>';display:block;float:right;margin-left:10px;color:#CCC;}

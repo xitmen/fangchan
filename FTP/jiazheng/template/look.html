@@ -1,0 +1,104 @@
+{template 'common/header'}
+<div class="main">
+	<div class="search">
+	<form action="{php echo $this->createWebUrl('look', array('op' => 'display'))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>搜素</th>
+					<td>
+						<input class="span4" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜索服务项目/电话">
+						<select name="province" id="province" class="span2">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+						</select>
+						<select name="city" id="city" class="span2">
+							<option value="">--市--</option>
+							{if $_GPC['city']}
+							<option value="{$_GPC['city']}" selected><?=$this->getRegion($_GPC['city'])?></option>
+							{/if}
+						</select>
+						<select name="area" id="area" class="span2">
+							<option value="">--区--</option>
+							{if $_GPC['area']}
+							<option value="{$_GPC['area']}" selected><?=$this->getRegion($_GPC['area'])?></option>
+							{/if}
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+	</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:30%;">服务项目</th>
+					<th style="width:20%;">电话</th>
+					<th style="width:30%;">服务地址</th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['fwxm']}</td>
+					<td>{$item['phone']}</td>
+					<td><?=$this->getRegion($item['province'])?> <?=$this->getRegion($item['city'])?> <?=$this->getRegion($item['area'])?> {$item['address']}</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('look', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+<script>
+$('#province').change(function (){
+	$('#city').html('<option value="">--市--</option>');
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#city').html(res);
+			}
+		});
+	}
+});
+$('#city').change(function (){
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'区'},
+			cache:false,
+			success: function(res){
+				$('#area').html(res);
+			}
+		});
+	}
+});
+</script>
+{template 'common/footer'}

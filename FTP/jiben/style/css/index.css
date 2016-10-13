@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+#m .m1{margin:0 5px;}
+
+.m1{border-radius:13px;border:1px solid #CCC;box-shadow:0 3px 2px #ccc;margin:0 3px;background-color:#fff;}
+.m1 .menu{border-radius:13px 13px 0 0;background-color:#8F8F8F;}
+.m1 .menu li{float:left;width:50%;}
+.m1 .menu li>a{display:block;color:#333;font-size:1.2em;text-align:center;line-height:2em;}
+.m1 .menu li>a.on{color:#ff5c00;border-radius:15px 15px 0 0;background-color:#fff;}
+.m1 .m{padding:15px;}
+
+.m2 ul{background-color:#fff;margin-top:10px;}
+.m2 li{float:left;padding:4% 0 3%;text-align:center;width:24.75%;border:1px solid #CCC;border-width:0 1px 1px 0;}
+.m2 li.l1{ border-right-width:0;}
+.m2 li.l2{ border-bottom-width:0;}
+.m2 li>a{display:block;margin:0 auto;}
+.m2 li>a ins{display:block;line-height:1.5em;color:#666;font-size:12px;}
+
+.m3{margin:10px 0;background:#fff;}
+.m3 li{float:left;border:1px solid #CCC;border-width:1px 0 1px 1px;}
+.m3 li.c1{border-left-width:0;}
+.m3 li img{width:100%;}
+

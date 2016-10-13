@@ -1,0 +1,201 @@
+{template 'common/header'}
+<link rel="stylesheet" type="text/css" href="/source/modules/fans/template/imagescss/base204f7e.css">
+<link rel="stylesheet" href="https://res.wx.qq.com/mpres/htmledition/style/page/page_user1ec5f7.css">
+<link rel="stylesheet" type="text/css" href="/source/modules/fans/template/imagescss/pagination1ec5f7.css">
+<body class="zh_CN">
+         
+        <div id="body" class="body page_user" style="width:1050px; margin-left:0px;">
+            <div id="js_container_box" class="container_box cell_layout side_l">
+                
+                              
+                                
+                <div class="col_main">
+                    
+<div class="main_hd">
+    <h2>用户管理</h2>
+</div>
+<div class="main_bd">
+
+    <div class="mod_hd">
+        <div class="mod_info">
+            分组名称            <span class="group_name" id="js_groupName">全部用户</span>
+                    </div>
+        <div class="mod_opr">
+            <a href="javascript:;" data-y="3" class="btn btn_primary" id="js_groupAdd"><i class="icon14_common add_white"></i>新建分组</a>
+        </div>
+    </div>
+    <div class="inner_container_box side_r cell_layout">
+        <div class="inner_main">
+            <div class="bd">
+                
+                                <div class="table_wrp user_list">
+                    <table class="table" cellspacing="0">
+                        <thead class="thead">
+                            <tr>
+                                <th class="table_cell user no_extra" colspan="3">
+                                    <div class="group_select">
+                                        <label for="selectAll" class="group_select_label frm_checkbox_label">
+                                            <i class="icon_checkbox"></i>
+                                            <input type="checkbox" class="frm_checkbox" id="selectAll">
+                                            全选                                        </label>&nbsp;
+                                        <div id="allGroup" class="dropdown_wrp dropdown_menu disabled"><a href="javascript:;" class="btn dropdown_switch jsDropdownBt"><label class="jsBtLabel">添加到</label><i class="arrow"></i></a>
+<ul class="dropdown_data_list jsDropdownList" style="display: none;">
+    
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="0" data-index="0" data-name="未分组">未分组</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="1" data-index="1" data-name="黑名单">黑名单</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="2" data-index="2" data-name="星标组">星标组</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="100" data-index="3" data-name="类别1">类别1</a>
+        </li>
+                
+    
+</ul>
+</div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody" id="userGroups">
+
+{loop $list $row}
+<tr>
+    <td class="table_cell user">
+        <div class="user_info">
+            
+            <a target="_blank" href="#" class="remark_name" data-fakeid="1576813644">{$row['nickname']}</a>
+            <span class="nick_name" data-fakeid="1576813644"></span>
+            
+            <a target="_blank" href="#" class="avatar">
+                <img src="{$row['avatar']}" data-fakeid="1576813644" class="js_msgSenderAvatar">
+            </a>
+            <label for="check1576813644" class="frm_checkbox_label"><i class="icon_checkbox"></i><input class="frm_checkbox js_select" type="checkbox" value="1576813644" id="check1576813644"></label> 
+        </div>
+    </td>
+    <td class="table_cell user_category">
+        <div id="selectArea1576813644" class="js_selectArea dropdown_menu" data-gid="0" data-fid="1576813644"><a href="javascript:;" class="btn dropdown_switch jsDropdownBt"><label class="jsBtLabel">未分组</label><i class="arrow"></i></a>
+<ul class="dropdown_data_list jsDropdownList" style="display: none;">
+    
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="0" data-index="0" data-name="未分组">未分组</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="1" data-index="1" data-name="黑名单">黑名单</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="2" data-index="2" data-name="星标组">星标组</a>
+        </li>
+        
+        <li class="dropdown_data_item ">  
+            <a onclick="return false;" href="javascript:;" class="jsDropdownItem" data-value="100" data-index="3" data-name="类别1">类别1</a>
+        </li>
+                
+    
+</ul>
+</div>
+    </td>
+     
+</tr>
+{/loop}
+ 
+
+
+</tbody>
+                    </table>
+                </div>
+                <div class="tool_area">
+                     {$pager}
+                </div>
+                            </div>
+        </div>
+        <div class="inner_side">
+            <div class="bd">
+                <div class="group_list">
+                    <div class="inner_menu_box" id="groupsList"><dl class="inner_menu">
+    <dt class="inner_menu_item">
+		<a href="/source/modules/fans/template/imagescss/微信公众平台.htm" class="inner_menu_link" title="全部用户">
+			<strong>全部用户</strong><em class="num">(15)</em>
+		</a>
+    </dt>
+    
+	
+	
+	{loop $wc_group $v}
+	<dd class="inner_menu_item" id="group{$v['id']}">
+	    <a href="#" class="inner_menu_link" title="加入该分组中的用户仅作为更重要的用户归类标识">
+			<strong>{$v['name']}</strong><em class="num">({$v['count']})</em>
+		</a>		
+	</dd>
+	{/loop}
+
+	
+    
+</dl>
+ 
+</div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                </div>
+            </div>
+                         
+                    </div>
+         
+ 
+         
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/sea1fd8fc.js"></script>  
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/lib1ec5f7.js"></script>  
+<script type="text/javascript">
+    window.wx ={
+        version:"4.0.0",
+        data:{
+            
+           
+            
+        },
+    };
+</script>
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/wx200a31.js"></script>  
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/dialog.html1f4193.js"></script>
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/pagebar208053.js"></script>
+<script type="text/javascript" src="/source/modules/fans/template/imagescss/index1ec5f7.js"></script>
+<script type="text/html" id="js_editNameHtml">
+    <h4 class="popover_title">分组名称</h4>
+    <span class="frm_input_box">
+	<form action="" method="post" enctype="multipart/form-data">
+        <input type="text" class="frm_input js_name" name="groupname" value="">
+		<input type="submit" value="确定" class="btn btn_primary jsPopoverBt">
+    </form>
+	</span>
+</script>
+ 
+<script type="text/javascript">
+    wx.cgiData={
+        isVerifyOn: "0"*1,
+        pageIdx : 0,
+            pageCount : 2,
+            pageSize : 10,
+            groupsList : ({"groups":[{"id":0,"name":"未分组","cnt":14},{"id":1,"name":"黑名单","cnt":0},{"id":2,"name":"星标组","cnt":0},{"id":100,"name":"类别1","cnt":1}]}).groups,
+                         
+             
+            
+    };
+seajs.use("user/index");
+</script>
+</body>
+{template 'common/footer'}

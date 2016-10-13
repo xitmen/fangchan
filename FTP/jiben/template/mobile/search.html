@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商品搜索</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/login.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/plist.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+
+<body class="boby">
+{template nav}
+</div>
+	  <div class="wrap" id="m">
+			 <div class="box">
+		        <input type="text" placeholder="请输入产品关键字" class="sea" value="{$_GPC['key']}" />
+				<a href="javascript:seach();"><input type="image" class="icon" src="./source/modules/integal/style/images/icon_sea.png"/></a>
+			 </div>
+			 <div class="p" style="margin-top:0;">
+		<ul class="clearfix">
+		{loop $products $k $item}
+			<li {if ($k%2)}class="nr"{/if}><a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>">
+				<img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" style="display:block;height:150px;"/><br/>
+				<p><img src="./source/modules/integal/style/images/jb.png" > {$item['price']}</p>
+				<i>{$item['name']}</i>
+				<p style="width:70%;float:left;">{$item['xiaoliang']}人兑换</p></a>
+				<p style="width:25%;height:18px;border:1px solid #0cc;text-align:center;float:left;padding-top:3px;">
+				<a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>">兑换</a>
+				</p>
+			</li>
+		{/loop}	
+		</ul>
+		{$pager}
+	</div>
+	  </div>
+{template 'chat'}
+</body>
+<script>
+  function seach(){
+  window.location.href='mobile.php?act=module&name=integal&do=search&weid='+{$_W['weid']}+'&key='+$('.sea').val();
+  }
+</script>
+</html>

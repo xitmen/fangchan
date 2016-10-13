@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商城-收货地址</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/index.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/my.css" type="text/css" rel="stylesheet" media="all"/>
+<style>
+.address{
+padding:0.4em;
+background:#fff;
+margin-top:0.5em;
+}
+.address ul{
+border:1px solid #ccc;
+border-radius: 5px;
+padding:5px;
+margin-top:10px;
+background-color:#fff;
+}
+.address ul li{
+line-height:20px;
+}
+.address ul li hr{
+color:green;
+}
+.address ul li p{
+}
+.address .info a{
+
+}
+
+.address table{
+width:100%;
+border:1px solid green;
+border-radius: 5px;
+padding:5px;
+margin-top:10px;
+background-color:#fff;
+}
+.address table tr{
+line-height:30px;
+}
+</style>
+</head>
+<body> 
+{template nav}
+<div class="wrap" id="m">
+{template my_top}
+  <div class="address">
+    <div class="info"><a href="{php echo $this->createMobileUrl('address', array('op' => 'display'))}">收货地址管理</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href="{php echo $this->createMobileUrl('address', array('op' => 'post'))}">添加地址</a></div>
+	{if $operation == 'display'}
+    <ul style="font-size:12px;">
+	{loop $list $item}
+		<li>{$item['name']} {$item['phone']} {$item['address']} {if $item['youbian']}{$item['youbian']}{/if}</li>
+		<li>
+			<p>
+			{if $item['state']}
+			 <a style="color:green;">默认</a>
+			{else}
+			 <a href="{php echo $this->createMobileUrl('address', array('op' => 'state','id' => $item['id']))}" style="color:green;">设置默认</a>
+			{/if}
+			
+			&nbsp;&nbsp;<a href="{php echo $this->createMobileUrl('address', array('op' => 'post','id' => $item['id']))}">编辑</a>
+			&nbsp;&nbsp;<a href="{php echo $this->createMobileUrl('address', array('op' => 'delete','id' => $item['id']))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+			</p>
+		</li>
+		<li><hr></li>
+	{/loop}	
+		
+	</ul>
+	{elseif $operation == 'post'}
+	<form action="{php echo $this->createMobileUrl('address', array('op' => 'post'))}" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<h4>地址信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">姓名</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			
+			<tr>
+				<th><label for="">电话</label></th>
+				<td>
+					<input type="text" name="data[phone]" class="span6" value="{$item['phone']}" />
+				</td>
+			</tr>
+			
+			
+			<tr>
+				<th><label for="">地址</label></th>
+				<td>
+					<input type="text" name="data[address]" class="span3" value="{$item['address']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">邮编</label></th>
+				<td>
+					<input type="text" name="data[youbian]" class="span3" value="{$item['youbian']}" />
+				</td>
+			</tr>	
+			<tr>
+				<th></th>
+				<td>
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				</td>
+			</tr>
+		</table>
+	</form>
+	{/if}
+  </div>
+</div>
+{template 'chat'}
+</body>
+</html>

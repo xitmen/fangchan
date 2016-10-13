@@ -1,0 +1,266 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('merchant', array('op' => 'post'))}">添加商家</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('merchant', array('op' => 'display'))}">商家管理</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<h4>商家基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">名称</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">联系电话</label></th>
+				<td>
+					<input type="text" name="data[tel]" class="span3" value="{$item['tel']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">省市区</label></th>
+				<td>
+					<select name="data[province]" id="province">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$item['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+					</select>
+					<select name="data[city]" id="city">
+						<option value="">--市--</option>
+						{if $item['city']}
+						<option value="{$item['city']}" selected><?=$this->getRegion($item['city'])?></option>
+						{/if}
+					</select>
+					<select name="data[area]" id="area">
+						<option value="">--区--</option>
+						{if $item['area']}
+						<option value="{$item['area']}" selected><?=$this->getRegion($item['area'])?></option>
+						{/if}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">详细地址</label></th>
+				<td>
+					<input type="text" name="data[address]" class="span6" value="{$item['address']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">状态</label></th>
+				<td>
+					<select name="data[status]">
+						<option value="">--状态--</option>
+							<option value="2" <?=$item['status'] == 2?'selected':''?>>未通过</option>
+							<option value="1" <?=$item['status'] == 1?'selected':''?>>通过</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">标志</label></th>
+				<td>
+					<input type="checkbox" name="data[is_v]" value="1" <?=$item['is_v'] == 1?'checked':''?>>&nbsp;合作商家&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="data[is_c]" value="1" <?=$item['is_c'] == 1?'checked':''?>>&nbsp;诚信通
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">服务类型</label></th>
+				<td>
+					<?php $tagarrs = explode(',',$item['tags']);?>
+					{loop $tags $k $tag}
+						<p style="float:left;width:180px;"><input type="checkbox" name="tags[]" value="{$k}" <?=in_array($k,$tagarrs)?'checked':''?>>&nbsp;{$tag}&nbsp;&nbsp;</p>
+					{/loop}
+				</td>
+			</tr>
+
+			{if !empty($item['id'])}
+			<tr>
+				<th><label for="">个人图片</label></th>
+				<td>
+					<?php 
+						if(!empty($item['gr_photo']))
+						{
+						$photos = explode('|', $item['gr_photo']);
+						foreach($photos as $photo)
+						{
+					?>
+						<img src="{$photo}" style="width:120px;margin-left: 5px;">
+					<?php }} ?>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">企业图片</label></th>
+				<td>
+					<?php 
+						if(!empty($item['qy_photo']))
+						{
+						$photos = explode('|', $item['qy_photo']);
+						foreach($photos as $photo)
+						{
+					?>
+						<img src="{$photo}" style="width:120px;margin-left: 5px;">
+					<?php }} ?>
+				</td>
+			</tr>
+			{/if}
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+<script>
+$('#type').change(function (){
+	$('#tags').html('');
+	var id = $(this).val();
+	var tag = '<?=$item['tags']?$item['tags']:''?>';
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAlltags')}",
+			dataType:'html',
+			data: {id:id,tag:tag},
+			cache:false,
+			success: function(res){
+				$('#tags').html(res);
+			}
+		});
+	}
+});
+$('#area').change(function (){
+	$('#branch_id').html('');
+	var id = $(this).val();
+});
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="search">
+	<form action="{php echo $this->createWebUrl('merchant', array('op' => 'display'))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>搜素</th>
+					<td>
+						<input class="span2" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜索名称">
+						<select name="province" id="province" class="span2">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+						</select>
+						<select name="city" id="city" class="span2">
+							<option value="">--市--</option>
+							{if $_GPC['city']}
+							<option value="{$_GPC['city']}" selected><?=$this->getRegion($_GPC['city'])?></option>
+							{/if}
+						</select>
+						<select name="area" id="area" class="span2">
+							<option value="">--区--</option>
+							{if $_GPC['area']}
+							<option value="{$_GPC['area']}" selected><?=$this->getRegion($_GPC['area'])?></option>
+							{/if}
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+	</form>
+	</div>
+	<div style="padding:15px;">
+	<form action="{php echo $this->createWebUrl('merchant', array('op' => 'paixu'))}" method="post" class="form-horizontal form" >
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:20%;">家政名称</th>
+					<th style="width:15%;">联系电话</th>
+					<th style="width:15%;">状态</th>
+					<th style="width:25%;">地区</th>
+					<th style="width:5%;">排序</th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['name']}</td>
+					<td>{$item['tel']}</td>
+					<td><?=$item['status']==1?'通过':'未通过'?></td>
+					<td><?=$this->getRegion($item['province'])?> <?=$this->getRegion($item['city'])?> <?=$this->getRegion($item['area'])?> {$item['address']}</td>
+					<td>
+						<input type="text" name="ids[{$item['id']}]" class="span1" value="{$item['torder']}" />
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('merchant', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						
+						
+						<a href="{php echo $this->createWebUrl('merchant', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				<tr>
+					<td></td>
+					<td colspan="5">
+						<input name="token" type="hidden" value="{$_W['token']}" />
+						<input name="submit" type="submit" value="排序" class="btn btn-primary span3">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
+		{$pager}
+	</div>
+</div>
+{/if}
+<script>
+$('#province').change(function (){
+	$('#city').html('<option value="">--市--</option>');
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#city').html(res);
+			}
+		});
+	}
+});
+$('#city').change(function (){
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'区'},
+			cache:false,
+			success: function(res){
+				$('#area').html(res);
+			}
+		});
+	}
+});
+</script>
+{template 'common/footer'}

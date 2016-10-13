@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.veny.com" versionCode="0.51">
+	<application setting="false">
+		<name><![CDATA[基本配置]]></name>
+		<identifie><![CDATA[jiben]]></identifie>
+		<version><![CDATA[0.1]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[基本配置 by lihui]]></ability>
+		<description><![CDATA[基本配置 by lihui]]></description>
+		<author><![CDATA[lihui]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="区域管理" do="region" state="" direct="false" />
+			<entry title="网点管理" do="branch" state="" direct="false" />
+			<entry title="登录管理" do="login" state="" direct="false" />
+			<entry title="黑名单管理" do="blacklist" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

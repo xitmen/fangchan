@@ -1,0 +1,108 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('types', array('op' => 'post', 'id' => $id, 'h_id' => $h_id))}">添加户型</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('types', array('op' => 'display', 'id' => $id, 'h_id' => $h_id))}">户型管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">房源管理</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$id}" />
+		<input type="hidden" name="data[h_id]" value="{$h_id}" />
+		<h4>户型基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">户型名称</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">户型标签</label></th>
+				<td>
+					<input type="text" name="data[tags]" class="span6" value="{$item['tags']}" />&nbsp;看星星的阳台/四开间朝南
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">户型布局</label></th>
+				<td>
+					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
+					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
+					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">平方</label></th>
+				<td>
+					<input type="text" name="data[pingfang]" class="span2" value="{$item['pingfang']}" />&nbsp;平方
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">价格</label></th>
+				<td>
+					<input type="text" name="data[jiage]" class="span2" value="{$item['jiage']}" />&nbsp;万起
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">描述</label></th>
+				<td>
+					<textarea name="data[info]">{$item['info']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">缩略图</label></th> 
+				<td>
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">{if $item['pic']}<img src="{$item['pic']}" width="200" />{/if}</div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更改</span><input name="pic" type="file" /></span>
+							<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+							{if $item['pic']}<button type="submit" name="fileupload-delete" value="{$item['pic']}" class="btn fileupload-new">删除</button>{/if}
+						</div>
+					</div>
+					<span class="help-block">最佳尺寸(750px * 450px 72分辨率)</span>
+				</td>
+			</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+{elseif $operation == 'display'}
+<div class="main">
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:20%;">房源名称</th>
+					<th style="width:30%;">规格</th>
+					<th style="width:10%;">价格</th>
+					<th style="width:20%;">图片</th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['name']}</td>
+					<td>室{$item['ting']}厅{$item['wei']}卫（{$item['pingfang']}㎡）</td>
+					<td>{$item['jiage']}万起</td>
+					<td><img src="{$item['pic']}" style="width:80px;"></td>
+					<td style="text-align:right;">
+					<a href="{php echo $this->createWebUrl('types', array('id' => $item['id'], 'op' => 'post' , 'h_id' => $h_id))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('types', array('id' => $item['id'], 'op' => 'delete', 'h_id' => $h_id))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

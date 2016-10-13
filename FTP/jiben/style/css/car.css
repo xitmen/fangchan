@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+#m{color:#555;font-size:1em;}
+
+.t{padding:0.7em 0.5em;background-color:#F6F6F6;}
+.t>span{font-size:0.9em;color:#999;margin-left:0.6em;}
+.t input.all{float:right;}
+
+.l dl{width:98%;padding:10px 1%;background-color:#fff;margin-bottom:5px;}
+.l dl>*{float:left;}
+.l dt{width:20%;display:block;height:100%;}
+.l dt img{width:94%;vertical-align:middle;}
+.l dd{width:80%;font-size:0.96em;}
+.l .tt{position:relative;width:73%;padding-right:7%;line-height:1.3em;height:2.6em;overflow:hidden;text-overflow:ellipsis;}
+.l .tt a{color:#333;}
+.l .tt input[type="checkbox"]{position:absolute;right:-0px;top:20%;}
+.l dd.tp{font-size:0.8em;color:#999;line-height:1.5em;padding:1px 1%;width:77%;}/*_border:2px solid #eee;}*/
+.l dd.p{color:#FF6600;font-size:1.1em;}
+
+.c{line-height:1.3em;float:right;}
+.c>*{float:left;border:1px solid #E4E4E4;}
+a.b{width:1.3em;height:1.3em;display:block;text-align:center;line-height:1.3em;color:#333;font-weight:bolder;background-color:#efefef;font-family:'MS Serif';}
+a.minus{border-width:1px 0 1px 1px;color:#ccc;}
+a.add{border-width:1px 1px 1px 0;}
+.c input{border-width:1px 0;font-size:0.8em;height:1.6em;width:2em;padding:0; text-align:center;}
+
+/*{padding-bottom:5.2em;}*/
+.pbtn{width:98%;font-size:1.1em;position:fixed;bottom:0;left:0;background:#fff;padding:5px 1%;display:none;}
+.pbtn .pr{float:right;font-size:0.9em;color:#FF3300;padding-right:0.2em;}
+.pbtn .pr>b{font-size:1.5em;padding-left:2px;}
+.pbtn .btn{text-align:center;padding:0.2em 2%;}
+.pbtn a.del{background:url(../images/btn_del.png) center -5px no-repeat;display:block;width:32px;height:0px;font-size:0.8em;padding-top:25px;height:1em;float:left;}
+.pbtn a.js{float:right;padding:0 1.5em;background:#FF6600;color:#fff;line-height:2em;}

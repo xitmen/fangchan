@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>积分商城首页</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/index.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<body>
+{template nav}
+<div id="m" class="wrap">
+	<div class="m1">{if !empty($shch)}
+		<ul class="menu clearfix">
+			<li><a href="mobile.php?act=module&name=veshop&do=home&weid=<?=$_GPC['weid']?>" >购物商城</a></li>
+			<li><a href="<?=$this->createMobileUrl('Home')?>" class="on">积分商城</a></li>
+		</ul>{/if}
+		<div class="m clearfix" style="position:relative;">
+		   <!-- 幻灯片代码 开始 -->
+		   <link href="./source/modules/integal/style/css/banner.css" type="text/css" rel="stylesheet" media="all"/>
+		   <div id="wrapper">
+		    <div id="scroller">
+				<ul id="thelist">               
+					{loop $t_ads $item}
+			        <li><a href="<?=($item['url'])?$item['url']:($this->createMobileUrl('ads', array('id' => $item['id'])))?>"><img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" /></a></li>
+			        {/loop}					
+				</ul>
+			</div>
+			
+			<div id="nav">
+				<ul id="indicator">     
+                    {loop $t_ads $k $item}				
+					<li class="<?=(($k+1)=='1')?'active':''?>">{$k}</li> 
+					{/loop}
+				</ul>
+			</div>
+			</div>
+			<script type="text/javascript" src="./source/modules/integal/style/js/banner.js"></script>
+		<!-- 幻灯片代码 结束 -->
+		</div>
+	</div>
+	<div class="m3" style="padding:0.3em 0;background-color:#ccc;">
+	<p style="font-size:12px;padding-left:10px;">您可能感兴趣的商品</p>
+		<ul class="clearfix" style="line-height:5px;">
+			{loop $x_ads $item}
+			<li style="border-radius: 5px;background-color:#fff;width:30%;margin-left: 2.5%;">
+			<a href="<?=$this->createMobileUrl('product', array('gid' => $item['id']))?>">
+			<img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" style="height:90px;border-radius: 13px; margin-top: 10px;"/><br>
+			<div style="padding-left:5px;font-size:12px;line-height:18px;">
+				<p><?=$this->sub_str($item['name'],20)?></p>
+				<p><img src="./source/modules/integal/style/images/jb.png" style="width:16px;"><span style="padding-left:5px;color:red;">{$item['price']}</span></p>
+				<p style="color:#ccc;float:left;">剩余:<?=($item['kucun']-$item['xiaoliang'])?></p>
+				<p style="width:30px;height:18px;border:1px solid #0cc;text-align:center;float:right;margin:0px 5px 5px 0;padding-top:3px;color:green;">
+				兑换
+				</p>
+			</div>
+			</a>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	<div class="m2">
+		<ul class="clearfix">
+		{loop $product_types $k $item}
+			<li class="<?=(($k+1)%4=='0')?'l1':''?>">
+			<a href="<?=($this->createMobileUrl($this->doMobileProduct_types($item['id']), array('cid' => $item['id'])))?>" ><img src="<?=$this->is_img('./resource/attachment/'.$item['pic'])?>" style="height:50px;"/><ins>{$item['name']}</ins></a>
+			</li>
+		{/loop}
+		</ul>
+	</div>
+</div>
+{template 'chat'}
+</body>
+</html>

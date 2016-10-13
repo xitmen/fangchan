@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+
+.m ul{border:1px solid #CCC;border-width:1px 0;background-color:#EEE;}
+.m ul>li{float:left;width:33.3%;text-align:center;font-size:0.8em;line-height:30px;}
+
+/*.m ul>li.r:before{content:'\20';width:0px;border-right:1px solid #CCC;float:left;height:30px;}*/
+
+.m ul li>a{line-height:30px;display:block;line-height:3em;}
+.m ul li>a.on{display:block;border-bottom:3px solid #FF6600;color:#FF6600;}
+
+.p{background:#FFF;}
+.p .clearfix li{float:left;width:43.7%;border:1px solid #CCC;border-width:0 1px 1px 0;color:#FF6600;padding:3% 3% 2%;line-height:1em;}
+.p li.nr{border-right-width:0;}
+.p li img{margin:0 auto;width:100%;padding-bottom:2%;}
+.p li p img{width:16px;padding-bottom: 0px;}
+.p li span{font-size:0.6em;text-decoration:line-through; color:#999;padding-left:0.8em;}
+.p li i{color:#666;font-size:0.8em;display:block;height:2.5em;overflow-y:hidden;}
+.p li p{font-size:0.6em;color:#999;}
+
+.mb{width:100%;height:100%;position:absolute;background:#000;opacity:0.5;display:none;z-index:100;}
+.sub{border-bottom:1px solid #ccc;display:none;background:#F5F5F5;line-height:1.5em;font-size:0.8em;color:#999;position:fixed;top:8em;z-index:101;}
+.sub .m{margin:0.2em 1em;}
+
+#m{padding-top:3.5em;}
+#m .m{position:fixed;top:3.5em;z-index:1000;padding-top:0.5em;background:#fff;}
+#m .p{margin-top:2.9em;}

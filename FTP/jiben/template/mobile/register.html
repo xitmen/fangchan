@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>用户注册</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/login.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<body>
+{template nav}
+  <div class="wrap" id="m">
+  <form action="<?=($this->createMobileUrl('reg'))?>" onsubmit="return check();" method="post">
+  	<input type="hidden" name="token" value="{$_W['token']}" />
+     <div class="main">
+	    <table class="table">
+		<tr>
+			<td ><label>用户昵称：<span style="color:red">*</span></label></td>
+			<td><input type="text" class="txt" placeholder="登录用户名" autocomplete="off" name="data[uname]"></td>
+		</tr>
+		<tr>
+			<td><label>登录密码：<span style="color:red">*</span></label></td>
+			<td><input type="password" class="txt" autocomplete="off" name="data[password]" id="txtpsd"></td>
+		</tr>
+		<tr>
+			<td><label>确认密码：<span style="color:red">*</span></label></td>
+			<td><input type="password" class="txt" autocomplete="off" id="retxtpsd"></td>
+		</tr>
+						<tr>
+				<td><label>手机号码：</label></td>
+				<td><input type="text" id="phone" placeholder="手机或电话号码" name="data[mobile]" class="txt" value=""></td>
+			</tr>
+						<tr>
+				<td><label>ＱＱ号码：</label></td>
+				<td><input type="text" class="txt" placeholder="QQ号码" name="data[qqnum]" value=""></td>
+			</tr>
+	 </table>   
+     </div>
+	 <div class="btn">
+	     <ul>
+		    <li>
+			    <input type="submit" name="button"  value="确认注册" class="show"/>
+			    <a href="<?=($this->createMobileUrl('login'))?>"><input type="button" value="返回" class="yb"/></a>
+			</li>
+	 </div>
+	 </form>
+  </div>
+<script type="text/javascript">
+	function check()
+	{
+		if($.trim($(':text[name="data[uname]"]').val()) == ''){
+			alert('请输入用户昵称！');return false;
+		}
+		if($('#txtpsd').val() == '') {
+			alert('请输入登录密码！');return false;
+		}
+		if($('#txtpsd').val() != $('#retxtpsd').val()) {
+			alert('两次输入的密码不一致！');return false;
+		}
+		var phone=$.trim($('#phone').val());
+		if(phone!="" && !/^(\d{11})$|^(\d{3,4}-\d{7,8})$/.test(phone))
+		{
+			alert('您输入的电话格式不正确！\r\n例如：15011112222或010-11112222');
+			return false;
+		}
+		return true;
+	}
+</script> 
+{template 'chat'} 
+</body>
+</html>

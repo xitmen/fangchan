@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>投诉评价</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+</head>
+<body class="gray-bg">
+    <div class="top-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>投诉评价</p>
+    </div>
+    <div class="tou-shu" style="margin-bottom: 74px;">
+		<form name="form1" method="POST" action="{php echo $this->createMobileUrl('tousu', array('op' => 'submit'))}">
+		<input type="hidden" value="{$_COOKIE['province_id']}" name="data[province]">
+		<input type="hidden" value="{$_COOKIE['city_id']}" name="data[city]">
+		<input type="hidden" value="{$_COOKIE['area_id']}" name="data[area]">
+		<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+        <ul>
+            <li class="line"><label>当前地址：</label><span style="width:10rem;">{$province_name['region_name']} {$city_name['region_name']} {$area_name['region_name']} <a href="{php echo $this->createMobileUrl('city')}" style="background-color: #3879d9; margin-top:-.15rem; border-radius: 0.5rem;color: #fff;padding: 0.2rem 0.5rem;float:right;">切换</a></span></li>
+			<li class="line"><label>商家：</label><input type="text" placeholder="请输入服务商名称" name="data[name]" id="shangjia"/></li>
+            <li class="line"><label>请选择服务评价：</label><br />
+                <span><input type="radio" name="data[pj]" value="较差"/>较差</span>
+                <span><input type="radio" name="data[pj]" value="一般"/>一般</span>
+                <span><input type="radio" name="data[pj]" value="较好" checked />较好</span>
+            </li>
+            <li><label>投诉建议：</label><br />
+                <textarea placeholder="在服务过程中如有任何欺诈行为、违约行为、服务质量问题等情况时，请将您的投诉意见如实并详细的反馈给我们，我们将第一时间为您解决。请输" name="data[msg]" id="msg"></textarea>
+            </li>
+			{if empty($member['mobile'])}
+            <li><label>联系电话：</label><br /><input type="text" placeholder="请输入您的手机号码" name="mobile" class="number"/></li>
+            <li><input type="text" style="width:10rem;" id="yan"/><span class="btn vcode yz">获取验证码</span></li>
+			<script>
+			$('.yz').click(function (){
+				 var phone=$('.number').val();
+				 var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+				 if(!reg.test(phone))
+				 {
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '手机号格式不正确！'
+					});
+				 }
+				 else
+				 {
+					  $('.yz').html('正在发送...');
+					  var data={phone:phone};
+					  $.ajax({
+						data:data,
+						type: 'POST',
+						url: "{php echo $this->createMobileUrl('yzm')}",
+						dataType:'html',
+						success: function(html){
+						 if(html=='0')
+						 {
+							$('.yz').html('暂时关闭');
+							$('.yz').removeClass('yz');
+							var dialog = jDialog.dialog({
+								title : '错误提醒！',
+								content : '对不起短信通道暂时关闭，稍等后再试！'
+							});
+						 }
+						 else
+						 {
+							$('.yz').html('已发送,再发');
+							$.cookie('yzm',html);
+							$.cookie('mtel',phone);
+							alert($.cookie('yzm'));
+						 }
+						}
+					 });	
+				 }
+			 });
+			$('#yan').blur(function (){
+				if(this.value == $.cookie('yzm')){
+					$(this).css('color','green');
+				}
+				else if(this.value!=''){
+					$(this).val('错误');
+					$(this).css('color','red');
+				}
+			});
+			function sb()
+			{
+				var shangjia=$('#shangjia').val();
+				var msg=$('#msg').val();
+				var number=$('.number').val();//手机号码
+				var yan=$('#yan').val();//验证码
+				var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+				if(shangjia == '')
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '请填写商家名称！'
+					});
+					return false;
+				}
+				else if(msg == '')
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '请填写投诉建议！'
+					});
+					return false;
+				}
+				else if(!reg.test(number))
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '手机号格式不正确！'
+					});
+					return false;
+				}
+				if(number!=$.cookie('mtel'))
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '此手机号需要从新验证！'
+					});
+					return false;
+				}
+				if(yan=='' || yan!=$.cookie('yzm'))
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '请填写正确的验证码！'
+					});
+					return false;
+				}
+				document.form1.submit();
+			}
+			</script>
+			{else}
+			<script>
+			function sb()
+			{
+				var shangjia=$('#shangjia').val();
+				var msg=$('#msg').val();
+				if(shangjia == '')
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '请填写商家名称！'
+					});
+					return false;
+				}
+				else if(msg == '')
+				{
+					var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : '请填写投诉建议！'
+					});
+					return false;
+				}
+				document.form1.submit();
+			}
+			</script>
+			{/if}
+        </ul>
+        <a onclick="sb()" class="yellow-btn">确认</a>
+    </div>
+	</form>
+    <div class="menu-list">
+        <ul>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}'" ><a>首页</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}'" ><a>使用须知</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}'" class="on"><a>投诉评价</a></li>
+            <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}'"><a>我的</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>个人中心</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/my.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<body>
+{template nav}
+<div id="m" class="wrap">
+	{template my_top}
+	<div class="m">
+		<ul>
+			<li class="clearfix"><a href="{php echo $this->createMobileUrl('order_lists')}">积分订单<span><b>{$orders_total}</b></span></a></li>
+			<li class="clearfix"><a href="{php echo $this->createMobileUrl('order_lists',array('status'=>'1'))}">待付款<span><b class="fh">{$wfk_total}</b></span></a></li>
+			<li class="clearfix"><a href="{php echo $this->createMobileUrl('order_lists',array('status'=>'4'))}">待评价<span><b class="fh">{$pj_total}</b></span></a></li>
+			<li class="clearfix"><a href="{php echo $this->createMobileUrl('order_lists',array('status'=>'2'))}">待发货<span><b class="fh">{$fh_total}</b></span></a></li>
+			<li class="clearfix"><a href="{php echo $this->createMobileUrl('address', array('op' => 'display'))}">收货地址管理<span><b>{$address_total}</b></span></a></li>
+			<!--<li class="clearfix"><a href="{php echo $this->createMobileUrl('coupon3')}">我的积分卷<span><b>{$coupon3_total}</b></span></a></li>
+			<li class="clearfix"><a href="mobile.php?act=module&name=usersvip&do=home&weid=<?=$_GPC['weid']?>">会员专区<span></span></a></li>-->
+		</ul>
+	</div>
+</div>
+{$_W['weid']}-{$_SESSION['fromUser']}
+{template 'chat'}
+</body>
+</html>

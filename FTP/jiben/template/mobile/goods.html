@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>{$goods['name']}-积分商品详情</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/pdetail.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+<style>
+#scroller li{text-align:center;}
+#scroller li img{width:auto!important;max-width:100%;}
+</style>
+</head>
+<body>
+{template nav}
+<form method="post" action="{php echo $this->createMobileUrl('Buy');}">
+<input type="hidden" name="data[size]" value="-1"/>
+<input type="hidden" name="data[color]" value="-1"/>
+<input type="hidden" name="data[gid]" value="{$goods['id']}"/>
+<input type="hidden" name="action" value="-1"/>
+<input type="hidden" name="token" value="{$_W['token']}" />
+<div id="m" class="wrap">
+	<div class="m wrap">
+		<ul class="clearfix">
+			<li><a href="javascript:;" onclick="ctab('ar3',1)">基本信息</a></li>
+			<li class="r"><a class="px" href="javascript:;" onclick="ctab('pm2',2)">商品详情</a></li>
+			<li class="r"><a class="sx" href="javascript:;" onclick="ctab('pm3',3)">评论详情</a></li>
+		</ul>
+	</div>
+	<div class="pm ar3 clearfix" style="display:block;">
+		<div class="img">
+		
+		<!-- 幻灯片代码 开始 -->
+		   <link href="./source/modules/integal/style/css/banner.css" type="text/css" rel="stylesheet" media="all"/>
+		   <div id="wrapper">
+		    <div id="scroller">
+				<ul id="thelist">               
+					{loop $t_ads $item}
+			        <li><img src="<?=$this->is_img('./resource/attachment/'.$item)?>" /></li>
+			        {/loop}					
+				</ul>
+			</div>
+			</div>
+			<script type="text/javascript" src="./source/modules/integal/style/js/g_banner.js"></script>
+		<!-- 幻灯片代码 结束 -->
+		
+		</div>
+		<div class="inf">
+			<table>
+			    <tr><td class="t">名称</td><td><span>{$goods['name']}</span></td></tr>
+				<tr><td class="t">积分</td><td class="price"><b><img src="./source/modules/integal/style/images/jb.png" >{$goods['price']}</b></td></tr>
+				<tr><td class="t">配送</td><td>单件产品包邮;两件以上邮费到付;</td></tr>
+				<tr><td class="t">销量</td><td class="xl">30天内已兑换<span>{$goods['xiaoliang']}</span>件</td></tr>
+				<tr><td class="t">评价</td><td>{$goods['r_num']}</td></tr>
+				<tr><td class="l" colspan="2">&nbsp;</td></tr>
+				<tr><td class="t">尺码</td><td class="s size">
+				{loop $sizes $k $item}
+				<a href="javascript:;" data="{$k}" class="" id="sty{$k}">{$item}</a>
+				{/loop}
+				</td></tr>
+				<tr><td class="t">主要颜色</td><td class="s color">
+				{loop $colors $j $item}
+				<a href="javascript:;" data="{$j}" class="" >{$item}</a>
+				{/loop}
+				</td></tr>
+				<tr><td class="t">数量</td><td class="c"><a href="javascript:;" class="b minus">-</a><input name="data[count]" id="f_cnt" type="text" value="1"/><a href="javascript:;" class="b add">+</a>&nbsp;件&nbsp;(库存{$goods['kucun']}件)</td></tr>
+			</table>
+		</div>
+		<div class="binf mpic">
+			<div class="tlt">基本参数</div>
+			<table>
+				<tr><td class="t">品牌</td><td>{$goods['pinpai']}</td></tr>
+				<tr><td class="t">型号</td><td>{$goods['xinghao']}</td></tr>	
+				<tr><td class="t">产地</td><td>{$goods['source']}</td></tr>	
+			</table>
+				{php echo htmlspecialchars_decode($goods['attribute'])}	
+		</div>
+	</div>
+	<div class="pm pm2 clearfix mpic" style="display:none;overflow:hidden;">
+		{php echo htmlspecialchars_decode($goods['content'])}
+		<div class="binf">&nbsp;</div>
+	</div>
+	
+	<div class="pm pm3 clearfix" style="display:none;overflow:hidden;">
+	{loop $reviews $item}
+		<div class="pl">
+			<span class="avatar"><img src="{if $item['pic']!=''}{$item['pic']}{else}./source/modules/veshop/images/avatar/default.png{/if}"/>&nbsp;{$item['wname']}</span>
+			<i>{php echo str_repeat('★',$item['xing']).str_repeat('☆',(5-$item['xing']))}</i>
+			<p>{$item['content']}</p>
+			<span class="o">{php echo date('Y.m.d', $item['intime'])} {$item['info']}</span>		
+		</div>
+	{/loop}	
+	
+	{$pager}
+		<div class="binf">&nbsp;</div>
+	</div>
+	
+</div>
+<div class="pbtn"><div class="bm clearfix"><a href="javascript:;" onclick="buy('buy')">立即兑换</a></div></div>
+</form>
+<script type="text/javascript" src="./source/modules/integal/style/js/common.js"></script>
+<script type="text/javascript">
+$('.mpic img').attr('style','width:98%;');
+	var osel=null;
+	
+	function ctab(a,b){
+		$(".pm").css("display","none");
+		$(".ar3").css("display","none");
+		$("."+a).css("display","block");
+		sel(b);
+	}
+	function buy(action){
+		$("input[name='action']").val(action);
+		if($.trim($("input[name='data[size]']").val())=='' || $.trim($("input[name='data[size]']").val())=='-1'){alert("请选择兑换产品的尺寸！");return;}
+		if($.trim($("input[name='data[color]']").val())=='' || $.trim($("input[name='data[color]']").val())=='-1'){alert("请选择兑换产品的颜色！");return;}
+		if(action=='buy')
+			document.forms[0].submit();
+		//添加到购物车ajax
+		if(action=='car'){
+			var url="{php echo $this->createMobileUrl('Buy');}&ajax=true";
+			$.post(url,
+				$(document.forms[0]).serialize(),
+				function(data){
+					if(data.status==200){
+						if(data.msg!=undefined) alert(data.msg);
+						g_count_incar();
+					}
+				},
+				'json'
+			);
+		}
+	}	
+	function selcnt(action){
+		var cnt=$("#f_cnt").val();
+		cnt=parseInt(cnt);
+		//alert(cnt);
+		if(action=='add'){
+			$("#f_cnt").val(cnt+1);
+			if(cnt+1>1)
+				$("a.minus").css("color","#333");
+		}
+		if(action=='minus'){
+			if(cnt>1)
+				$("#f_cnt").val(cnt-1);		
+			if(cnt-1<=1)
+				$("a.minus").css("color","#999");
+		}
+	}
+	$(document).ready(function(){
+		sel();
+		$("a.minus").bind("click",function(){
+			selcnt('minus');
+		});
+		$("a.add").bind("click",function(){
+			selcnt('add');
+		});
+		<?php if($_GPC['page']){?>
+		ctab('pm3','3');
+		<?php } ?>
+	});
+	$('.size a').click(
+			function(){
+				$('.size a').attr("class","");
+				$(this).attr("class","on");
+				$("input[name='data[size]']").val($(this).attr('data'));
+			}
+	);
+	$('.color a').click(
+			function(){
+				$('.color a').attr("class","");
+				$(this).attr("class","on");
+				$("input[name='data[color]']").val($(this).attr('data'));
+			}
+	);
+</script>
+{template 'chat'}
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.veny.com" versionCode="0.5,0.51">
+	<application setting="false">
+		<name><![CDATA[出租房]]></name>
+		<identifie><![CDATA[chuzu]]></identifie>
+		<version><![CDATA[1.0]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[出租房]]></ability>
+		<description><![CDATA[出租房]]></description>
+		<author><![CDATA[vezhi]]></author>
+		<url><![CDATA[vezhi.net]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="手机首页" do="Index" />
+		</cover>
+		<menu>
+		   <entry title="房源管理" do="Houses" />
+		   <entry title="预约管理" do="Queue" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

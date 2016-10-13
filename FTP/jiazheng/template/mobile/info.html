@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>家政联盟</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/jiazheng/asset/css/styles.css">   
+    <script src="./source/modules/jiazheng/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/jiazheng/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>{$item['name']}</p>
+    </div>
+    <div class="banner top-border">
+        <img src="{$item['pic']}" class="width100" />
+    </div>
+    <div class="info-box">
+        <p>{$item['info']}</p>
+    </div>
+    <div class="server-box">
+        <h4>服务项目</h4>
+        <p>{$item['fwxm']}</p>
+    </div>
+    <div class="info-address">
+        地址：{$item['address']}<br />
+        电话：<a href="tel:{$item['tel']}">{$item['tel']}</a><br />
+        手机：<a href="tel:{$item['phone']}">{$item['phone']}</a><br />
+        网址：{$item['www']}
+        <a href="http://api.map.baidu.com/marker?location={$item['lat']},{$item['lng']}&output=html" class="dao-hang"></a>
+    </div>
+	<?php
+	$photo = explode('|', $item['photo']);
+	if(!empty($photo))
+	{
+	?>
+    <div class="work-img" style="margin-bottom:60px;">
+        <h4>工作展示</h4>
+		{loop $photo $pho}
+			{if !empty($pho)}
+				<img src="{$pho}" class="width100" />
+			{/if}
+		{/loop}
+    </div>
+	<?php } ?>
+	<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
+	<div class="follow-box">
+		<a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
+		<a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
+	</div>
+</body>
+</html>
+<script>
+function guanzhu(id)
+{
+	var data={id:id,type:4,url:'<?=$_SERVER['REQUEST_URI']?>'};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "{php echo $this->createMobileUrl('guanzhu')}",
+		dataType: "json",
+		success: function(res){
+			if(res.ret == 1){
+				alert(res.msg);
+			}
+			else{
+				alert(res.msg);
+			}
+		}
+	});
+}
+</script>

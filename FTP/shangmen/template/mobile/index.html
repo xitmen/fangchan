@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>上门维修</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/shangmen/asset/css/styles.css">   
+    <script src="./source/modules/shangmen/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/shangmen/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>上门维修</p>
+    </div>
+    <div class="nav-list">
+           <ul>
+				{loop $tags $k $v}
+                <li>
+					<a href="{php echo $this->createMobileUrl('list', array('tag' => $k))}">
+						<img src="./source/modules/shangmen/asset/img/icon{$k}.png" /><br />{$v}
+					</a>
+				</li>
+                {/loop}
+           </ul>
+        <p>注：商家名称后加“V”表示长期合作的会员商家；加"诚"表示一年内无重大投诉获得“诚信通”称号的商家。</p>
+        <a href="{php echo $this->createMobileUrl('join')}" class="gray-btn">商家入驻</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>我的积分劵</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="./source/modules/veshop/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/veshop/style/css/index.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/veshop/style/css/my.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/veshop/style/js/jq.js"></script>
+<style>
+.coupon{position:relative;height:400px;overflow:hidden;margin:0.5em 0;}
+.cp{position:relative;width:94%;background-color:#F9F9F9;border-radius:10px;border:1px solid #ccc;margin-left:3%;margin-bottom:0.5em;}
+.clq{background:#a3d835;}
+.csx{background:#fff;}
+.csx .in b{color:#888!important;}
+.cwlq{background:#fdab17!important;}
+.tz{position:absolute;top:15px;right:-5%;-webkit-transform:rotate(-20deg);-moz-transform:rotate(-20deg);-o-transform:rotate(-20deg);opacity:0.5;}
+.coupon .s{position:relative!important;top:0!important;}
+.cp>.ylq:after{content:url(./source/modules/veshop/style/images/cp_01.gif);zoom:0.4;}
+.cp>.wlq:after{content:url(./source/modules/veshop/style/images/cp_02.gif);zoom:0.4;}
+.cp>.ysx:after{content:url(./source/modules/veshop/style/images/cp_03.gif);zoom:0.4;}
+.cp .in{font-size:1.5em;line-height:2em;}
+.cp ul{padding:0.5em 0;padding-left:0.5em;}
+.cp .in{font-size:1.5em;color:#000;}
+.cp .in b{color:green;font-weight:bolder;font-size:1.2em;}
+.cp .in2{font-size:0.8em;line-height:2em;color:#000;}
+.cp .in2>b{font-weight:bolder;}
+.cp .in3{font-size:0.7em;padding-bottom:1em;border-bottom:1px dashed #ccc;margin-left:-0.5em;padding-left:0.5em;position:relative;color:#000;}
+.cp .in3:after,.cp .in3:before{content:'\20';display:block;width:0px;height:0px;border-style:solid;border-width:6px 6px 0 6px;border-color:#E8E8E8 transparent;}
+.cp .in3:after{-webkit-transform:rotate(90deg);position:absolute;bottom:-0.3em;right:-0.3em;}
+.cp .in3:before{-webkit-transform:rotate(-90deg);position:absolute;bottom:-0.3em;left:-0.5em;}
+.cp .in4{color:red;font-size:0.8em;}
+.cp .in5{height:2.3em;overflow:hidden;color:#999;}
+.csx .in2,.csx .in3{color:red;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+{template nav}
+<div class="wrap" id="m">
+{template my_top}
+<div class="coupon" status="close" oheight="0">
+{loop $coupon $cp}
+	<div class="cp clq" style="position:absolute;top:{$offsettop}px;z-index:{$offsettop};" data="{$cp['cpid']}">
+	  <div class="tz ylq"></div>
+	  <ul>
+	    <li class="in2">可使用1次（已使用<b>1</b>次）</li>
+	    <li class="in3">有效期：已过</li>
+	    <li class="in">面值：<b><?=floor($cp['disprice'])?>积分</b></li>
+	    <li class="in5">{$cp['info']}</li>
+	    <li class="in4">店铺直充</li>
+	  </ul>
+	</div>
+	{php $offsettop+=15;}
+{/loop}
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var iheight=$($(".coupon .cp").get(0)).height();
+	$(".coupon").each(function(){
+		$(this).css("height",iheight+15*$(this).find(".cp").size());
+		$(this).attr("oheight",$(this).css("height"));
+	});
+	$(".coupon").bind('click',function(){
+		var s=$(this).attr("status");
+		$(this).find(".cp").each(function(){
+			$(this).toggleClass("s");
+		});
+		if(s=="close"){
+			$(this).css("height","auto");
+			$(this).attr("status","open");
+		}
+		else{
+			$(this).css("height",$(this).attr("oheight"));
+			$(this).attr("status","close");
+		}
+	});
+});
+</script>
+</div>
+{template 'chat'}
+</body>
+</html>

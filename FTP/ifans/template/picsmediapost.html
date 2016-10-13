@@ -1,0 +1,32 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li{if $_GPC['do'] == 'media'} class="active"{/if}><a href="{php echo $this->createWebUrl('media');}">素材管理</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('picsmediapost');}">添加图文素材</a></li>
+	<li{if $_GPC['do'] == 'mediapost'} class="active"{/if}><a href="{php echo $this->createWebUrl('mediapost');}">添加其他素材</a></li>
+</ul>
+<div class="main">
+<form action="" class="form-horizontal form" method="post">
+	<h4>素材基本信息</h4>
+	<table class="tb">
+		<tr>
+			<th>选择图文消息</th>
+			<td>
+			<select id="select01" name="ruleid">
+				{loop $pics $pics}
+                <option value="{$pics['id']}">{$pics['name']}</option>
+            	{/loop}
+            </select>
+            <a href="rule.php?act=post&module=news">点击添加图文消息</a>
+            </td>
+		</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input type="submit" class="btn btn-primary span3" name="submit" value="提交">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+	</table>
+</form>
+</div>
+{template 'common/footer'}

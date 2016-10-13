@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>个人中心-积分订单</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<link href="./source/modules/integal/style/css/my.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+</head>
+<style>
+.wrap .m ul{padding:0.5em 0;}
+.wrap .m ul li{line-height:1.8em;font-size:12px;}
+.wrap .m ul li.btn{padding:0.3em;}
+.wrap .m ul li.btn a{display:block;padding:0.2em 0.8em;margin-right:0.3em;background:#FFA500;color:#fff;width:auto;font-size:1.2em;}
+.wrap .m ul li b{min-width:3.8em;margin-top:0.1em;}
+.ord{position:relative;}
+.ord .st{position:absolute;top:0;right:0;font-size:1.2em;}
+.m ul li span:after{content:' ';}
+ul li b.p{font-size:1.3em;color:#2C9206;}
+.wrap .m ul li .product_list{width:100%;float:left;font-size:12px;} 
+.wrap .m ul li .product_list .img{float:left;margin-left:0.3em;width:30%;}
+.wrap .m ul li .product_list .img img{width:100%;margin-top:5px;}
+.wrap .m ul li .product_list .info{float:left;width:65%;padding-top:5px;padding-left:1em;word-wrap: break-word;line-height:1.3em;}
+.wrap .m ul li .product_list .info .name{height:2.7em;overflow-y:hidden;line-height:1.3em;}
+.wrap .m ul li a{width:20%;}
+.ord .st img{position:absolute;top:20px;right:10px;}
+</style>
+<body>
+{template nav}
+<div id="m" class="wrap">
+	{template my_top}
+	{loop $orders $k $item}
+	<div class="m">
+		<ul>
+			<li class="clearfix ord">
+			<div style="width:80%;float:left;">
+				店铺:<b style="color:Orange;">{$item['name']}</b> 
+				时间:<?=date('Y-m-d H:i:s',$item['intime'])?><br/>
+				订单号:{$item['bianhao']}<br/>  
+				{if $item['status']>1}
+				交易号:{$item['jiaoyihao']}<br/>
+				{/if}
+				积分:<b class="p">{$item['totl']}</b><br/>
+				{if $item['status']>2}
+				快递公司:<i style="color:green">{$item['wlgs']}({$item['wldh']})({$item['yunfei']}￥) </i><br/>
+				{/if}
+				收货地址:{$item['address']} 
+			</div>
+			<div style="width:20%;float:right;">
+			 <span class="st">{$STATUS[$item['status']]}</span>
+			 <span class="st"><img src="./resource/attachment/{$item['pic']}" style="width:60px;"></span>
+			</div>
+			</li>
+			<li class="btn clearfix">
+			{if $item['status']=='1'}<a href="{php echo $this->createMobileUrl('Confrim',array('orderNo'=>$item['bianhao']))}">去支付</a><a href="{php echo $this->createMobileUrl('Confrim',array('orderNo'=>$item['bianhao']))}">取消订单</a>{/if}
+			{if $item['status']=='2'}<a href="{php echo $this->createMobileUrl('Confrim',array('orderNo'=>$item['bianhao']))}">提醒卖家发货</a>{/if}
+			{if $item['status']=='3'}<a href="{php echo $this->createMobileUrl('Confrim',array('orderNo'=>$item['bianhao']))}">查看物流</a><a href="{php echo $this->createMobileUrl('Confrim',array('orderNo'=>$item['bianhao']))}">确认收货</a>{/if}
+			<span><b onclick="ck({$k},{$item['id']},{$item['status']})" class="tishi{$k}">详情</b></span>
+			  <div class="list{$k}" style="display:none;">			
+			  </div>
+			</li>
+		</ul>
+	</div>
+	{/loop}	
+	{$pager}
+</div>
+{template 'chat'}
+</body>
+</html>
+<script>
+function ck(id,o_id,status)
+{
+ var f = $('.list'+id).css('display');
+ if(f=='none')
+ {
+  $('.tishi'+id).html('隐藏');
+  $('.list'+id).css('display','black');
+     var data={o_id:o_id,status:status};
+	 $.ajax({
+		data:data,
+		type: 'POST',
+		url: "{php echo $this->createMobileUrl('order_product');}",
+		dataType:'html',
+		success: function(json){
+		 if(json!='')
+		 {
+		    $('.list'+id).html(json); 
+		 }
+		 else{
+		   $('.list'+id).html('未查到商品，可能不存在！'); 
+		 }
+		}
+	 }); 
+ }
+ else{
+  $('.tishi'+id).html('详情');
+  $('.list'+id).css('display','none');
+ }
+}
+</script>

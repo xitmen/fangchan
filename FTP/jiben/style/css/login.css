@@ -1,0 +1,22 @@
+tr{vertical-align:inherit;}
+input{border:hidden;border:1px solid #eee;}
+.main{margin: 1em auto;}
+.main .table{width:500px;margin:0 auto;width: 90%;}
+.main .table td{border:0; line-height:2em;}
+.main .table label{font-size:1em; color:#959999;}
+.main .table td input{width:90%;text-align:left;line-height:2em;padding:0.3em;border-radius:0.3em;}
+#m{background:#fff;padding-bottom:2em;}
+.btn{ margin:auto;}
+.btn li{ padding-left:20%;margin:auto;}
+.btn input{width:35%;color:#fff;line-height:2.1em;border-radius:0.3em;}
+/*背景样式*/
+.log{background-color:#f6fafa; padding:0 0 2em;background-size:auto 80%}
+/*文本 按钮框样式*/
+.txt{background-color:#fff;}
+.show{background-image: -webkit-linear-gradient(top, #ff2e2e 0%, #d20607 100%);border-bottom-color:#950400;}
+.yb{background-image:-webkit-linear-gradient(top, #84CC00 0%, #6AA300 100%);} 
+
+/*搜索*/
+.box{margin:1em auto 0;width:98%;position:relative;}
+.sea{line-height:2em;padding:0.2em 0;width:100%;}
+.box .icon{width:2.1em;position:absolute;background-color:#fff;top:0.4em;border:hidden;right:0.3em;z-index:100;}

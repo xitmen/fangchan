@@ -1,0 +1,302 @@
+@import "../../lib/main.css";
+.gray-bg-title p {
+  text-align: center;
+}
+.gray-bg-title p a {
+  color: #413D3C;
+  width: 6rem;
+  display: inline-block;
+}
+.purple-bg-title {
+  background-color: #928984;
+  color: #fff;
+}
+.purple-bg-title .arrow-left {
+  background-image: url("../../lib/img/arrow-w.png");
+}
+.item-list h3 {
+  background-color: #5F8D96;
+  line-height: 1.8rem;
+  text-indent: .5rem;
+  font-size: .7rem;
+  font-weight: normal;
+  color: #fff;
+}
+.item-list li {
+  background-color: #fff;
+  border-bottom: 0.05rem solid #857C77;
+  padding: .7rem .5rem;
+  font-size: .5rem;
+  vertical-align: middle;
+}
+.item-list li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: #332D2B;
+}
+.item-list li.arrow-right {
+  background-image: url("../../lib/img/right-arrow.jpg");
+  background-repeat: no-repeat;
+  background-position: 95% center;
+  background-size: .5rem;
+}
+.item-list li i {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  margin-right: .5rem;
+  vertical-align: middle;
+}
+.send-list {
+  overflow: hidden;
+  margin: 0 auto;
+  width: 15.5rem;
+}
+.send-list li {
+  font-size: .7rem;
+  padding: .2rem 0;
+  padding-left: .2rem;
+  border-bottom: 1px solid #89827D;
+}
+.send-list li.noBorder {
+  border: 0 none !important;
+}
+.send-list li a {
+  color: #332D2B;
+  border: 0.05rem solid #332D2B;
+  margin: .2rem .2rem;
+  width: 4.2rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  display: inline-block;
+  text-align: center;
+}
+.send-list li a.on {
+  background-color: #EA562D;
+  border-color: #EA562D;
+  color: #fff;
+}
+.send-list li select {
+  padding: .5rem .3rem;
+  border: 0px solid #5B5451;
+  margin-left: -0.2rem;
+}
+.send-list li.two {
+  width: 7.5rem;
+  float: left;
+}
+.send-list li.two select {
+  padding: .5rem .3rem;
+  border: 0px solid #5B5451;
+  margin-left: -0.2rem;
+  height:2rem;
+}
+.send-list li.two span {
+  border: 1px solid #5B5451;
+  width: 4.68rem;
+  color: #949495;
+}
+.send-list li.two span input {
+  border: 0 none;
+  margin-right: 0;
+}
+.send-list li.two span input.two {
+  width: .8rem;
+}
+.send-list li label {
+  display: inline-block;
+  text-align: right;
+  padding-right: .5rem;
+}
+.send-list li input {
+  height: 1.5rem;
+  padding: .2rem .3rem;
+  border: 0 none;
+  border: 1px solid #5B5451;
+  border-radius:0;
+}
+.send-list li input.one {
+  width: 3rem;
+}
+.send-list li span {
+  display: inline-block;
+  width: 13rem;
+}
+.send-list li span.border {
+  border: 1px solid #5B5451;
+  width: 11.6rem;
+  color: #949495;
+}
+.send-list li span select {
+  padding: .5rem .3rem;
+  border: 1px solid #5B5451;
+}
+.send-list li span .two {
+  border: 1px solid #5B5451;
+  width: 5.35rem;
+  margin-right: 1rem;
+}
+.tou-shu {
+  background-color: #fff;
+  border-top: .05rem solid #484340;
+}
+.tou-shu ul li {
+  width: 15rem;
+  margin: .6rem auto;
+  padding: .2rem 0;
+}
+.tou-shu ul li label {
+  font-size: .7rem;
+  color: #332D2B;
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+.tou-shu ul li label.down-icon {
+  background-image: url("../img/donw-arrow.jpg");
+  background-repeat: no-repeat;
+  background-size: .5rem;
+  background-position: right center;
+  padding-right: .7rem;
+}
+.tou-shu ul li input[type="text"] {
+  width: 14.5rem;
+  height: 1.5rem;
+  padding: .2rem;
+  font-size: .6rem;
+  border: .05rem solid #242322;
+  line-height: 1.5rem;
+}
+.tou-shu ul li span.btn {
+  width: 4.45rem;
+  display: inline-block;
+  height: 1.9rem;
+  background-color: #B8B7B5;
+  font-size: .7rem;
+  vertical-align: middle;
+  border: .05rem solid #242322;
+  line-height: 1.9rem;
+  text-align: center;
+  margin-left: -0.05rem;
+  float: right;
+}
+.tou-shu ul li textarea {
+  width: 13.5rem;
+  display: block;
+  padding: .5rem;
+  margin: 0 auto;
+  margin-top: 1rem;
+  height: 4rem;
+  border: .05rem solid #484340;
+  font-size: .6rem;
+  background-color: #fff;
+}
+.tou-shu ul li.line input[type="text"] {
+  width: 9rem;
+  font-size: .7rem;
+  padding: .2rem;
+}
+.tou-shu ul li.line span {
+  display: inline-block;
+  width: 4.8rem;
+  text-align: center;
+  font-size: .7rem;
+  vertical-align: middle;
+  margin-top: .5rem;
+}
+.tou-shu ul li.line span input {
+  width: 1rem;
+  height: 1rem;
+  border: .05rem solid #645C5A;
+  background-color: #EAE9E9;
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+.custom-page {
+  border-top: 0.05rem solid #89827D;
+}
+.custom-page p {
+  line-height: 2rem;
+  font-size: .7rem;
+  padding-left: .5rem;
+}
+.custom-page ul li {
+  width: 15rem;
+  margin: .6rem auto;
+}
+.custom-page ul li input {
+  width: 14.5rem;
+  height: 1.5rem;
+  padding: .2rem;
+  font-size: .7rem;
+  border: .05rem solid #242322;
+  line-height: 1.5rem;
+}
+.custom-page ul li span {
+  width: 4.45rem;
+  display: inline-block;
+  height: 1.9rem;
+  background-color: #B8B7B5;
+  font-size: .7rem;
+  vertical-align: middle;
+  border: .05rem solid #242322;
+  line-height: 1.9rem;
+  text-align: center;
+  margin-left: -0.05rem;
+  float: right;
+}
+.upload-img {
+  color: #949495;
+  font-size: .5rem;
+}
+.upload-img a {
+  padding: .3rem .5rem;
+  display: inline-block;
+  margin: 0 .5rem;
+  color: #fff;
+  background-color: #EA8838;
+  font-size: .7rem;
+  border-radius: 0.3rem;
+}
+.info-box,
+.server-box,
+.info-address {
+  font-size: .6rem;
+  position: relative;
+  padding: .8rem;
+  border-bottom: .05rem dotted #373533;
+}
+.info-box h4,
+.server-box h4,
+.info-address h4 {
+  color: #332D2B;
+  font-size: .6rem;
+  margin-bottom: .5rem;
+}
+.info-box .dao-hang,
+.server-box .dao-hang,
+.info-address .dao-hang {
+  display: inline-block;
+  width: 4rem;
+  height: 1.5rem;
+  background-image: url("../../lib/img/daohang.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+.work-img {
+  font-size: .6rem;
+  position: relative;
+  padding: .8rem 0;
+}
+.work-img h4 {
+  color: #332D2B;
+  font-size: .6rem;
+  text-indent: .8rem;
+  margin-bottom: .5rem;
+}

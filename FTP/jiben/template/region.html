@@ -1,0 +1,109 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('region', array('op' => 'post'))}">添加区域</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('region', array('op' => 'display'))}">管理区域</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		{if !empty($region_id)}
+		<input type="hidden" name="region_id" value="{$category['region_id']}" />
+		{else}
+		<input type="hidden" name="region_type" value="{$parent['region_type']}" />
+		{/if}
+		<h4>分类详细设置</h4>
+		<table class="tb">
+			{if !empty($parent)}
+			<tr>
+				<th><label for="">上级分类</label></th>
+				<td>
+					{$parent['region_name']}
+				</td>
+			</tr>
+			{/if}
+			<tr>
+				<th><label for="">排序</label></th>
+				<td>
+					<input type="text" name="torder" class="span6" value="{$category['torder']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">分类名称</label></th>
+				<td>
+					<input type="text" name="region_name" class="span6" value="{$category['region_name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td>
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript" src="./resource/script/colorpicker/spectrum.js"></script>
+<link type="text/css" rel="stylesheet" href="./resource/script/colorpicker/spectrum.css" />
+<script type="text/javascript">
+<!--
+	$(function(){
+		colorpicker();
+	});
+//-->
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="category">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th style="width:10px;"></th>
+					<th style="width:60px;">显示顺序</th>
+					<th>区域名称</th>
+					<th style="width:280px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $arr_type $row}
+				<tr>
+					<td>{if $row['parent_id'] == '0'}<a href="javascript:;"><i class="icon-chevron-down"></i></a>{/if}</td>
+					<td><input type="text" class="span1" name="torder[{$row['region_id']}]" value="{$row['torder']}"></td>
+					<td>
+					<div class="type-parent"><?php echo str_repeat(' — ',$row['region_type'])?>{$row['region_name']}&nbsp;&nbsp;
+					 {if $row['status']}
+					 <a href="{php echo $this->createWebUrl('region', array('op' => 'status', 'region_id' => $row['region_id'],'status' => '0'))}">
+					 <span class="label label-success">启用</span>
+					 </a>
+					 {else}
+					 <a href="{php echo $this->createWebUrl('region', array('op' => 'status', 'region_id' => $row['region_id'],'status' => '1'))}">
+					 <span class="label label-error">未启用</span>
+					 </a>
+					 {/if}
+					</div>
+					</td>
+					<td>
+					<a href="{php echo $this->createWebUrl('region', array('op' => 'post', 'region_id' => $row['region_id']))}">编辑</a>
+					&nbsp;&nbsp;
+					<a href="{php echo $this->createWebUrl('region', array('op' => 'delete', 'region_id' => $row['region_id']))}" onclick="return confirm('确认删除此分类吗？');return false;">删除</a>
+					{if $row['region_type']<2}&nbsp;&nbsp;
+					<a href="{php echo $this->createWebUrl('region', array('parentid' => $row['region_id'], 'op' => 'post'))}"><i class="icon-plus-sign-alt"></i> 添加子分类</a>
+					{/if}
+					</td>
+				</tr>
+			{/loop}
+				<tr>
+					<td></td>
+					<td colspan="4">
+						<input name="submit" type="submit" class="btn btn-primary" value="排序">
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

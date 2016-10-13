@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>上门维修</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/shangmen/asset/css/styles.css">   
+    <script src="./source/modules/shangmen/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/shangmen/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>{$tags[$_GPC['tag']]}</p>
+    </div>
+    <div class="search-box two-nav">
+        <ul>
+            <li>{$region_name['region_name']}<i></i></li>
+            <li>
+			{if $_GPC['c']}
+			诚信商家
+			{else if $_GPC['v']}
+			加V商家
+			{else}
+			全部
+			{/if}
+			<i></i></li>
+        </ul>
+        <div class="search-add" style="display:none">
+            <a href="{php echo $this->createMobileUrl('list', array('city_id' => $city_id, 'tag' => $_GPC['tag'], 'c' => $_GPC['c'], 'v' => $_GPC['v']))}">
+			<?=$this->getRegion($city_id)?>
+			</a>
+			{loop $regions $region}
+            <a href="{php echo $this->createMobileUrl('list', array('area_id' => $region['region_id'], 'tag' => $_GPC['tag'], 'c' => $_GPC['c'], 'v' => $_GPC['v']))}">{$region['region_name']}</a>
+            {/loop}
+        </div>
+        <div class="search-type" style="display:none">
+			<a href="{php echo $this->createMobileUrl('list', array('city_id' => $city_id, 'area_id' => $area_id, 'tag' => $_GPC['tag']))}">全部</a>
+            <a href="{php echo $this->createMobileUrl('list', array('city_id' => $city_id, 'area_id' => $area_id, 'tag' => $_GPC['tag'], 'v' => 1))}">加V商家</a>
+            <a href="{php echo $this->createMobileUrl('list', array('city_id' => $city_id, 'area_id' => $area_id, 'tag' => $_GPC['tag'], 'c' => 1))}">诚信商家</a>
+        </div>
+        <div class="mark" style="display:none"></div>
+    </div>
+    <div class="item-list new-list">
+		{loop $items $item}
+        <dl>
+            <dd class="title">{$item['name']}
+			{if $item['is_c']}
+			<span class="c-icon"></span>
+			{/if}
+			{if $item['is_v']}
+			<span class="v-icon"></span>
+			{/if}
+			</dd>
+            <dd class="info">地址：<?=$this->getRegion($item['area'])?>{$item['address']}</dd>
+            <dd class="info">电话： <a href="tel:{$item['tel']}" style="color:#6c6b6b;">{$item['tel']}</a>
+			<?php $is_g = $this->IsGuanzhu($item['id']);?>
+			{if $is_g == 1}
+			<dt class="follow-tag follow-ing follow{$item['id']}" onclick="guanzhu({$item['id']})">关注</dt>
+			{else if $is_g == 0}
+			<dt class="follow-tag">已关注</dt>
+			{/if}
+        </dl>
+        {/loop}
+    </div>
+</body>
+</html>
+<script>
+function guanzhu(id)
+{
+	var data={id:id,type:5};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "{php echo $this->createMobileUrl('guanzhu')}",
+		dataType: "json",
+		success: function(res){
+			if(res.ret == 1){
+				$('.follow'+id).removeClass('follow-ing');
+				$('.follow'+id).removeAttr('onclick');
+				$('.follow'+id).html('已关注');
+			}
+			else{
+				alert(res.msg);
+			}
+		}
+	});
+}
+</script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>家政联盟</title>
+	<link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/jiazheng/asset/css/styles.css">   
+    <script src="./source/modules/jiazheng/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/jiazheng/asset/js/base.js?_=v1.1"></script>
+
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p><a href="{php echo $this->createMobileUrl('resume')}">我要求职</a><a href="{php echo $this->createMobileUrl('find')}">帮我找</a></p>
+    </div>
+    <div class="banner">
+        <img src="./source/modules/jiazheng/asset/img/banner.jpg" class="width100" />
+    </div>
+    <div class="info">
+        <img src="./source/modules/jiazheng/asset/img/info.jpg" class="width100" />
+    </div>
+    <div class="item-list">
+		{loop $regions $region}
+        <h3>（{$region['region_name']}）联盟企业</h3>
+        <ul>
+			{loop $region['items'] $item}
+			<li class="arrow-right"><a href="{php echo $this->createMobileUrl('info', array('id' => $item['id']))}">{$item['name']}</a></li>
+			{/loop}
+        </ul>
+        {/loop}
+    </div>
+</body>
+</html>

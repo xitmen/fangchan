@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>我的</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+</head>
+<body class="gray-bg">
+    <div class="home-page">
+        <div class="top-title">
+            <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+            <p>我的</p>
+        </div>
+        <div class="my-page">
+            <img src="{$tmp['avatar']}" class="head-icon" />
+            <p>{$tmp['uname']}</p>
+        </div>
+        <ul class="menu-link">
+            <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=myguanzhu&weid={$_W['weid']}"><i class="icon01"></i>我的关注</a></li>
+            <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=myfabu&weid={$_W['weid']}"><i class="icon02"></i>我的发布</a></li>
+            <li class="arrow-right"><a href=""><i class="icon03"></i>我的预约</a></li>
+            <li class="arrow-right"><a href=""><i class="icon04"></i>我的投诉评价</a></li>
+        </ul>
+        <p class="tel-line">客服电话400-6288-609</p>
+        <div class="menu-list">
+            <ul>
+                <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
+				<li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

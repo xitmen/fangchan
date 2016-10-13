@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>包厢预定</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/baoxiang/asset/css/styles.css">   
+    <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title purple-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>商家入驻</p>
+    </div>
+	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('savejoin', array('op' => 'submit'))}">
+	<input type="hidden" name="data[province]" value="{$_COOKIE['province_id']}">
+	<input type="hidden" name="data[city]" value="{$_COOKIE['city_id']}">
+	<input type="hidden" name="data[type]" value="{$type}">
+	<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+    <ul class="send-list">
+        <li class="two noBorder">
+            <label>地区</label>
+            <select name="data[area]">
+			{loop $regions $region}
+				<option value="{$region['region_id']}">{$region['region_name']}</option>
+			{/loop}
+			</select>
+        </li>
+    </ul>
+    <div class="custom-page">
+        <ul>
+            <li><label>商家名称</label><br /><input type="text" name="data[name]" id="name" placeholder="请填写商家名称全称" /></li>
+            <li><label>商家地址</label><br /><input type="text" name="data[dizhi]" placeholder="请填写商家详细地址" /></li>
+            <li><label>订包电话</label><br /><input type="text" name="data[tel]" placeholder="请填写商家包厢预订电话" /></li>
+            <li><label>官方网址</label><br /><input type="text" name="data[www]" placeholder="请填写商家网址" /></li>
+            <li><label>商家简介</label><br /><textarea name="data[miaoshu]" placeholder="请填写商家介绍"></textarea></li>
+            <li><label>营业时间</label><br />
+                <input type="text" style="width:3rem;" name="data[s_time]" />-
+                <input type="text" style="width:3rem;" name="data[e_time]" />点
+            </li>
+            <li><label>包间大小</label><br />
+                <input type="text" style="width:3rem;" name="data[min_num]" />-
+                <input type="text" style="width:3rem;" name="data[max_num]" />人包间
+            </li>
+            <li><label>照片上传</label></li>
+        </ul>
+        {if $type==1}
+		<ul class="send-list">
+            <li class="noBorder jiu-dian">
+                <label>酒店星级</label><br />
+                <a id="1">1星</a>
+				<a id="2">2星</a>
+                <a id="3" class="on">3星</a>
+                <a id="4">4星</a>
+                <a id="5">5星</a>
+            </li>
+			<input type="hidden" name="data[xing]" id="xing" value="3" autocomplete="off">
+            <li class="noBorder peitao">
+                <label>酒店设施（多选）</label><br />
+                <a class="on">住宿</a>
+                <a class="on">健身</a>
+                <a>网球</a>
+                <a>游泳馆</a>
+                <a>洗浴按摩</a>
+                <a>停车场</a>
+                <input type="text" style="width:13.6rem; margin-left:.2rem;" value="" name="peitao" placeholder="其他设施" />
+				<input type="hidden" name="data[peitao]" id="peitao"  autocomplete="off" value="住宿 健身">
+            </li>
+            <li><label>照片上传</label></li>
+        </ul>
+        <p class="upload-img"><a href="#">酒店大堂</a>图片最多上传2张</p>
+        <p class="upload-img"><a href="#">酒店菜谱</a>图片最多上传20张</p>
+        <p class="upload-img"><a href="#">本店特色</a>图片最多上传6张</p>
+		<script>
+		$('.jiu-dian a').click(function (){
+			$('.jiu-dian a').removeClass('on');
+			$(this).addClass('on');
+			$('#xing').val($(this).attr('id'));
+		});
+		$('.peitao a').click(function (){
+			var cla = $(this).attr('class');
+			if(cla == 'on')
+			{
+				$(this).removeClass('on');
+			}
+			else
+			{
+				var len = $('.lis .on').size();
+				if(len < 3)
+				{
+					$(this).addClass('on');
+				}
+			}
+			var peitao = '';
+			$(".peitao .on").each(function(i){
+			   peitao += ' '+$(this).html();
+			 });
+			 $('#peitao').val(peitao);
+		});
+		</script>
+		{/if}
+        <p class="upload-img"><a href="#">包厢环境</a>图片最多上传2张</p>
+    </div>
+	</form>
+    <a href="javascript:sb();" class="yellow-btn">提交审核</a>
+</body>
+</html>
+<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+<script>
+function sb()
+{
+	var name=$('#name').val();
+	if(name == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写商家名称！'
+		});
+	}
+	else
+	{
+		document.form1.submit();
+	}
+}
+</script>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.veny.com" versionCode="0.51">
+	<application setting="false">
+		<name><![CDATA[会员专区]]></name>
+		<identifie><![CDATA[usersvip]]></identifie>
+		<version><![CDATA[0.1]]></version>
+		<type><![CDATA[customer]]></type>
+		<ability><![CDATA[会员专区]]></ability>
+		<description><![CDATA[会员专区]]></description>
+		<author><![CDATA[lihui]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="访问入口" do="index" />
+		</cover>
+		<menu>
+		   <entry title="投诉评价" do="tousu" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

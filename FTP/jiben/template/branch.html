@@ -1,0 +1,184 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('branch', array('op' => 'post'))}">添加网点</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('branch', array('op' => 'display'))}">管理网点</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<h4>网点基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">网点名称</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">网点编号</label></th>
+				<td>
+					<input type="text" name="data[number]" class="span6" value="{$item['number']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">联系人</label></th>
+				<td>
+					<input type="text" name="data[linkman]" class="span6" value="{$item['linkman']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">联系电话</label></th>
+				<td>
+					<input type="text" name="data[tel]" class="span6" value="{$item['tel']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">省市区</label></th>
+				<td>
+					<select name="data[province]" id="province">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$item['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+					</select>
+					<select name="data[city]" id="city">
+						<option value="">--市--</option>
+						{if $item['city']}
+						<option value="{$item['city']}" selected><?=$this->getRegion($item['city'])?></option>
+						{/if}
+					</select>
+					<select name="data[area]" id="area">
+						<option value="">--区--</option>
+						{if $item['area']}
+						<option value="{$item['area']}" selected><?=$this->getRegion($item['area'])?></option>
+						{/if}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">地址</label></th>
+				<td>
+					<input type="text" name="data[address]" class="span6" value="{$item['address']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">坐标：</label></th>
+				<td>{php echo tpl_form_field_coordinate('baidumap', $item)}</td>
+			</tr>
+			<tr>
+				<th><label for="">缩略图</label></th> 
+				<td>
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">{if $item['pic']}<img src="{$item['pic']}" width="200" />{/if}</div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更改</span><input name="pic" type="file" /></span>
+							<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+							{if $item['pic']}<button type="submit" name="fileupload-delete" value="{$item['pic']}" class="btn fileupload-new">删除</button>{/if}
+						</div>
+					</div>
+					<span class="help-block">最佳尺寸(750px * 400px 72分辨率)</span>
+				</td>
+			</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+<script>
+$('#province').change(function (){
+	$('#city').html('<option value="">--市--</option>');
+	$('#area').html('<option value="">--区--</option>');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#city').html(res);
+			}
+		});
+	}
+});
+$('#city').change(function (){
+	$('#area').html('<option value="">--区--</option>');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'区'},
+			cache:false,
+			success: function(res){
+				$('#area').html(res);
+			}
+		});
+	}
+});
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="search">
+	<form action="{php echo $this->createWebUrl('branch', array('op' => 'display'))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>关键字</th>
+					<td>
+						<input class="span5" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜素下面所有列">
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+	</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:5%;">ID</th>
+					<th style="width:15%;">网点名称</th>
+					<th style="width:10%;">网点编号</th>
+					<th style="width:10%;">联系人</th>
+					<th style="width:15%;">联系电话</th>
+					<th style="width:30%;">地址</th>
+					<th style="text-align:right; width:15%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>{$item['name']}</td>
+					<td>{$item['number']}</td>
+					<td>{$item['linkman']}</td>
+					<td>{$item['tel']}</td>
+					<td>{$item['adds']} {$item['address']}</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('branch', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('branch', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

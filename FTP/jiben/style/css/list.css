@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+.m1{background:#fff;}
+.m1 li{width:96%;padding:10px 2%;border-bottom:1px solid #ccc;}
+.m1 li:after{content:'\20';display:block;font-size:0;clear:both;}
+.m1 li>*{float:left;}
+.m1 li>img{width:18%;border:1px solid #F7F7F7;padding:3px;}
+.m1 li b{display:block;padding:5px;width:76%;}
+.m1 li b>ins{display:block;margin-top:10px;font-weight:normal;font-size:0.8em;}
+.m1 li b>ins a{padding-right:3px;color:#999;display:block;float:left;}
+
+.m2>ins{line-height:2.5em;padding:0 2%;color:#FF6600;font-weight:bolder;}
+.m2>.m{width:100%;overflow:hidden;}
+.m2 .m>ul{background:#fff;}
+.m2 .m li{float:left;padding:5px;width:30%;}
+.m2 .m li a>img{width:97%;border:1px solid #EAEAEA;padding:3px;}
+.m2 .m li a>p{font-size:0.5em;}
+.m2 .m li a>p ins{float:right;}

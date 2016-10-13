@@ -1,0 +1,417 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('houses', array('op' => 'post'))}">添加房源</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">管理房源</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<h4>房源基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">房源名称</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">房源编号</label></th>
+				<td>
+				$item['number']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">楼栋</label></th>
+				<td>
+					<input type="text" name="data[dong]" class="span1" value="{$item['dong']}" />栋&nbsp;&nbsp;
+					<input type="text" name="data[danyuan]" class="span1" value="{$item['danyuan']}" />单元&nbsp;&nbsp;
+					<input type="text" name="data[shis]" class="span1" value="{$item['shis']}" />室
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">发布者电话</label></th>
+				<td>
+					<input type="text" name="data[tel]" class="span6" value="{$item['tel']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">布局(住宅)</label></th>
+				<td>
+					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
+					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
+					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">平方数</label></th>
+				<td>
+					<input type="text" name="data[pingfang]" class="span1" value="{$item['pingfang']}" />&nbsp;平方米
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">楼层(住宅/商铺/写字楼/商住两用)</label></th>
+				<td>
+					<input type="text" name="data[louceng]" class="span1" value="{$item['louceng']}" />/
+					<input type="text" name="data[zongceng]" class="span1" value="{$item['zongceng']}" />
+					&nbsp;F
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">价格</label></th>
+				<td>
+					<input type="text" name="data[jiage]" class="span1" value="{$item['jiage']}" />&nbsp;万元
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">详细地址</label></th>
+				<td>
+					<input type="text" name="data[dizhi]" class="span6" value="{$item['dizhi']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">配套设施/特色(住宅)</label></th>
+				<td>
+					<input type="text" name="data[peitao]" class="span6" value="{$item['peitao']}" />&nbsp;空调/洗衣机/电视
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">朝向(住宅)</label></th>
+				<td>
+					<input type="text" name="data[chaoxiang]" class="span3" value="{$item['chaoxiang']}" />&nbsp;如：南北
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">装修程度(住宅/别墅/商铺/写字楼)</label></th>
+				<td>
+					<input type="text" name="data[zhuangxiu]" class="span3" value="{$item['zhuangxiu']}" />&nbsp;如：毛坯、简装、中装修、精装、豪华装修
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">建筑形式(别墅)</label></th>
+				<td>
+					<input type="text" name="data[xingshi]" class="span3" value="{$item['xingshi']}" />&nbsp;如：联排、独栋、双拼、叠加
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">卧室个数(别墅)</label></th>
+				<td>
+					<input type="text" name="data[woshi]" class="span3" value="{$item['woshi']}" />&nbsp;个
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">产权(住宅)</label></th>
+				<td>
+					<input type="text" name="data[chanquan]" class="span3" value="{$item['chanquan']}" />&nbsp;年
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">物业费(商铺/写字楼/商住两用)</label></th>
+				<td>
+					<input type="text" name="data[wyf]" class="span3" value="{$item['wyf']}" />&nbsp;元/平米/月
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">状态</label></th>
+				<td>
+					<select name="data[status]" class="span2">
+						{loop $_STATUS $k=>$v}
+							<option value="{$k}" <?=$item['status'] == $k?'selected':''?>>{$v}</option>
+						{/loop}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">类型</label></th>
+				<td>
+					<select name="data[type]" id="type">
+						<option value="">--类型--</option>
+						{loop $tags['types'] $k=>$v}
+							<option value="{$k}" <?=$item['type'] == $k?'selected':''?>>{$v}</option>
+						{/loop}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">标签</label></th>
+				<td id="tags">
+				{if $item['type']}
+					<?php $tagarrs = explode(',',$item['tags']);?>
+					{loop $tags['items'][$item['type']] $v}
+						<select name="tags[]">
+							<option value="">--{$v['name']}--</option>
+							{loop $v['items'] $ks=>$vs}
+								<option value="{$ks}" <?=in_array($ks,$tagarrs)?'selected':''?>>{$vs}</option>
+							{/loop}
+						</select>
+					{/loop}
+				{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">省市区</label></th>
+				<td>
+					<select name="data[province]" id="province">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$item['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+					</select>
+					<select name="data[city]" id="city">
+						<option value="">--市--</option>
+						{if $item['city']}
+						<option value="{$item['city']}" selected><?=$this->getRegion($item['city'])?></option>
+						{/if}
+					</select>
+					<select name="data[area]" id="area">
+						<option value="">--区--</option>
+						{if $item['area']}
+						<option value="{$item['area']}" selected><?=$this->getRegion($item['area'])?></option>
+						{/if}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">网点</label></th>
+				<td>
+					<select name="data[branch_id]" id="branch_id">
+						<option value="">--网点--</option>
+						{loop $branchs $v}
+							<option value="{$v['id']}" <?=$item['branch_id'] == $v['id']?'selected':''?>>{$v['name']}</option>
+						{/loop}
+					</select>
+				</td>
+			</tr>
+			{if !empty($item['id'])}
+			<tr>
+				<th><label for="">相册</label></th>
+				<td>
+					<?php 
+						if(!empty($item['photo']))
+						{
+						$photos = explode('|', $item['photo']);
+						foreach($photos as $photo)
+						{
+					?>
+						<img src="{$photo}" style="width:120px;margin-left: 5px;">
+					<?php }} ?>
+					<a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $item['id']))}" style="margin-left: 5px;">相册管理</a>
+				</td>
+			</tr>
+			{/if}
+			<tr>
+				<th><label for="">描述</label></th>
+				<td>
+					<textarea name="data[miaoshu]">{$item['miaoshu']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">缩略图</label></th> 
+				<td>
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">{if $item['pic']}<img src="{$item['pic']}" width="200" />{/if}</div>
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更改</span><input name="pic" type="file" /></span>
+							<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+							{if $item['pic']}<button type="submit" name="fileupload-delete" value="{$item['pic']}" class="btn fileupload-new">删除</button>{/if}
+						</div>
+					</div>
+					<span class="help-block">最佳尺寸(200px * 200px 72分辨率)</span>
+				</td>
+			</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+<script>
+$('#type').change(function (){
+	$('#tags').html('');
+	var id = $(this).val();
+	var tag = '<?=$item['tags']?$item['tags']:''?>';
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAlltags')}",
+			dataType:'html',
+			data: {id:id,tag:tag},
+			cache:false,
+			success: function(res){
+				$('#tags').html(res);
+			}
+		});
+	}
+});
+$('#area').change(function (){
+	$('#branch_id').html('');
+	var id = $(this).val();
+	getBranchs(id);
+});
+function getBranchs(id)
+{
+	var branch_id = '<?=$item['branch_id']?$item['branch_id']:''?>';
+	$.ajax({
+		type: "post", 
+		url : "{php echo $this->createWebUrl('getBranchs')}",
+		dataType:'html',
+		data: {id:id,branch_id:branch_id},
+		cache:false,
+		success: function(res){
+			$('#branch_id').html(res);
+		}
+	});
+}
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="search">
+	<form action="{php echo $this->createWebUrl('houses', array('op' => 'display'))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>搜素</th>
+					<td>
+						<input class="span2" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜索名称或编号">
+						<select name="type" class="span2">
+							<option value="">--类型--</option>
+							{loop $tags['types'] $k=>$v}
+								<option value="{$k}" <?=$_GPC['type'] == $k?'selected':''?>>{$v}</option>
+							{/loop}
+						</select>
+						<select name="status" class="span2">
+							<option value="">--状态--</option>
+							{loop $_STATUS $k=>$v}
+								<option value="{$k}" <?=$_GPC['status'] == $k?'selected':''?>>{$v}</option>
+							{/loop}
+						</select>
+						<select name="province" id="province" class="span2">
+						<option value="">--省份--</option>
+						{loop $regions $it}
+							<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+						{/loop}
+						</select>
+						<select name="city" id="city" class="span2">
+							<option value="">--市--</option>
+							{if $_GPC['city']}
+							<option value="{$_GPC['city']}" selected><?=$this->getRegion($_GPC['city'])?></option>
+							{/if}
+						</select>
+						<select name="area" id="area" class="span2">
+							<option value="">--区--</option>
+							{if $_GPC['area']}
+							<option value="{$_GPC['area']}" selected><?=$this->getRegion($_GPC['area'])?></option>
+							{/if}
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+	</form>
+	</div>
+	<div style="padding:15px;">
+	<form action="{php echo $this->createWebUrl('houses', array('op' => 'paixu'))}" method="post" class="form-horizontal form" >
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:10%;">房源名称</th>
+					<th style="width:10%;">房源编号</th>
+					<th style="width:5%;">类型</th>
+					<th style="width:10%;">规格</th>
+					<th style="width:5%;">平方</th>
+					<th style="width:5%;">楼层</th>
+					<th style="width:10%;">价格</th>
+					<th style="width:15%;">地区</th>
+					<th style="width:5%;">状态</th>
+					<th style="width:5%;">排序</th>
+					<th style="text-align:right; width:15%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['name']}</td>
+					<td>{$item['number']}</td>
+					<td>{$tags['types'][$item['type']]}</td>
+					<td>{$item['shi']}室{$item['ting']}厅{$item['wei']}卫</td>
+					<td>{$item['pingfang']}</td>
+					<td>{$item['louceng']}楼</td>
+					<td>{$item['jiage']}万元</td>
+					<td><?=$this->getRegion($item['province'])?> <?=$this->getRegion($item['city'])?> <?=$this->getRegion($item['area'])?></td>
+					<td>{$_STATUS[$item['status']]}</td>
+					<td>
+						<input type="text" name="ids[{$item['id']}]" class="span1" value="{$item['torder']}" />
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('houses', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						
+						<a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $item['id']))}" style="margin-left: 5px;">相册</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('houses', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				<tr>
+					<td></td>
+					<td colspan="9">
+						<input name="token" type="hidden" value="{$_W['token']}" />
+						<input name="submit" type="submit" value="排序" class="btn btn-primary span3">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
+		{$pager}
+	</div>
+</div>
+{/if}
+<script>
+$('#province').change(function (){
+	$('#city').html('<option value="">--市--</option>');
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#city').html(res);
+				getBranchs(id);
+			}
+		});
+	}
+});
+$('#city').change(function (){
+	$('#area').html('<option value="">--区--</option>');
+	$('#branch_id').html('');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'区'},
+			cache:false,
+			success: function(res){
+				$('#area').html(res);
+				getBranchs(id);
+			}
+		});
+	}
+});
+</script>
+{template 'common/footer'}

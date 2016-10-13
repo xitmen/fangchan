@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>包厢预订</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?=1"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/baoxiang/asset/css/styles.css?t=1">   
+    <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
+</head>
+<body>
+<div class="top-title gray-bg-title">
+    <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+    <p>{$item['name']}</p>
+</div>
+<div class="banner top-border">
+    <img src="{$item['pic']}" class="width100" />
+</div>
+<div class="info-box">
+    <p style="text-indent:2em;">{$item['miaoshu']}</p>
+</div>
+<div class="info-address">
+	{if $item['type'] == 1}
+    <p>酒店星级：{$xing[$item['xing']]}星级</p>
+	{/if}
+    <p>营业时间：{$item['s_time']}-{$item['e_time']}</p>
+    <p>包间类型：{$item['min_num']}-{$item['max_num']}人包间</p>
+    <p>配套设施:{$item['peitao']}</p>
+</div>
+<div class="info-address">
+    <p>商家地址：<?=$this->getRegion($item['area'])?> {$item['dizhi']}</p>
+    <p>订包电话：<a href="tel:{$item['tel']}" style="color:orange">{$item['tel']}</a></p>
+    <p>官方网址：{$item['www']}</p>
+</div>
+{if $item['type'] == 1}
+<div class="work-img">
+    <h4>酒店菜谱</h4>
+	<?php 
+	$caipus = explode('|',$item['caipu_photo']);
+	if(!empty($caipus))
+	{
+	?>
+    <div class="loop img-box">
+        <div class="img-list">
+			{loop $caipus $caipu}
+            <img src="{$caipu}" class="width100" />
+            {/loop}
+        </div>
+        <div class="page-list">
+		<?php
+		$i=1;
+		foreach($caipus as $caipu)
+		{
+		?>
+            <i <?=$i==1?'class="on"':''?>></i>
+         <?php $i++;} ?>
+        </div>
+    </div>
+	<?php } ?>
+</div>
+<div class="work-img">
+    <h4>本店特色</h4>
+	<?php 
+	$teses = explode('|',$item['tese_photo']);
+	if(!empty($teses))
+	{
+	?>
+    <div class="loop img-box">
+        <div class="img-list">
+			{loop $teses $tese}
+            <img src="{$tese}" class="width100" />
+            {/loop}
+        </div>
+        <div class="page-list">
+		<?php
+		$i=1;
+		foreach($teses as $tese)
+		{
+		?>
+            <i <?=$i==1?'class="on"':''?>></i>
+         <?php $i++;} ?>
+        </div>
+    </div>
+	<?php } ?>
+</div>
+{/if}
+<div class="work-img">
+    <h4>包厢环境</h4>
+	<?php 
+	$photos = explode('|',$item['photo']);
+	if(!empty($photos))
+	{
+		foreach($photos as $photo)
+		{
+	?>
+    <img src="{$photo}" class="width100" />
+	<?php }} ?>
+</div>
+<div class="about-info">
+    <img src="/source/modules/baoxiang/asset/img/codImg.jpg" />
+</div>
+<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
+<div class="follow-box">
+    <a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
+    <a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}" class="msg-icon">评论</a>
+    <a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
+</div>
+</body>
+</html>
+<script>
+function guanzhu(id)
+{
+	var data={id:id,type:6,url:'<?=$_SERVER['REQUEST_URI']?>'};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "{php echo $this->createMobileUrl('guanzhu')}",
+		dataType: "json",
+		success: function(res){
+			if(res.ret == 1){
+				alert(res.msg);
+			}
+			else{
+				alert(res.msg);
+			}
+		}
+	});
+}
+</script>

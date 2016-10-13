@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>编辑我的资料</title>
+<meta content="telephone=no, address=no" name="format-detection">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-salable=0" name="viewport">
+<link href="./source/modules/integal/style/css/global.css" type="text/css" rel="stylesheet" media="all"/>
+<script type="text/javascript" src="./source/modules/integal/style/js/jq.js"></script>
+<style>
+.wrap{background:#fff;}
+table{border:0;width:100%;}
+th,td{vertical-align:top;border-bottom:1px solid #eee;padding:0.3em;}
+th{text-align:left;color:#999;font-weight:normal;white-space:nowrap;padding:0 0.3em;line-height:2.8em;}
+td a{font-size:0.8em;display:block;line-height:1.5em;}
+td input[type=text],td input[type=number]{width:90%;border:1px solid #eee;padding:0.2em 0 0.2em 0.4em;font-size:1em;height:2em;}
+td input{border-radius:0.3em;}
+.at img{width:50%;padding:3px;border:1px solid #ccc;}
+.atl span{display:block;width:17.5%;margin:2px;float:left;font-size:0;border:1px solid #ccc;}
+.atl span img{width:100%;}
+input[type=button]{background-image:-webkit-linear-gradient(top,#84CC00 0%,#6AA300 100%);border:0;height:2.2em;padding:0 1em;color:#fff;}
+</style>
+</head>
+<body>
+{template nav}
+<form method="post">
+<input type="hidden" name="token" value="{$_W['token']}" />
+<input type="hidden" name="data[avatar]" value=""/>
+<div class="wrap" id="m">
+	<table cellspacing="0">
+		<tr><th>我的头像</th><td class="at"><img src="{if $user['avatar']==''}./source/modules/integal/images/avatar/default.png{else}{$user['avatar']}{/if}"/><a class="getheader" href="javascript:;">获取微信头像</a></td></tr>
+		<tr><th>系统头像</th><td class="atl clearfix">
+			<span><img src="./source/modules/integal/images/avatar/avatar_m.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_1.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_2.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_3.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_4.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_w.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_5.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_6.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_7.jpg"/></span>
+			<span><img src="./source/modules/integal/images/avatar/avatar_8.jpg"/></span>
+		</td></tr>
+		<tr><th>昵称</th><td style="vertical-align:middle;color:#999;">{if $user['uname']=='null' || empty($user['uname'])}微信用户{else}{$user['uname']}{/if}</td></tr>
+		<tr><th>手机号码</th><td><input type="number" name="data[mobile]" value="{$user['mobile']}" placeholder="手机号码方便客服联系您"/></td></tr>
+		<tr><th>QQ号码</th><td><input type="number" name="data[qqnum]" value="{$user['qqnum']}" placeholder="找回钱包密码 只有一次填写的机会" {if $user['qqnum']!=''}disabled{/if}/></td></tr>
+		<tr><th>&nbsp;</th><td><input class="save" type="button" value="保存并返回"/></td></tr>
+	</table>
+</div>
+</form>
+<script type="text/javascript">
+var f=document.forms[0];
+$(document).ready(function(){
+	$(".wrap .atl span img").bind('click',function(){
+		f.elements[1].value=this.src;
+		$(".at img").get(0).src=this.src;
+	});
+	$(".save").bind('click',function(){
+		f.submit();
+	});
+	$(".getheader").bind('click',wc_avatar);
+});
+function wc_avatar(){
+	$.get("{php echo $this->createMobileUrl('Profile');}&action=getheader",
+		function(d){
+			if(d.code==0){
+				f.elements[1].value=d.header;
+				$(".at img").get(0).src=d.header;				
+			}
+			else if(d.code==4){
+				alert(d.msg);
+			}
+		},"json"
+	);
+}
+</script>
+{template 'chat'}
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>包厢预订</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/baoxiang/asset/css/styles.css">   
+    <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
+	<script src="./source/modules/ershou/asset/js/jquery.lazyload.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="top-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <span>包厢预订</span>
+        <div class="top-search">
+            <input type="text" placeholder="输入商家名称搜索" name="key" value="{$key}">
+        </div>
+    </div>
+    <div class="search-box">
+        <ul>
+            <li>{$region_name['region_name']}<i></i></li>
+            <li>{$tags['types'][$type]}<i></i></li>
+            <li><a href="{php echo $this->createMobileUrl('join')}" style="color:#000;">商家入驻</a><i></i></li>
+        </ul>
+        <div class="search-add" style="display:none">
+           <a href="{php echo $this->createMobileUrl('index', array('city_id' => $city_id))}">
+			<?=$this->getRegion($city_id)?>
+			</a>
+			{loop $regions $region}
+            <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $region['region_id']))}">{$region['region_name']}</a>
+            {/loop}
+        </div>
+        <div class="search-type" style="display:none">
+           {loop $tags['types'] $k $v}	
+				<a href="{php echo $this->createMobileUrl('index', array('type' => $k, 'area_id' => $area_id))}">{$v}</a>
+			{/loop}
+        </div>
+        <div class="mark" style="display:none"></div>
+    </div>
+    <div class="item-list">
+		{loop $items $item}
+		<a href="{php echo $this->createMobileUrl('info', array('id' => $item['id']))}">
+        <dl>
+            <dt><img data-original="{$item['pic']}" class="lazy" /></dt>
+            <dd class="title">{$item['name']}<span class="start {$xing[$item['xing']]}"></span></dd>
+            <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+            <dd class="info">电话： {$item['tel']}</dd>
+        </dl>
+		</a>
+        {/loop}
+    </div>
+</body>
+</html>
+<script>
+$(function() {
+	$("img.lazy").lazyload();
+});
+$('.top-search').click(function (){
+	var key = $('.top-search input').val();
+	if(key)
+	{
+		window.location.href = "{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" + '&key='+key;
+	}
+});
+$('.top-search input').click(function (){
+	return false;
+});
+</script>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>上门维修</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/shangmen/asset/css/styles.css">   
+    <script src="./source/modules/shangmen/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/shangmen/asset/js/base.js?_=v1.1"></script>
+	<script src="./source/modules/shangmen/asset/js/jquery.lib.js"></script>
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>商家入驻</p>
+    </div>
+	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('saveJion', array('op' => 'submit'))}">
+	<input type="hidden" value="{$province_id}" name="data[province]">
+	<input type="hidden" value="{$city_id}" name="data[city]">
+	<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+    <ul class="send-list">
+        <li>
+            <label>地区</label>
+            <span><select class="two" name="data[area]">
+			{loop $regions $region}
+			<option value="{$region['region_id']}" <?=$area_id == $region['region_id']?'selected':''?>>{$region['region_name']}</option>
+			{/loop}
+			</select></span>
+        </li>
+    </ul>
+	<div class="line-address">
+        <p>公司名称</p>
+        <input type="text" name="data[name]" id="name" placeholder="请输入公司名称" />
+    </div>
+	<div class="line-address">
+        <p>联系电话</p>
+        <input type="text" name="data[tel]" id="tel" placeholder="请输入联系电话" />
+    </div>
+    <div class="line-address">
+        <p>公司或个人地址</p>
+        <input type="text" name="data[address]" id="address" placeholder="请输入具体地址" />
+    </div>
+    <br />
+    <div class="tou-shu">
+        <ul>
+            <li class="line">
+			{loop $tags $k $tag}
+                <span><input type="checkbox" value="{$k}" name="tags[]"  />{$tag}</span>
+             {/loop}
+            </li>
+        </ul>
+    </div>
+    <p class="upload-img">照片上传</p>
+    <p class="upload-img">个人上传<a href="#">身份证正反面</a></p>
+    <p class="upload-img">企业上传<a href="#">营业执照</a></p>
+    <a href="javascript:sb();" class="yellow-btn">提交申请</a>
+	</form>
+</body>
+</html>
+<script>
+function sb()
+{
+	var name = $('#name').val();
+	var tel = $('#tel').val();
+	var address = $('#address').val();
+	var f = false;
+	$(".tou-shu input").each(function(i){
+		if($(this).attr('checked'))
+		{
+			f = true;
+		}
+	 });
+	if(name == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写公司名称！'
+		});
+	}
+	else if(tel == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写联系电话！'
+		});
+	}
+	else if(address == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请输入具体地址！'
+		});
+	}
+	else if(!f)
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请选择服务项目！'
+		});
+	}
+	else
+	{
+		document.form1.submit();
+	}
+}
+</script>

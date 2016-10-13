@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>包厢预定</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/baoxiang/asset/css/styles.css">   
+    <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
+</head>
+<body>
+    <div class="top-title purple-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>商家入驻</p>
+    </div>
+	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('join', array('op' => 'submit'))}">
+    <ul class="send-list">
+        <li class="noBorder">
+            <label>商家类别</label><br />
+			{loop $tags['types'] $k $v}
+            <a id="{$k}" <?=$k==1?'class="on"':''?>>{$v}</a>
+            {/loop}
+        </li>
+    </ul>
+	{if empty($member['mobile'])}
+    <div class="custom-page">
+        <p>联系电话</p>
+		
+        <ul>
+            <li><input type="text" placeholder="请输入您的手机号码"  class="number" name="mobile"/></li>
+            <li><input type="text" style="width:10rem;" placeholder="请输入验证" id="yan"/><span class="vcode yz">获取验证码</span></li>
+        </ul>
+    </div>
+	<script>
+	function sb()
+	{
+		var number=$('.number').val();//手机号码
+		var yan=$('#yan').val();//验证码
+		var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+		if(!reg.test(number))
+		{
+			var dialog = jDialog.dialog({
+				title : '错误提醒！',
+				content : '手机号格式不正确！'
+			});
+			return false;
+		}
+		if(number!=$.cookie('mtel'))
+		{
+			var dialog = jDialog.dialog({
+				title : '错误提醒！',
+				content : '此手机号需要从新验证！'
+			});
+			return false;
+		}
+		if(yan=='' || yan!=$.cookie('yzm'))
+		{
+			var dialog = jDialog.dialog({
+				title : '错误提醒！',
+				content : '请填写正确的验证码！'
+			});
+			return false;
+		}
+		document.form1.submit();
+	}
+	</script>
+	{else}
+	<script>
+	function sb()
+	{
+		document.form1.submit();
+	}
+	</script>
+	{/if}
+	<input type="hidden" name="type" value="1" id="type"  autocomplete="off" />
+	<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+    <a onclick="sb()" class="yellow-btn">下一步</a>
+	</form>
+</body>
+</html>
+<script>
+$('.noBorder a').click(function (){
+	$('.noBorder a').removeClass('on');
+	$(this).addClass('on');
+	$('#type').val($(this).attr('id'));
+});
+$('.yz').click(function (){
+	 var phone=$('.number').val();
+	 var reg=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	 if(!reg.test(phone))
+	 {
+		var dialog = jDialog.dialog({
+				title : '错误提醒！',
+				content : '电话格式不正确！'
+		});
+	 }
+	 else
+	 {
+		  $('.yz').html('正在发送...');
+		  var data={phone:phone};
+		  $.ajax({
+			data:data,
+			type: 'POST',
+			url: "{php echo $this->createMobileUrl('yzm')}",
+			dataType:'json',
+			success: function(json){
+			 if(json.ret != 1)
+			 {
+				$('.yz').html('暂时关闭');
+				$('.yz').removeClass('yz');
+				var dialog = jDialog.dialog({
+						title : '错误提醒！',
+						content : json.msg
+				});
+			 }
+			 else
+			 {
+				$('.yz').html('已发送,再发');
+				$.cookie('yzm',json.code);
+				$.cookie('mtel',phone);
+				alert($.cookie('yzm'));
+			 }
+			}
+		 });	
+	 }
+ });
+$('#yan').blur(function (){
+	if(this.value == $.cookie('yzm')){
+		$(this).css('color','green');
+	}
+	else if(this.value!=''){
+		$(this).val('错误');
+		$(this).css('color','red');
+	}
+});
+
+</script>

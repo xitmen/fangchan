@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>{$tags['types'][$_GPC['type']]}出租房源发布</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+</head>
+<body>
+    <div class="top-title gray-bg-title">
+        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <p>{$tags['types'][$_GPC['type']]}出租房源发布</p>
+    </div>
+    <ul class="send-list">
+	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('chuzu_publish', array('op' => 'submit'))}">
+		<input type="hidden" name="data[province]"  value="{$_COOKIE['province_id']}"/>
+		<input type="hidden" name="data[type]"  value="{$_GPC['type']}"/>
+		<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+        <li>
+            <label>地区</label>
+            <span>
+				<select class="two" name="data[city]">
+					<option value="{$_COOKIE['city_id']}">{$city_name['region_name']}</option>
+				</select>
+				<select class="two" name="data[area]">
+					{loop $areas $area}
+					<option value="{$area['region_id']}">{$area['region_name']}</option>
+					{/loop}
+				</select>
+			</span>
+        </li>
+		<li>
+            <label>地址</label>
+            <span><input type="text" name="data[dizhi]" id="dizhi" class="line long" placeholder="请输入路和号" /></span>
+        </li>
+		{if $_GPC['type'] == 1 || $_GPC['type'] == 2}
+		<li>
+            <label>小区</label>
+            <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入小区名称" /></span>
+        </li>
+        <li>
+            <label>楼栋</label>
+            <span class="border">
+                <input type="text" name="data[dong]" class="three" />栋
+                <input type="text" name="data[danyuan]" class="three" />单元
+                <input type="text" name="data[shis]" class="three" />室
+            </span>
+        </li>
+		{/if}
+		{if $_GPC['type'] == 4 || $_GPC['type'] == 5}
+		<li>
+            <label>名称</label>
+            <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入商铺名称" /></span>
+        </li>
+		<li>
+            <label>楼层</label>
+            <span class="border">
+                共
+                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
+               第
+                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
+            </span>
+        </li>
+		{/if}
+		{if $_GPC['type'] == 3}
+		<li>
+            <label>名称</label>
+            <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入写字楼或大厦的名称" /></span>
+        </li>
+		 <li>
+            <label>楼层</label>
+            <span class="border">
+                共
+                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
+               第
+                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
+            </span>
+        </li>
+		{/if}
+		{if $_GPC['type'] == 1}
+		<li>
+            <label>布局</label>
+            <span class="border">
+                <input type="text" name="data[shi]" class="three" />室
+                <input type="text" name="data[ting]" class="three" />厅
+                <input type="text" name="data[wei]" class="three" />卫
+            </span>
+        </li>
+        <li>
+            <label>楼层</label>
+            <span class="border">
+                共
+                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
+               第
+                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
+            </span>
+        </li>
+		{/if}
+		{if $_GPC['type'] == 2}
+		<li>
+            <label>形式</label>
+            <span><input type="text" name="data[xingshi]" class="line long" placeholder="如：联排、独栋、双拼、叠加" /></span>
+        </li>
+		<li>
+            <label>配套</label>
+            <span><input type="text" name="data[peitao]" class="line long" placeholder="如：花园、楼阁、楼台等" /></span>
+        </li>
+		<li class="two">
+            <label>卧室</label><input type="text" class="one" name="data[woshi]" /> 个
+        </li>
+		{/if}
+		{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
+        <li>
+            <label>物业费</label>
+            <span>
+                <input type="text" name="data[wyf]" class="two" />元/平方米/月
+            </span>
+        </li>
+		{/if}
+        <li class="two">
+            <label>面积</label><input type="text" class="one" name="data[pingfang]" /> M<sup>2</sup>
+        </li>
+        
+        <li class="two">
+            <label>装修</label>
+			<select class="two" name="data[zhuangxiu]">
+				<option value="毛坯">毛坯</option>
+				<option value="简装">简装</option>
+				<option value="中装修">中装修</option>
+				<option value="精装">精装</option>
+				<option value="豪华装修">豪华装修</option>
+			</select>
+        </li>
+		<li class="two">
+            <label>租金</label><input type="text" class="one" name="data[zujin]" placeholder="元/月"/>
+        </li>
+    </ul>
+    <div class="tou-shu">
+        <ul>
+			{if $_GPC['type'] == 1}
+			<li class="line">生活配套</li>
+				<li class="line">
+					<span><input type="checkbox" name="peitao[]" value="床" />床</span>
+					<span><input type="checkbox" name="peitao[]" value="家具" />家具</span>
+					<span><input type="checkbox" name="peitao[]" value="空调" />空调</span>
+					<span><input type="checkbox" name="peitao[]" value="冰箱" />冰箱</span>
+					<span><input type="checkbox" name="peitao[]" value="wifi" />wifi</span>
+					<span><input type="checkbox" name="peitao[]" value="电视" />电视</span>
+					<span><input type="checkbox" name="peitao[]" value="洗衣机" />洗衣机</span>
+					<span><input type="checkbox" name="peitao[]" value="煤气" />煤气</span>
+					<span><input type="checkbox" name="peitao[]" value="热水器" />热水器</span>
+				</li>
+			{/if}
+			{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
+				<li>
+					<span><input type="text" name="data[peitao]"  placeholder="配套如：办公桌、沙发等" /></span>
+				</li>
+			{/if}
+			{if $_GPC['type'] == 2}
+				<li>
+					<span><input type="text" name="data[peitao]"  placeholder="配套如：花园、露台等" /></span>
+				</li>
+			{/if}
+            <li>
+                <textarea placeholder="房东描述" name="data[miaoshu]"></textarea>
+            </li>
+        </ul>
+    </div>
+     <p class="upload-img" style="padding-left:22px;color:#EA562D">图片上传请联系客服，我们为你专业定制</p>
+    <a href="javascript:sb();" class="yellow-btn">发布</a>
+	</form>
+</body>
+</html>
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+<script>
+function sb()
+{
+	var dizhi = $('#dizhi').val();//地址
+	var name = $('#name').val();//名称
+	var zongceng = Number($('#zongceng').val());//总层
+	var louceng = Number($('#louceng').val());//所属楼层
+	if(dizhi == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写地址！'
+		});
+	}
+	else if(name=='')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : "'" + $('#name').attr('placeholder') + "'"
+		});
+	}
+	else if(zongceng < 0 || zongceng == 0)
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写总的楼层！'
+		});
+	}
+	else if(louceng < 0 || louceng == 0)
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请填写所在楼层！'
+		});
+	}
+	else if(louceng > zongceng)
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '所在楼层不能大于总楼层！'
+		});
+	}
+	else
+	{
+		document.form1.submit();
+	}
+}
+</script>
