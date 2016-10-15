@@ -14,7 +14,7 @@
     <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
 </head>
-<body>
+<body class="index_fixed_2">
     <div class="top-title purple-bg-title">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
         <p>商家入驻</p>
@@ -75,9 +75,9 @@
             </li>
             <li><label>照片上传</label></li>
         </ul>
-        <p class="upload-img"><a href="#">酒店大堂</a>图片最多上传2张</p>
-        <p class="upload-img"><a href="#">酒店菜谱</a>图片最多上传20张</p>
-        <p class="upload-img"><a href="#">本店特色</a>图片最多上传6张</p>
+        <!--<p class="upload-img">&lt;!&ndash;<a href="#">酒店大堂</a>图片最多上传2张&ndash;&gt;
+            请联系客服我们为您专门定制图片
+        </p>-->
 		<script>
 		$('.jiu-dian a').click(function (){
 			$('.jiu-dian a').removeClass('on');
@@ -106,7 +106,9 @@
 		});
 		</script>
 		{/if}
-        <p class="upload-img"><a href="#">包厢环境</a>图片最多上传2张</p>
+        <p class="upload-img"><!--<a href="#">包厢环境</a>图片最多上传2张-->
+            请联系客服我们为您专门定制图片
+        </p>
     </div>
 	</form>
     <a href="javascript:sb();" class="yellow-btn">提交审核</a>

@@ -168,4 +168,25 @@ $(function(){
 			} );
 		}
 	}
+
+	if( $('#myguanzhu').get(0) || $('#myfabu').get(0) ){
+		$('.menu-link').each(function(){
+			var _self = $(this),
+				_next = _self.next();
+			_next.hide();
+		}).click(function(){
+			var _self = $(this),
+				_next = _self.next();
+			list = _self.find('li');
+			if( list.hasClass('arrow-right') ){
+				list.removeClass('arrow-right').addClass('down-right');
+				_next.show();
+			}else{
+				list.removeClass('down-right').addClass('arrow-right');
+				_next.hide();
+			}
+			return false;
+		})
+	}
+
 });

@@ -573,7 +573,6 @@ class UsersvipFrontModel extends WeModuleSite{
 	{
 	    global $_GPC, $_W;  //全局变量
 		checkauth();
-		var_dump($_W['fans']['from_user']);exit;
 		include $this->template('myfabu');
 	}
 	 /**

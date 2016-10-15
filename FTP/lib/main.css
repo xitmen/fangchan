@@ -65,12 +65,15 @@ input {
   font-size: 1rem;
 }
 .top-title {
+  width:16rem;
   height: 2rem;
   line-height: 1.7rem;
   background-color: #fff;
-  position: relative;
   z-index: 4;
   font-size: .8rem;
+  position: fixed;
+  top:0; left:0;
+  z-index:26;
 }
 .top-title.new .top-search {
   margin-left: 1.2rem;
@@ -131,9 +134,12 @@ input {
   margin-top: .15rem;
 }
 .search-box {
+  width:16rem;
   height: 2rem;
   background-color: #fff;
-  position: relative;
+  position: fixed;
+  top:2rem; left:0;
+  z-index:26;
 }
 .search-box ul {
   position: relative;
@@ -656,3 +662,9 @@ input {
 }
 #mcover{ position: fixed;	top:0;	left:0;	width:100%;	height:100%;background:rgba(0, 0, 0, 0.7);	display:none;z-index:20000;}
 #mcover img {position: fixed;right: 18px;top:5px;width: 260px;height: 180px;z-index:20001;}
+.index_fixed_4{
+  padding-top:4.5rem;
+}
+.index_fixed_2{
+  padding-top:2rem;
+}
