@@ -24,6 +24,10 @@
 			<entry title="网点管理" do="branch" state="" direct="false" />
 			<entry title="登录管理" do="login" state="" direct="false" />
 			<entry title="黑名单管理" do="blacklist" state="" direct="false" />
+			<entry title="联盟中介" do="alliance" state="" direct="false" />
+			<entry title="广告管理" do="ads" state="" direct="false" />
+			<entry title="用户须知" do="notices" state="" direct="false" />
+			<entry title="员工管理" do="staffs" state="" direct="false" />
 		</menu>
 	</bindings>
 	<install><![CDATA[install.php]]></install>

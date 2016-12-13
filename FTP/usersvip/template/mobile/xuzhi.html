@@ -20,11 +20,9 @@
         <p>使用须知</p>
     </div>
     <ul class="menu-link">
-        <li class="arrow-right"><a href="">平台公告</a></li>
-        <li class="arrow-right"><a href="">人才加盟</a></li>
-        <li class="arrow-right"><a href="">企业加盟</a></li>
-        <li class="arrow-right"><a href="">关于我们</a></li>
-        <li class="arrow-right"><a href="">用户协议</a></li>
+	{loop $list $li}
+        <li class="arrow-right"><a href="{php echo $this->createMobileUrl('xuzhi_info', array('id' => $li['id']))}">{$li['name']}</a></li>
+    {/loop}
     </ul>
     <div class="menu-list">
         <ul>

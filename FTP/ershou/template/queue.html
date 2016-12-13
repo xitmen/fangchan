@@ -1,4 +1,379 @@
 {template 'common/header'}
+<ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">二手房频道</a></li>
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('queue', array('op' => 'post'))}">添加预约</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('queue', array('op' => 'display'))}">管理预约</a></li>
+	<li style="float:right;padding-top: 3px;padding-right: 10px;">
+		<select id="top_province" class="span2">
+		<option value="">--省份--</option>
+		{loop $regions $it}
+			<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+		{/loop}
+		</select>
+		<select id="top_city" class="span2">
+			<option value="">--市--</option>
+			{loop $citys $city}
+			<option value="{$city['region_id']}" <?=$_GPC['city']==$city['region_id']?'selected':''?>>{$city['region_name']}</option>
+			{/loop}
+		</select>
+	</li>
+</ul>
+<script type="text/javascript" src="./source/modules/jiben/style/js/cookie.js"></script>
+<script>
+$('#top_province').change(function (){
+	$('#top_city').html('<option value="">--市--</option>');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#top_city').html(res);
+				$.cookie('province', id, '/');
+			}
+		});
+	}
+});
+$('#top_city').change(function (){
+	var id = $(this).val();
+	$.cookie('city', id, '/');
+	window.location.href = "<?=$_SERVER["REQUEST_URI"]?>&city="+id;
+});
+</script>
+{if $operation == 'post'}
+<style>
+.lis span{padding:5px 10px;border:1px solid #ccc;border-radius: 4px;margin-right: 10px;cursor:pointer}
+.lis .on{border:1px solid orange;background-color:orange;color:#fff;}
+.area_lis span{padding:5px 10px;border:1px solid #ccc;border-radius: 4px;margin-right: 10px;cursor:pointer}
+.area_lis .on{border:1px solid orange;background-color:orange;color:#fff;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<input type="hidden" name="data[zfyx]" id="zfyx" value="{$item['zfyx']}"/>
+		<input type="hidden" name="data[area_name]" id="area_name" value="{$item['area_name']}"/>
+		<input type="hidden" name="data[house_id]" id="house_id" value="{$item['house_id']}"/>
+		<h4>预约基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">购房意向</label></th>
+				<td class="lis">
+					<?php 
+					if(!empty($item['zfyx']))
+					{
+						$zfyx = explode(' ', $item['zfyx']);
+					}
+					?>
+					{loop $tags['types'] $k=>$v}
+						<span <?=in_array($v, $zfyx)?'class="on"':''?>>{$v}</span>
+					{/loop}
+					&nbsp;类型最多选3项
+				</td>
+			</tr>
+			<script>
+			$('.lis span').click(function (){
+				var cla = $(this).attr('class');
+				if(cla == 'on')
+				{
+					$(this).removeClass('on');
+				}
+				else
+				{
+					var len = $('.lis .on').size();
+					if(len < 3)
+					{
+						$(this).addClass('on');
+					}
+				}
+				var zfyx = '';
+				$(".lis .on").each(function(i){
+				   zfyx += ' '+$(this).html();
+				 });
+				 $('#zfyx').val(zfyx);
+			});
+			</script>
+			<tr>
+				<?php 
+					if(!empty($item['area_name']))
+					{
+						$area_name= explode(' ', $item['area_name']);
+					}
+					?>
+				<th><label for="">意向地区</label></th>
+				<td class="area_lis">
+					{loop $areas $area}
+					<span <?=in_array($area['region_name'], $area_name)?'class="on"':''?>>{$area['region_name']}</span>
+					{/loop}
+					&nbsp;类型最多选3项
+				</td>
+			</tr>
+			<script>
+			$('.area_lis span').click(function (){
+				var cla = $(this).attr('class');
+				if(cla == 'on')
+				{
+					$(this).removeClass('on');
+				}
+				else
+				{
+					var len = $('.area_lis .on').size();
+					if(len < 3)
+					{
+						$(this).addClass('on');
+					}
+				}
+				var area_name = '';
+				$(".area_lis .on").each(function(i){
+				   area_name += ' '+$(this).html();
+				 });
+				 $('#area_name').val(area_name);
+			});
+			</script>
+			<tr>
+				<td colspan="2">
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">客户姓名</label></th>
+				<td>
+					<input type="text" name="data[nickname]" class="span6" value="{$item['nickname']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">客户电话</label></th>
+				<td>
+					<input type="text" name="data[phone]" class="span6 fangdong_tel" value="{$item['phone']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">需求描述</label></th>
+				<td>
+					<textarea name="data[xuqiu]">{$item['xuqiu']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">意向户型</label></th>
+				<td>
+					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
+					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
+					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">意向面积</label></th>
+				<td>
+					<input type="text" name="data[min_mianji]" class="span1" value="{$item['min_mianji']}" />
+					&nbsp;平米&nbsp;-
+					<input type="text" name="data[max_mianji]" class="span1" value="{$item['max_mianji']}" />
+					&nbsp;平米
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">意向价位</label></th>
+				<td>
+					<input type="text" name="data[min_jiawei]" class="span1" value="{$item['min_jiawei']}" />
+					&nbsp;万&nbsp;
+					<input type="text" name="data[max_jiawei]" class="span1" value="{$item['max_jiawei']}" />
+					&nbsp;万
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">意向装修</label></th>
+				<td>
+					<select name="data[zhuangxiu]">
+						<option value="" ></option>
+						<option value="毛坯" <?=$item['zhuangxiu']=='毛坯'?'selected':''?>>毛坯</option>
+						<option value="简装" <?=$item['zhuangxiu']=='简装'?'selected':''?>>简装</option>
+						<option value="中装修" <?=$item['zhuangxiu']=='中装修'?'selected':''?>>中装修</option>
+						<option value="精装" <?=$item['zhuangxiu']=='精装'?'selected':''?>>精装</option>
+						<option value="豪华装修" <?=$item['zhuangxiu']=='豪华装修'?'selected':''?>>豪华装修</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">客户来源</label></th>
+				<td>
+					<select name="data[customer_source]" class="span2">
+						<option value="1" <?=$item['customer_source']=='1'?'selected':''?>>平台</option>
+						<option value="2" <?=$item['customer_source']=='2'?'selected':''?>>普通中介</option>
+						<option value="3" <?=$item['customer_source']=='3'?'selected':''?>>联盟中介</option>
+					</select>
+					&nbsp;
+					<input type="text" name="data[customer_number]" class="span6" value="{$item['customer_number']}" placeholder="备注：网点编号"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<hr>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">匹配房源</label></th>
+				<td>
+				<input type="text" name="data[house_number]" class="span6 house_number" value="{$item['house_number']}" placeholder="输入房源编号"/>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">房源类型</label></th>
+				<td id="type_html">
+				{$tags['types'][$item['type']]}
+				</td>
+				<input type="hidden" name="data[type]" id="type_val" value="{$item['type']}"/>
+			</tr>
+			<tr>
+				<th><label for="">匹配地区</label></th>
+				<td id="dizhi_name">
+				<?=$this->getRegion($item['province'])?> <?=$this->getRegion($item['city'])?> <?=$this->getRegion($item['area'])?>
+				</td>
+				<input type="hidden" name="data[province]" id="province_val" value="{$item['province']}"/>
+				<input type="hidden" name="data[city]" id="city_val" value="{$item['city']}"/>
+				<input type="hidden" name="data[area]" id="area_val" value="{$item['area']}"/>
+			</tr>
+			<tr>
+				<th><label for="">房源来源</label></th>
+				<td id="house_source_html">
+				{$item['house_source']}
+				</td>
+				<input type="hidden" name="data[house_source]" id="house_source_val" value="{$item['house_source']}"/>
+			</tr>
+			<tr>
+				<th><label for="">房东电话</label></th>
+				<td id="owner_tel_html">
+				{$item['owner_tel']}
+				</td>
+				<input type="hidden" name="data[owner_tel]" id="owner_tel_val" value="{$item['owner_tel']}"/>
+			</tr>
+			<tr>
+				<th><label for="">网点编号</label></th>
+				<td id="branch_number_html">
+				{$item['branch_number']}
+				</td>
+				<input type="hidden" name="data[branch_number]" id="branch_number_val" value="{$item['branch_number']}"/>
+			</tr>
+			<tr>
+				<th><label for="">看房中介</label></th>
+				<td>
+				<input type="text" name="data[mediation_info]" class="span6" value="{$item['mediation_info']}" placeholder="输入中介电话或网点编号"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<hr>
+				</td>
+			</tr>
+			
+			<tr>
+				<th><label for="">跟踪状态</label></th>
+				<td>
+					{loop $_STATUS $k=>$v}
+					<input type="radio" name="data[status]" value="{$k}" <?= $item['status'] == $k?'checked':''?>/>&nbsp;{$v}&nbsp;&nbsp;
+					{/loop}
+				</td>
+			</tr>
+			<tr>
+				<th>跟踪备注</th>
+				<td>
+					<textarea style="height:100px; width:300px;"  name="data[note]" placeholder='每次跟踪时间，结果情况及客服工号记录'>{$item['note']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">客服工号</label></th>
+				<td>
+					<input type="text" name="data[work_number]" class="span3" value="{$item['work_number']}" />
+				</td>
+			</tr>
+			
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+<script>
+$('.house_number').blur(function (){
+	var number = $(this).val();
+	$.ajax({
+		type: "post", 
+		url : "{php echo $this->createWebUrl('getHouse')}",
+		dataType:'json',
+		data: {number:number},
+		cache:false,
+		success: function(res){
+			if(res.type){
+				$('#type_html').html(res.type_name);
+				$('#type_val').val(res.type);
+			}
+			else{
+				$('#type_html').html('');
+				$('#type_val').val('');
+			}
+			
+			if(res.dizhi_name){
+				$('#dizhi_name').html(res.dizhi_name);
+			}
+			else{
+				$('#dizhi_name').html('');
+			}
+			if(res.province){
+				$('#province_val').val(res.province);
+			}
+			else{
+				$('#province_val').val('');
+			}
+			if(res.city){
+				$('#city_val').val(res.city);
+			}
+			else{
+				$('#city_val').val('');
+			}
+			if(res.area){
+				$('#area_val').val(res.area);
+			}
+			else{
+				$('#area_val').val('');
+			}
+			
+			if(res.source){
+				$('#house_source_html').html(res.source);
+				$('#house_source_val').val(res.source);
+			}
+			else{
+				$('#house_source_html').html('');
+				$('#house_source_val').val('');
+			}
+			
+			if(res.tel){
+				$('#owner_tel_html').html(res.tel);
+				$('#owner_tel_val').val(res.tel);
+			}
+			else{
+				$('#owner_tel_html').html('');
+				$('#owner_tel_val').val('');
+			}
+			
+			if(res.branch_num){
+				$('#branch_number_html').html(res.branch_num);
+				$('#branch_number_val').val(res.branch_num);
+			}
+			else{
+				$('#branch_number_html').html('');
+				$('#branch_number_val').val('');
+			}
+			$('#house_id').val(res.house_id);
+		}
+	});
+});
+</script>
+{elseif $operation == 'display'}
 <div class="main">
 	<div class="search">
 	<form action="{php echo $this->createWebUrl('queue', array('op' => 'display'))}" method="post">
@@ -7,24 +382,18 @@
 				<tr>
 					<th>搜素</th>
 					<td>
-						<input class="span3" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜索电话号码或租房意向">
-						<select name="province" id="province" class="span2">
-						<option value="">--省份--</option>
-						{loop $regions $it}
-							<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
-						{/loop}
+						<select name="source" class="span2">
+							<option value="">--客户来源--</option>
+							{loop $param['sources'] $k $v}
+							<option value="{$k}" <?=$_GPC['source'] == $k?'selected':''?>>{$v}</option>
+							{/loop}
 						</select>
-						<select name="city" id="city" class="span2">
-							<option value="">--市--</option>
-							{if $_GPC['city']}
-							<option value="{$_GPC['city']}" selected><?=$this->getRegion($_GPC['city'])?></option>
-							{/if}
-						</select>
-						<select name="area" id="area" class="span2">
-							<option value="">--区--</option>
-							{if $_GPC['area']}
-							<option value="{$_GPC['area']}" selected><?=$this->getRegion($_GPC['area'])?></option>
-							{/if}
+						<input class="span6" name="key" type="text" value="{$_GPC['key']}" placeholder="模糊搜索客户电话、中介信息、房源编号、网点编号、客服工号">
+						<select name="status" class="span2">
+							<option value="">--状态--</option>
+							{loop $_STATUS $k=>$v}
+								<option value="{$k}" <?=$_GPC['status'] == $k?'selected':''?>>{$v}</option>
+							{/loop}
 						</select>
 					</td>
 				</tr>
@@ -40,21 +409,44 @@
 		<table class="table table-hover">
 			<thead class="navbar-inner">
 				<tr>
-					<th style="width:15%;">电话号码</th>
-					<th style="width:15%;">租房意向</th>
-					<th style="width:20%;">地区</th>
-					<th style="width:40%;">需求</th>
-					<th style="text-align:right; width:10%;">操作</th>
+					<th style="width:5%;">匹配地区</th>
+					<th style="width:10%;">匹配类型</th>
+					<th style="width:5%;">客户称呼</th>
+					<th style="width:8%;">客户号码</th>
+					<th style="width:8%;">房东电话</th>
+					<th style="width:8%;">匹配房源编号</th>
+					<th style="width:8%;">网点编号</th>
+					<th style="width:8%;">看房中介</th>
+					<th style="width:8%;">房源来源</th>
+					<th style="width:8%;">客户来源</th>
+					<th style="width:8%;">登记日期</th>
+					<th style="width:5%;">跟踪状态</th>
+					<th style="width:8%;">客服工号</th>
+					<th style="text-align:right; width:8%;">操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				{loop $list $item}
 				<tr>
+					<td><?=$this->getRegion($item['area'])?></td>
+					<td>{$tags['types'][$item['type']]}</td>
+					<td>{$item['nickname']}</td>
 					<td>{$item['phone']}</td>
-					<td>{$item['zfyx']}</td>
-					<td><?=$this->getRegion($item['province'])?> <?=$this->getRegion($item['city'])?> <?=$this->getRegion($item['area'])?></td>
-					<td>{$item['xuqiu']}</td>
+					<td>{$item['owner_tel']}</td>
+					<td>{$item['house_number']}</td>
+					<td>{$item['branch_number']}</td>
+					<td>{$item['mediation_info']}</td>
+					<td>{$item['house_source']}</td>
+					<td>{$param['sources'][$item['customer_source']]}({$item['customer_number']})</td>
+					<td><?=date('Y/m/d',$item['update_time'])?></td>
+					<td>{$_STATUS[$item['status']]}</td>
+					<td>{$item['work_number']}</td>
 					<td style="text-align:right;">
+						{if $item['status'] == 1}
+						<a href="{php echo $this->createWebUrl('queue', array('id' => $item['id'], 'op' => 'post'))}">接单</a>&nbsp;&nbsp;
+						{else}
+						<a href="{php echo $this->createWebUrl('queue', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						{/if}
 						<a href="{php echo $this->createWebUrl('queue', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
 					</td>
 				</tr>
@@ -64,7 +456,6 @@
 		{$pager}
 	</div>
 </div>
-
 <script>
 $('#province').change(function (){
 	$('#city').html('<option value="">--市--</option>');
@@ -106,4 +497,5 @@ $('#city').change(function (){
 	}
 });
 </script>
+{/if}
 {template 'common/footer'}

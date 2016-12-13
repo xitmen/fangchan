@@ -53,28 +53,32 @@
 .item-list dl dd span {
   vertical-align: sub;
   margin-left: .5rem;
-  background-size: .8rem;
+  background-size: contain;
 }
 .item-list dl dd span.start {
-  background-image: url("/source/modules/baoxiang/asset/img/statr.png");
-  background-repeat: repeat-x;
+  background-repeat: no-repeat;
   display: inline-block;
   height: .8rem;
 }
 .item-list dl dd span.one {
   width: 0.8rem;
+  background-image: url("/source/modules/baoxiang/asset/img/statr.png");
 }
 .item-list dl dd span.two {
   width: 1.6rem;
+  background-image: url("/source/modules/baoxiang/asset/img/statr2.png");
 }
 .item-list dl dd span.three {
   width: 2.4rem;
+  background-image: url("/source/modules/baoxiang/asset/img/statr3.png");
 }
 .item-list dl dd span.four {
   width: 3.2rem;
+  background-image: url("/source/modules/baoxiang/asset/img/statr4.png");
 }
 .item-list dl dd span.five {
   width: 4rem;
+  background-image: url("/source/modules/baoxiang/asset/img/statr5.png");
 }
 .item-list dl dd span.six {
   width: 4.8rem;

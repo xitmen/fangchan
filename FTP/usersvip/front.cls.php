@@ -317,6 +317,8 @@ class UsersvipFrontModel extends WeModuleSite{
 	    global $_GPC, $_W;  //全局变量
 		(new check())->ckCity();
 		$city = pdo_fetch("SELECT region_name FROM ".tablename('ace_region')." where region_id=".$_COOKIE['city_id']." and status=1");
+		$topAds = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_ads')." where type=1 ORDER BY torder asc,id DESC");
+		$topBottom = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_ads')." where type=2 ORDER BY torder asc,id DESC");
 		include $this->template('index');
 	}
 	
@@ -437,27 +439,66 @@ class UsersvipFrontModel extends WeModuleSite{
 		{
 			message('您被拉入黑名单！');
 		}
+		//查看是不是联盟中介的成员
+		$alliance = pdo_fetch("SELECT * FROM ".tablename('ace_alliances_member')." WHERE openid = '".$_W['fans']['from_user']."'");
 		if($op == 'display')
 		{
 			$city_name = pdo_fetch("SELECT region_name FROM ".tablename('ace_region')." where region_id=".$_COOKIE['city_id']." and status=1");
 			$areas = pdo_fetchall("SELECT region_id,region_name FROM ".tablename('ace_region')." where parent_id=".$_COOKIE['city_id']." and status=1");
+			$tags = array('1' => '住宅','2' => '别墅','3' => '写字楼','4' => '商铺','5' => '商住两用');
 			include $this->template('ershou_publish');
 		}
 		else if($op == 'submit' && $this->repeatSubmit())
 		{
 			$data = $_GPC['data'];
+			$detail = $_GPC['detail'];
+			if(!empty($detail['photo']))
+			{
+				$photos = explode('|', $detail['photo']);
+				if(!empty($photos))
+				{
+					$photos_arr = array_filter($photos);
+					if(!empty($photos_arr))
+					{
+						$detail['photo'] = implode('|', $photos_arr);
+					}
+				}
+			}
 			if($data['type'] == 1)//住宅
 			{
-				//配套
-				$data['peitao'] = implode(' ', $_GPC['peitao']);
+				//特色
+				$detail['tese'] = implode(' ', $_GPC['tese']);
+			}
+			if(!empty($alliance))
+			{
+				$data['source'] = 3;
+				$data['a_id'] = $alliance['a_id'];
 			}
 			//标签
 			$data['tags'] = ','.implode(',', $_GPC['tags']).',';
 			$data['openid'] = $_W['fans']['from_user'];
 			$data['intime'] = time();
-			$data['tel'] = $member['mobile'];
+			$detail['tel'] = $member['mobile'];
 			$data['number'] = ComFunc::createOrderNo();
 			pdo_insert('ace_ershou_house', $data);
+			$detail['h_id'] = pdo_insertid();
+			//匹配网点
+			$where = ' where province = '.$data['province'];
+			if($data['city'])
+			{
+				$where .= ' and city = '.$data['city'];
+				if($data['area'])
+				{
+					$where .= ' and area = '.$data['area'];
+				}
+			}
+			$where .= " and including_community like '%".$data['name']."%'";
+			$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." ".$where." order by id asc");
+			if(!empty($branch))
+			{
+				$detail['branch_id'] = $branch['id'];
+			}
+			pdo_insert('ace_ershou_house_details', $detail);
 			message('提交成功！', $this->createMobileUrl('index'), 'success');
 		}
 	}
@@ -481,27 +522,67 @@ class UsersvipFrontModel extends WeModuleSite{
 		{
 			message('您被拉入黑名单！');
 		}
+		//查看是不是联盟中介的成员
+		$alliance = pdo_fetch("SELECT * FROM ".tablename('ace_alliances_member')." WHERE openid = '".$_W['fans']['from_user']."'");
 		if($op == 'display')
 		{
 			$city_name = pdo_fetch("SELECT region_name FROM ".tablename('ace_region')." where region_id=".$_COOKIE['city_id']." and status=1");
 			$areas = pdo_fetchall("SELECT region_id,region_name FROM ".tablename('ace_region')." where parent_id=".$_COOKIE['city_id']." and status=1");
+			$tags = array('1' => '住宅','2' => '别墅','3' => '写字楼','4' => '商铺','5' => '商住两用');
 			include $this->template('chuzu_publish');
 		}
 		else if($op == 'submit')
 		{
 			$data = $_GPC['data'];
+			$detail = $_GPC['detail'];
+			if(!empty($detail['photo']))
+			{
+				$photos = explode('|', $detail['photo']);
+				if(!empty($photos))
+				{
+					$photos_arr = array_filter($photos);
+					if(!empty($photos_arr))
+					{
+						$detail['photo'] = implode('|', $photos_arr);
+					}
+				}
+			}
 			if($data['type'] == 1)//住宅
 			{
 				//配套
-				$data['peitao'] = implode(' ', $_GPC['peitao']);
+				$detail['peitao'] = implode(' ', $_GPC['peitao']);
+			}
+			if(!empty($alliance))
+			{
+				$data['source'] = 3;
+				$data['a_id'] = $alliance['a_id'];
 			}
 			//标签
 			$data['tags'] = ','.implode(',', $_GPC['tags']).',';
 			$data['openid'] = $_W['fans']['from_user'];
 			$data['intime'] = time();
-			$data['tel'] = $member['mobile'];
+			$detail['tel'] = $member['mobile'];
 			$data['number'] = ComFunc::createOrderNo();
 			pdo_insert('ace_chuzu_house', $data);
+			$detail['h_id'] = pdo_insertid();
+			//匹配网点
+			$where = ' where province = '.$data['province'];
+			if($data['city'])
+			{
+				$where .= ' and city = '.$data['city'];
+				if($data['area'])
+				{
+					$where .= ' and area = '.$data['area'];
+				}
+			}
+			$where .= " and including_community like '%".$data['name']."%'";
+			$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." ".$where." order by id asc");
+			if(!empty($branch))
+			{
+				$detail['branch_id'] = $branch['id'];
+			}
+			pdo_insert('ace_chuzu_house_details', $detail);
+			
 			message('提交成功！', $this->createMobileUrl('index'), 'success');
 		}
 	}
@@ -511,7 +592,41 @@ class UsersvipFrontModel extends WeModuleSite{
 	{
 	    global $_GPC, $_W;  //全局变量
 		(new check())->ckCity();
+		checkauth();
+		$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_notices')."  ORDER BY torder asc,id DESC");
 		include $this->template('xuzhi');
+	}
+	//使用须知
+    public function doMobileXuzhi_info()
+	{
+	    global $_GPC, $_W;  //全局变量
+		(new check())->ckCity();
+		checkauth();
+		if($_GPC['id'])
+		{
+			$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiben_notices')."  where id=".$_GPC['id']);
+		}
+		else
+		{
+			message('您迷路了，请原路返回吧！');
+		}
+		include $this->template('xuzhi_info');
+	}
+	//广告详情
+    public function doMobileAds_info()
+	{
+	    global $_GPC, $_W;  //全局变量
+		(new check())->ckCity();
+		checkauth();
+		if($_GPC['id'])
+		{
+			$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiben_ads')."  where id=".$_GPC['id']);
+		}
+		else
+		{
+			message('您迷路了，请原路返回吧！');
+		}
+		include $this->template('ads_info');
 	}
 	//投诉评价
     public function doMobileTousu()
@@ -566,14 +681,240 @@ class UsersvipFrontModel extends WeModuleSite{
 	{
 	    global $_GPC, $_W;  //全局变量
 		checkauth();
-		include $this->template('myguanzhu');
+		$op = $_GPC['op']?$_GPC['op']:'display';
+		if($op == 'display')
+		{
+			$where = " where a.openid='".$_W['fans']['from_user']."'";
+			
+			//查询我关注的二手房
+			$list1s = pdo_fetchall("SELECT e.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_ershou_house')." e ".$where." and a.type = 1 and a.s_id = e.id ORDER BY a.id DESC");
+			$total1 = count($list1s);
+			
+			//查询我关注的出租房
+			$list2s = pdo_fetchall("SELECT c.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_chuzu_house')." c ".$where." and a.type = 2 and a.s_id = c.id ORDER BY a.id DESC");
+			$total2 = count($list2s);
+			
+			//查询我关注的新房
+			$list3s = pdo_fetchall("SELECT n.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_new_house')." n ".$where." and a.type = 3 and a.s_id = n.id ORDER BY a.id DESC");
+			$total3 = count($list3s);
+			
+			//查询我关注的家政
+			$list4s = pdo_fetchall("SELECT j.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_jiazheng_service')." j ".$where." and a.type = 4 and a.s_id = j.id ORDER BY a.id DESC");
+			$total4 = count($list4s);
+			
+			//查询我关注的上门
+			$list5s = pdo_fetchall("SELECT s.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_shangmen_merchant')." s ".$where." and a.type = 5 and a.s_id = s.id ORDER BY a.id DESC");
+			$total5 = count($list5s);
+			
+			//查询我关注的包厢
+			$list6s = pdo_fetchall("SELECT b.*,a.url,a.id FROM ".tablename('ace_attention')." a,".tablename('ace_baoxiang_resource')." b ".$where." and a.type = 6 and a.s_id = b.id ORDER BY a.id DESC");
+			$total6 = count($list6s);
+			
+			include $this->template('myguanzhu');
+		}
+		else if($op == 'quxiao')
+		{
+			$id = $_GPC['id'];
+			if($id)
+			{
+				$f = pdo_delete('ace_attention', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+				echo $f;
+			}
+			else
+			{
+				echo 0;
+			}
+		}
 	}
 	//我的发布
     public function doMobileMyfabu()
 	{
 	    global $_GPC, $_W;  //全局变量
 		checkauth();
-		include $this->template('myfabu');
+		$op = $_GPC['op']?$_GPC['op']:'display';
+		if($op == 'display')
+		{
+			$where = " where openid='".$_W['fans']['from_user']."'";
+			//查询我发布的二手房
+			$list1s = pdo_fetchall("SELECT * FROM ".tablename('ace_ershou_house').$where." ORDER BY id DESC");
+			$total1 = count($list1s);
+			
+			//查询我发布的出租房
+			$list2s = pdo_fetchall("SELECT * FROM ".tablename('ace_chuzu_house').$where." ORDER BY id DESC");
+			$total2 = count($list2s);
+			
+			//查询我发布的新房
+			//$list3s = pdo_fetchall("SELECT * FROM ".tablename('ace_new_house').$where." ORDER BY id DESC");
+			//$total3 = count($list3s);
+			
+			//查询我发布的简历
+			$list4s = pdo_fetchall("SELECT * FROM ".tablename('ace_jiazheng_resume').$where." ORDER BY id DESC");
+			$total4 = count($list4s);
+			
+			//查询我发布的上门维修
+			$list5s = pdo_fetchall("SELECT * FROM ".tablename('ace_shangmen_merchant').$where." ORDER BY id DESC");
+			$total5 = count($list5s);
+			
+			//查询我发布的包厢
+			$list6s = pdo_fetchall("SELECT * FROM ".tablename('ace_baoxiang_resource').$where." ORDER BY id DESC");
+			$total6 = count($list6s);
+			$xing = array('1' => 'one','2' => 'two','3' => 'three','4' => 'four','5' => 'five');
+			
+			include $this->template('myfabu');
+		}
+		else if($op == 'xiajia')
+		{
+			$type = $_GPC['type'];
+			$id = $_GPC['id'];
+			$data['status'] = '-1';
+			if($type == 1)
+			{
+				pdo_update('ace_ershou_house', $data, array('id' => $id, 'openid'=>$_W['fans']['from_user']));
+				echo 1;
+			}
+			else if($type == 2)
+			{
+				pdo_update('ace_chuzu_house', $data, array('id' => $id, 'openid'=>$_W['fans']['from_user']));
+				echo 1;
+			}
+			else if($type == 3)
+			{
+				//pdo_update('ace_jiazheng_resume', $data, array('id' => $id, 'openid'=>$_W['fans']['from_user']));
+			}
+			else if($type == 4)
+			{
+				pdo_update('ace_shangmen_merchant', ['status'=>2], array('id' => $id, 'openid'=>$_W['fans']['from_user']));
+				echo 1;
+			}
+			
+			else if($type == 5)
+			{
+				pdo_update('ace_baoxiang_resource', $data, array('id' => $id, 'openid'=>$_W['fans']['from_user']));
+				echo 1;
+			}
+			else
+			{
+				echo 0;
+			}
+		}
+	}
+	
+	//我的预约
+	public function doMobileMyyuyue()
+	{
+		global $_GPC, $_W;  //全局变量
+		checkauth();
+		$op = $_GPC['op']?$_GPC['op']:'display';
+		if($op == 'display')
+		{
+			$where = " where a.openid='".$_W['fans']['from_user']."'";
+			
+			//查询我预约的二手房
+			$list1s = pdo_fetchall("SELECT e.*,a.id as aid FROM ".tablename('ace_ershou_queue')." a,".tablename('ace_ershou_house')." e ".$where." and e.id = a.house_id  ORDER BY a.id DESC");
+			$total1 = count($list1s);
+			
+			//查询我预约的出租房
+			$list2s = pdo_fetchall("SELECT c.*,a.id as aid FROM ".tablename('ace_chuzu_queue')." a,".tablename('ace_chuzu_house')." c ".$where." and c.id = a.house_id ORDER BY a.id DESC");
+			$total2 = count($list2s);
+			
+			//查询我预约的新房
+			$list3s = pdo_fetchall("SELECT * FROM ".tablename('ace_new_msg')." where openid='".$_W['fans']['from_user']."'  ORDER BY id DESC");
+			$typs = array('1'=>'开盘通知','2'=>'变价通知','3'=>'优惠通知');
+			$total3 = count($list3s);
+			
+			//查询我预约的家政
+			$list4s = pdo_fetchall("SELECT * FROM ".tablename('ace_jiazheng_look')." where openid='".$_W['fans']['from_user']."'  ORDER BY id DESC");
+			$total4 = count($list4s);
+			
+			include $this->template('myyuyue');
+		}
+		else if($op == 'quxiao')
+		{
+			$id = $_GPC['id'];
+			$type = $_GPC['type'];
+			if($id)
+			{
+				if($type == 1)
+				{
+					$f = pdo_delete('ace_ershou_queue', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+					echo $f;
+				}
+				else if($type == 2)
+				{
+					$f = pdo_delete('ace_chuzu_queue', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+					echo $f;
+				}
+				else if($type == 3)
+				{
+					$f = pdo_delete('ace_new_msg', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+					echo $f;
+				}
+				else if($type == 4)
+				{
+					$f = pdo_delete('ace_jiazheng_look', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+					echo $f;
+				}
+				else
+				{
+					echo 0;
+				}
+			}
+			else
+			{
+				echo 0;
+			}
+		}
+	}
+	//我的投诉
+	public function doMobileMytousu()
+	{
+		global $_GPC, $_W;  //全局变量
+		checkauth();
+		$op = $_GPC['op']?$_GPC['op']:'display';
+		if($op == 'display')
+		{
+			$where = " where openid='".$_W['fans']['from_user']."'";
+			
+			//查询通过处理的投诉
+			$list1s = pdo_fetchall("SELECT * FROM ".tablename('ace_tousu_pingjia')." ".$where." and status = 1");
+			$total1 = count($list1s);
+			
+			//查询未通过处理的投诉
+			$list2s = pdo_fetchall("SELECT * FROM ".tablename('ace_tousu_pingjia')." ".$where." and status = -1");
+			$total2 = count($list2s);
+			include $this->template('mytousu');
+		}
+		else if($op == 'del')
+		{
+			$id = $_GPC['id'];
+			if($id)
+			{
+
+				$f = pdo_delete('ace_tousu_pingjia', array('id' => $id,'openid' =>$_W['fans']['from_user']));
+				echo $f;
+			}
+			else
+			{
+				echo 0;
+			}
+		}
+	}
+	//我的投诉
+	public function doMobileHongbao()
+	{
+		global $_GPC, $_W;  //全局变量
+		checkauth();
+		include $this->template('hongbao');
+	}
+	
+	public function getRegion($id)
+	{
+		global $_GPC, $_W;
+		if($id)
+		{
+			$region = pdo_fetch("SELECT region_name FROM ".tablename('ace_region')." where region_id=".$id." and status=1");
+			return $region['region_name'];
+		}
 	}
 	 /**
 	 * 手机短信通知接口

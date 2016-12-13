@@ -24,6 +24,14 @@ class JiazhengModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if ($operation == 'post')
 		{
 			$id = intval($_GPC['id']);
@@ -118,6 +126,14 @@ class JiazhengModule extends WeModule {
 			message('排序成功！', referer(), 'success');
 		}
 		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
 		include $this->template('service');	
 	}
 	
@@ -202,6 +218,14 @@ class JiazhengModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if($operation == 'display')
 		{
 			$pindex = max(1, intval($_GPC['page']));
@@ -209,7 +233,7 @@ class JiazhengModule extends WeModule {
 			$where = ' where 1 ';
 			if($_GPC['key'])
 			{
-				$where .= " and (name like '%".$_GPC['key']."%' or xueli like '%".$_GPC['key']."%' or gzjy like '%".$_GPC['key']."%' or gangwei like '".$_GPC['key']."')";
+				$where .= " and (name like '%".$_GPC['key']."%' or xiaoqu like '%".$_GPC['key']."%' or phone like '%".$_GPC['key']."%' or kf_code like '".$_GPC['key']."' or gangwei like '".$_GPC['key']."')";
 			}
 			if($_GPC['province'])
 			{
@@ -223,6 +247,19 @@ class JiazhengModule extends WeModule {
 			{
 				$where .= " and area = ".$_GPC['area'];
 			}
+			if($_GPC['sex'])
+			{
+				$where .= " and sex = '".$_GPC['sex']."'";
+			}
+			if($_GPC['jn'])
+			{
+				$where .= " and jn = '".$_GPC['jn']."'";
+			}
+			if($_GPC['status'])
+			{
+				$where .= " and status = ".$_GPC['status'];
+			}
+			
 			if($_GPC['BeginDate'])
 			{
 				$where .= " and BeginDate >= ".strtotime($_GPC['BeginDate']);
@@ -234,20 +271,30 @@ class JiazhengModule extends WeModule {
 			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiazheng_resume')." ".$where." ORDER BY  id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_jiazheng_resume')." ".$where);
 			$pager = pagination($total, $pindex, $psize);
-			$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+			$status = array('1' => '待撮合','2' => '撮合中','3' => '乙方上岗','4' => '他方上岗','5' => '待发布','6' => '暂下架');
 		}
 		else if ($operation == 'post')
 		{
 			$id = $_GPC['id'];
-			$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiazheng_resume')." WHERE id = :id" , array(':id' => $id));
-			if (empty($item)) {
-				message('抱歉，信息不存在或是已经删除！', '', 'error');
+			if($id)
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiazheng_resume')." WHERE id = :id" , array(':id' => $id));
+				if (empty($item)) {
+					message('抱歉，信息不存在或是已经删除！', '', 'error');
+				}
 			}
 			if (checksubmit('submit'))
 			{
 			    $data = $_GPC['data'];
 				$data['BeginDate'] = strtotime($_GPC['BeginDate']);
 				$data['EndDate'] = strtotime($_GPC['EndDate']);
+				if (!empty($_FILES['pic']['tmp_name'])) {
+					$upload = file_upload($_FILES['pic']);
+					if (is_error($upload)) {
+						message($upload['message'], '', 'error');
+					}
+					$data['pic'] = $_W['attachurl'].$upload['path'];
+				}
 				if (empty($id))
 				{
 					pdo_insert('ace_jiazheng_resume', $data);
@@ -269,6 +316,15 @@ class JiazhengModule extends WeModule {
 			pdo_delete('ace_jiazheng_resume', array('id' => $id));
 			message('删除成功！', referer(), 'success');
 		}
+		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
 		include $this->template('resume');	
 	}
 	/**
@@ -278,6 +334,14 @@ class JiazhengModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if($operation == 'display')
 		{
 			$pindex = max(1, intval($_GPC['page']));
@@ -285,7 +349,7 @@ class JiazhengModule extends WeModule {
 			$where = ' where 1 ';
 			if($_GPC['key'])
 			{
-				$where .= " and (fwxm like '%".$_GPC['key']."%' or phone like '%".$_GPC['key']."%')";
+				$where .= " and (ay_tel like '%".$_GPC['key']."%' or gzdh like '%".$_GPC['key']."%' or wd_num like '%".$_GPC['key']."%' or code like '%".$_GPC['key']."%')";
 			}
 			if($_GPC['province'])
 			{
@@ -299,11 +363,41 @@ class JiazhengModule extends WeModule {
 			{
 				$where .= " and area = ".$_GPC['area'];
 			}
+			
+			if($_GPC['status'])
+			{
+				$where .= " and status = ".$_GPC['status'];
+			}
 			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiazheng_look')." ".$where." ORDER BY  id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_jiazheng_look')." ".$where);
 			$pager = pagination($total, $pindex, $psize);
-			$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+			$status = array('1' => '待撮合','2' => '撮合中','3' => '乙方成交','4' => '他方成交','5' => '待发布','6' => '暂下架');
 		}
+		else if ($operation == 'post')
+		{
+			$id = intval($_GPC['id']);
+			if($id)
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiazheng_look')." WHERE id = :id" , array(':id' => $id));
+				if (empty($item)) {
+					message('抱歉，信息不存在或是已经删除！', '', 'error');
+				}
+			}
+			if (checksubmit('submit'))
+			{
+			    $data = $_GPC['data'];
+				$data['update_time'] = time();
+				if (empty($id))
+				{
+					pdo_insert('ace_jiazheng_look', $data);
+				} 
+				else
+				{
+					pdo_update('ace_jiazheng_look', $data, array('id' => $id));
+				}
+				message('信息更新成功！', $this->createWebUrl('look', array('op' => 'display')), 'success');
+			}
+		} 
 		elseif($operation == 'delete')
 		{
 			$id = intval($_GPC['id']);
@@ -313,6 +407,15 @@ class JiazhengModule extends WeModule {
 			}
 			pdo_delete('ace_jiazheng_look', array('id' => $id));
 			message('删除成功！', referer(), 'success');
+		}
+		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
 		}
 		include $this->template('look');	
 	}
@@ -340,5 +443,40 @@ class JiazhengModule extends WeModule {
 			$region = pdo_fetch("SELECT region_name FROM ".tablename('ace_region')." where region_id=".$id." and status=1");
 			return $region['region_name'];
 		}
+	}
+	//获取网点
+	public function doGetWangdian()
+	{
+		global $_GPC, $_W;
+		$xiaoqu = $_GPC['xiaoqu'];
+		$province = $_GPC['province'];
+		$city = $_GPC['city'];
+		$area = $_GPC['area'];
+		$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." where province=".$province." and city=".$city." and area=".$area." and including_community like '%".$xiaoqu."%'");
+		if(!empty($branch))
+		{
+			echo $branch['number'];
+		}
+		else
+		{
+			echo '';
+		}
+	}
+	//获取简历
+	public function doGetAy()
+	{
+		global $_GPC, $_W;
+		$tel = $_GPC['tel'];
+		$resume = pdo_fetch("SELECT * FROM ".tablename('ace_jiazheng_resume')." where phone like '%".$tel."%'");
+		$data = array();
+		$data['res'] = 0;
+		if(!empty($resume))
+		{
+			$data['res'] = 1;
+			$data['name'] = $resume['name'];
+			$data['source'] = $resume['source'].$resume['source_num'];
+		}
+		return json_encode($data);
+		//var_dump(json_encode($data));
 	}
 }

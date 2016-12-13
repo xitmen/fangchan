@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">二手房频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('photo', array('op' => 'post', 'id' => $id))}">添加相册</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $id))}">相册管理</a></li>
 	<li><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">房源管理</a></li>
@@ -47,13 +48,16 @@
 			</thead>
 			<tbody>
 				{loop $list $v}
+				{if $v != ''}
 				<tr>
 					<td>{$item['name']}</td>
 					<td><img src="{$v}" style="width:220px;"></td>
 					<td style="text-align:right;">
+					<a href="{php echo $v}" target="_blank">下载</a>&nbsp;
 						<a href="{php echo $this->createWebUrl('photo', array('id' => $item['id'], 'op' => 'delete', 'url' => $v))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
 					</td>
 				</tr>
+				{/if}
 				{/loop}
 			</tbody>
 		</table>

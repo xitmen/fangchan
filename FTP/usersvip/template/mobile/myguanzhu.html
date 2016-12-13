@@ -13,6 +13,11 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
     <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
     <style type="text/css">
         .menu-link li.down-right {
             background-image: url("./source/modules/usersvip/style/img/donw-arrow.jpg");
@@ -29,86 +34,108 @@
             <p>我的关注</p>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">二手房（2）</a></li>
+            <ul class="menu-link" id="1">
+                <li class="arrow-right"><a href="">二手房（<span class="t1">{$total1}</span>）</a></li>
             </ul>
-            <div class="item-list">
-                <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">东湖大郡五期</dd>
-                    <dd class="info">姑苏区 苏胜路榭雨街66号</dd>
-                    <dd class="info">2室1厅1卫 85㎡<span class="right">底层/23F</span></dd>
-                    <dd class="price">售价<em>230</em>万</dd>
-                    <dd><a href="#" class="close-btn">&Chi;</a></dd>
-                </dl>
+            <div class="item-list item1">
+			{loop $list1s $list1}
+				<dl class="del{$list1['id']}">
+					<a href="{$list1['url']}">
+						<dt><img src="{$list1['pic']}" /></dt>
+						<dd class="title">{$list1['name']}</dd>
+						<dd class="info"><?=$this->getRegion($list1['area'])?> {$list1['dizhi']}</dd>
+						<dd class="info">{$list1['shi']}室{$list1['ting']}厅{$list1['wei']}卫 {$list1['pingfang']}㎡<span class="right">{$list1['louceng']}/{$list1['zongceng']}F</span></dd>
+						<dd class="price">售价<em>{$list1['jiage']}</em>万</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list1['id']}" data-type="1">取消</a></dd>
+				</dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">出租房（0）</a></li>
+            <ul class="menu-link" id="2">
+                <li class="arrow-right"><a href="">出租房（<span class="t2">{$total2}</span>）</a></li>
             </ul>
-            <div class="item-list">
-                <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">东湖大郡五期</dd>
-                    <dd class="info">姑苏区 苏胜路榭雨街66号</dd>
-                    <dd class="info">2室1厅1卫 85㎡<span class="right">底层/23F</span></dd>
-                    <dd class="price">租金<em>3300</em>元/月</dd>
-                    <dd><a href="#" class="close-btn">&Chi;</a></dd>
+            <div class="item-list item2">
+			{loop $list2s $list2}
+                <dl class="del{$list2['id']}">
+					<a href="{$list2['url']}">
+						<dt><img src="{$list2['pic']}" /></dt>
+						<dd class="title">{$list2['name']}</dd>
+						<dd class="info"><?=$this->getRegion($list2['area'])?> {$list2['dizhi']}</dd>
+						<dd class="info">{$list2['shi']}室{$list2['ting']}厅{$list2['wei']}卫 {$list2['pingfang']}㎡<span class="right">{$list2['louceng']}/{$list2['zongceng']}F</span></dd>
+						<dd class="price">租金<em>{$list2['zujin']}</em>元/月</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list2['id']}" data-type="2">取消</a></dd>
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">新房（2）</a></li>
+            <ul class="menu-link" id="3">
+                <li class="arrow-right"><a href="">新房（<span class="t3">{$total3}</span>）</a></li>
             </ul>
-            <div class="new-item-list">
-                <dl>
-                    <dt><img src="img/temp.png" /></dt>
-                    <dd class="title">齐门人家<span>精装</span></dd>
-                    <dd class="info">1-3室&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70-150㎡</dd>
-                    <dd class="info">姑苏区 苏站路418号</dd>
-                    <dd class="price"><em>23000</em>元/㎡</dd>
-                    <dd><a href="#" class="close-btn">&Chi;</a></dd>
+            <div class="new-item-list item3">
+			{loop $list3s $list3}
+                <dl class="del{$list3['id']}">
+					<a href="{$list3['url']}">
+						<dt><img src="{$list3['pic']}" /></dt>
+						<dd class="title">{$list3['name']}<span>{$list3['zunagxiu']}</span></dd>
+						<dd class="info">{$list3['guige']}室&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$list3['daxiao']}㎡</dd>
+						<dd class="info"><?=$this->getRegion($list3['area'])?> {$list3['dizhi']}</dd>
+						<dd class="price"><em>{$list3['jiage']}</em>元/㎡</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list3['id']}" data-type="3">取消</a></dd>
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">家政公司（1）</a></li>
+            <ul class="menu-link" id="4">
+                <li class="arrow-right"><a href="">家政公司（<span class="t4">{$total4}</span>）</a></li>
             </ul>
-            <div class="item-list jia-zheng">
-                <dl>
-                    <dd class="title">东湖大郡五期</dd>
-                    <dd class="info">地址：姑苏区干将西楼23号</dd>
-                    <dd class="info">电话：400-3728-405</dd>
-                    <dd><a href="#" class="close-btn">&Chi;</a></dd>
+            <div class="item-list jia-zheng item4">
+			{loop $list4s $list4}
+                <dl class="del{$list4['id']}">
+					<a href="{$list4['url']}">
+						<dd class="title">{$list4['name']}</dd>
+						<dd class="info">地址：{$list4['address']}</dd>
+						<dd class="info">电话：{$list4['tel']}</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list4['id']}" data-type="4">取消</a></dd>
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">上门维修（1）</a></li>
+            <ul class="menu-link" id="5">
+                <li class="arrow-right"><a href="">上门维修（<span class="t5">{$total5}</span>）</a></li>
             </ul>
-            <div class="item-list new-list">
-                <dl>
-                    <dd class="title">瑞森特拖车有限公司<span class="c-icon"></span><span class="v-icon"></span></dd>
-                    <dd class="info">地址：姑苏区干将西楼23号</dd>
-                    <dd class="info">电话： 0512-67700688</dd>
+            <div class="item-list new-list item5">
+			{loop $list5s $list5}
+                <dl class="del{$list5['id']}">
+                    <dd class="title">{$list5['name']}<span class="c-icon"></span><span class="v-icon"></span></dd>
+                    <dd class="info">地址：{$list5['address']}</dd>
+                    <dd class="info">电话： {$list5['tel']}</dd>
+					<dd><a class="close-btn" data-id="{$list5['id']}" data-type="5">取消</a></dd>
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
-            <ul class="menu-link">
-                <li class="arrow-right"><a href="">包厢预订（3）</a></li>
+            <ul class="menu-link" id="6">
+                <li class="arrow-right"><a href="">包厢预订（<span class="t6">{$total6}</span>）</a></li>
             </ul>
-            <div class="item-list">
-                <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">姑苏饭店<span class="start two"></span></dd>
-                    <dd class="info">姑苏区十全街相王路133</dd>
-                    <dd class="info">电话： 0512-67700688</dd>
+            <div class="item-list item6">
+			{loop $list6s $list6}
+                <dl class="del{$list6['id']}">
+                    <dt><img src="{$list6['pic']}" /></dt>
+                    <dd class="title">{$list6['name']}<span class="start two"></span></dd>
+                    <dd class="info"><?=$this->getRegion($list6['area'])?> {$list6['dizhi']}</dd>
+                    <dd class="info">电话： {$list6['tel']}</dd>
+					<dd><a class="close-btn" data-id="{$list6['id']}" data-type="6">取消</a></dd>
                 </dl>
+				{/loop}
             </div>
         </div>
         <div class="menu-list">
@@ -116,7 +143,7 @@
                  <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
 				<li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
 				<li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
-				<li><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+				<li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
             </ul>
         </div>
     </div>
@@ -131,13 +158,43 @@
     </div>-->
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
+<script>
+$(".close-btn").click(function(){
+	var id = $(this).attr('data-id');
+	var type = $(this).attr('data-type');
+	var dialog = jDialog.confirm('确定取消关注吗！',{
+		handler : function(button,dialog) {
+			dialog.close();
+			bk(id, type);
+		}
+	},{
+		handler : function(button,dialog) {
+			dialog.close();
+		}
+	});
+});
+function bk(id, type)
+{
+	var data={op:'quxiao',id:id};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "mobile.php?act=module&name=usersvip&do=myguanzhu&weid={$_W['weid']}",
+		dataType: "html",
+		success: function(res){
+			if(res == 1){
+				$('.del'+id).remove();
+				var v = Number($('.t'+type).html());
+				$('.t'+type).html(v-1);
+			}
+			else{
+				jDialog.message('取消关注失败',{
+					autoClose : 3000,    // 3s后自动关闭
+					padding : '30px',    // 设置内部padding
+					modal: true         // 非模态，即不显示遮罩层
+				});
+			}
+		}
+	});
+}
+</script>

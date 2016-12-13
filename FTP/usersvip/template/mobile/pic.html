@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/diyUpload.css">
+    <script type="text/javascript" src="/diyUpload/js/webuploader.html5only.min.js"></script>
+    <script type="text/javascript" src="/diyUpload/js/diyUpload.js"></script>
+</head>
+<style>
+#box{ margin:50px auto; width:540px; min-height:400px; background:#FF9}
+</style>
+<body>
+	<div id="box">
+        <div id="test"></div>
+    </div>
+    <div id="pic">
+        <input type="hidden" value="" class="pics">
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+$('#test').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics').val();
+        $('.pics').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:2,
+    fileSizeLimit:2 * 500 * 1024,
+    fileSingleSizeLimit:500 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#test',
+        label:"选择图片"
+    }
+});
+</script>

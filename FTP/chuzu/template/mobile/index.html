@@ -15,12 +15,12 @@
     <script src="./source/modules/ershou/asset/js/base.js?_=v1.1"></script>
 	<script src="./source/modules/ershou/asset/js/jquery.lazyload.min.js" type="text/javascript"></script>
 </head>
-<body>
+<body class="index_fixed_4">
     <div class="top-title">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
-        <span>出租房</span>
         <div class="top-search">
-            <input type="text" placeholder="输入小区名称搜索" name="key" value="{$key}">
+            <input type="text" placeholder="输入小区名称或房源编号搜索" name="key" value="{$key}">
+			<button>搜索</button>
         </div>
     </div>
     <div class="search-box">
@@ -51,9 +51,6 @@
 				{/loop}
             </dl>
 			{/loop}
-			{if $type == 1}
-            <p>注：房源在整栋楼中所处的位置（例如：6层以下为低区，7-15层为中区，15层以上为高区。）</p>
-			{/if}
 			<input type="hidden" value="{$tag}" id="tegs" autocomplete="off">
             <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" class="yellow-btn" style="margin-bottom: 68px;">确认</a>
         </div>
@@ -63,27 +60,39 @@
 		{loop $items $item}
 		<a href="{php echo $this->createMobileUrl('info', array('id' => $item['id']))}">
         <dl>
-            <dt><img data-original="{$item['pic']}" class="lazy" /></dt>
-            <dd class="title">{$item['name']} (<?=substr($item['number'], -8)?>)</dd>
-            <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+            <dt><img data-original="{$item['pic']}" class="lazy" />
+				{if $item['source'] == 1}
+				<span>平台</span>
+				{else if $item['source'] == 2}
+				<span>普通中介</span>
+				{else}
+				<span>联盟:{$all_arrs[$item['a_id']]}</span>
+				{/if}
+			</dt>
+            <dd class="title">{$item['name']} <span>编号<?=substr($item['number'], -8)?></span></dd>
+            <dd class="info">【<?=$this->getRegion($item['area'])?>】 
+			{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5 ||  $item['type'] == 1 }
+			<?=$item['louceng']?>/<?=$item['zongceng']?>F
+			{/if}
+			</dd>
 			{if $item['type'] == 1}
-            <dd class="info">{$item['shi']}室{$item['ting']}厅{$item['wei']}卫 {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+            <dd class="info">{$item['shi']}室{$item['ting']}厅{$item['wei']}卫 {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
 			{/if}
 			{if $item['type'] == 2}
-            <dd class="info">{$item['xingshi']} {$item['woshi']}个卧室<span class="right">{$item['pingfang']}㎡</span></dd>
+            <dd class="info">{$item['xingshi']} {$item['woshi']}个卧室 {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
 			{/if}
 			{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
-            <dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+            <dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
 			{/if}
-            <dd class="price">售价<em>{$item['jiage']}</em>万</dd>
+			<dd class="desc">{$item['miaoshu']}</dd>
         </dl>
 		</a>
         {/loop}
     </div>
     <div class="tips">
         <i><img data-original="./source/modules/ershou/asset/img/icon1.png" class="lazy" /></i>
-        有意向房源立即通知你
-        <a href="{php echo $this->createMobileUrl('dingzhi', array('city_id' => $city_id, 'area_id' => $area_id))}">立即定制</a>
+        我是房管家，"淘"房就找我！
+        <a href="{php echo $this->createMobileUrl('dingzhi', array('city_id' => $city_id, 'area_id' => $area_id))}">帮我淘房</a>
     </div>
 </body>
 </html>
@@ -105,6 +114,7 @@
 		   }
 		 });
 		 $('#tegs').val(str);
+		return false;
 	});
 	$('.yellow-btn').click(function(){
 		$('.yellow-btn').attr('href', $('.yellow-btn').attr('href') + '&tags=' + $('#tegs').val());

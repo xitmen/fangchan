@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
 	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
 </head>
-<body>
+<body class="index_fixed_2">
     <div class="top-title purple-bg-title">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
         <p>求职简历</p>
@@ -110,14 +110,15 @@
             <input type="text" placeholder="填写证书名称" name="data[zhengshu]"/>
         </li>
     </ul>
-    <p class="upload-img"><!--<a href="#">证书及本人照片上传</a>图片最多上传8张-->
-		请联系客服我们为您专门定制图片
-	</p>
     <ul class="send-list">
         <li class="noBorder"><label>居住小区</label>
             <input type="text" placeholder="填写小区名称" name="data[xiaoqu]"/>
         </li>
     </ul>
+	<p class="upload-img"><a id="upload_img">上传照片</a>图片最多上传1张,每张不得超过2M</p>
+	<input type="hidden" value="" class="pics" name="data[pic]">
+	<p class="upload-img"><a id="upload_img1">上传证书</a>图片最多上传8张,每张不得超过2M</p>
+	<input type="hidden" value="" class="pics1" name="data[photo]">
 	{if !empty($member['mobile'])}
 		<input type="hidden" name="data[phone]" value="{$member['mobile']}"/>
 		<script>
@@ -188,7 +189,6 @@
 							$('.yz').html('已发送,再发');
 							$.cookie('yzm',json.code);
 							$.cookie('mtel',phone);
-							alert($.cookie('yzm'));
 						 }
 						}
 					 });	
@@ -256,4 +256,71 @@
 	</form>
     <a href="javascript:sb();" class="yellow-btn">下一步</a>
 </body>
+<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/diyUpload.css?t=1">
+    <script type="text/javascript" src="/diyUpload/js/webuploader.html5only.min.js"></script>
+    <script type="text/javascript" src="/diyUpload/js/diyUpload.js"></script>
 </html>
+<script type="text/javascript">
+$('#upload_img').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        $('.pics').val(data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:1,
+    fileSizeLimit:1 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img',
+        //label:"上传图片"
+    }
+});
+$('#upload_img1').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics1').val();
+        $('.pics1').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:8,
+    fileSizeLimit:8 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img1',
+        //label:"上传图片"
+    }
+});
+function upload_error(msg)
+{
+	var dialog = jDialog.dialog({
+		title : '错误提醒！',
+		content : msg
+	});
+}
+</script>

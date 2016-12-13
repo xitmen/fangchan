@@ -1,8 +1,49 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">包厢频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('houses', array('op' => 'post'))}">添加包厢</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">管理包厢</a></li>
+	<li style="float:right;padding-top: 3px;padding-right: 10px;">
+		<select id="top_province" class="span2">
+		<option value="">--省份--</option>
+		{loop $regions $it}
+			<option value="{$it['region_id']}" <?=$_GPC['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
+		{/loop}
+		</select>
+		<select id="top_city" class="span2">
+			<option value="">--市--</option>
+			{loop $citys $city}
+			<option value="{$city['region_id']}" <?=$_GPC['city']==$city['region_id']?'selected':''?>>{$city['region_name']}</option>
+			{/loop}
+		</select>
+	</li>
 </ul>
+<script type="text/javascript" src="./source/modules/jiben/style/js/cookie.js"></script>
+<script>
+$('#top_province').change(function (){
+	$('#top_city').html('<option value="">--市--</option>');
+	var id = $(this).val();
+	if(id)
+	{
+		$.ajax({
+			type: "post", 
+			url : "{php echo $this->createWebUrl('getAllRegions')}",
+			dataType:'html',
+			data: {id:id,names:'市'},
+			cache:false,
+			success: function(res){
+				$('#top_city').html(res);
+				$.cookie('province', id, '/');
+			}
+		});
+	}
+});
+$('#top_city').change(function (){
+	var id = $(this).val();
+	$.cookie('city', id, '/');
+	window.location.href = "<?=$_SERVER["REQUEST_URI"]?>&city="+id;
+});
+</script>
 {if $operation == 'post'}
 <div class="main">
 	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">

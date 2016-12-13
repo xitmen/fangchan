@@ -23,6 +23,14 @@ class ErshouModule extends WeModule {
 	public function doHouses ()
 	{
 		global $_GPC, $_W;
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
 		if ($operation == 'post')
 		{
@@ -50,7 +58,13 @@ class ErshouModule extends WeModule {
 			if (checksubmit('submit'))
 			{
 			    $data = $_GPC['data'];
+				if($data['source'] != 1)
+				{
+					$data['a_id'] = '';
+				}
 				$tagarrs = $_GPC['tags'];
+				$detail = $_GPC['detail'];
+				$detail['tese'] = implode(',', $_GPC['tese']);
 				if(!empty($tagarrs))
 				{
 					$data['tags'] = ','.implode(',', $tagarrs).',';
@@ -70,46 +84,69 @@ class ErshouModule extends WeModule {
 				{
 					$data['number'] = ComFunc::createOrderNo();
 					pdo_insert('ace_ershou_house', $data);
+					$detail['h_id'] = pdo_insertid();
+					pdo_insert('ace_ershou_house_details', $detail);
 				} 
 				else
 				{
 					pdo_update('ace_ershou_house', $data, array('id' => $id));
+					pdo_update('ace_ershou_house_details', $detail, array('h_id' => $id));
 				}
 				message('信息更新成功！', $this->createWebUrl('houses', array('op' => 'display')), 'success');
 			}
 			$branchs = pdo_fetchall("SELECT * FROM ".tablename('ace_branch')." ".$where);
+			$detail = pdo_fetch("SELECT * FROM ".tablename('ace_ershou_house_details')." WHERE h_id = :h_id" , array(':h_id' => $id));
 		} 
 		elseif($operation == 'display')
 		{
 			$pindex = max(1, intval($_GPC['page']));
 			$psize = 20;
 			$where = ' where 1 ';
+			$tag = '';
+			$_GPC['status'] = $_GPC['status']?$_GPC['status']:1;
 			if($_GPC['key'])
 			{
-				$where .= " and (name like '%".$_GPC['key']."%' or number like '%".$_GPC['key']."%')";
+				$where .= " and (h.name like '%".$_GPC['key']."%' or h.number like '%".$_GPC['key']."%')";
 			}
 			if($_GPC['type'])
 			{
-				$where .= " and type = ".$_GPC['type'];
+				$where .= " and h.type = ".$_GPC['type'];
 			}
 			if($_GPC['status'])
 			{
-				$where .= " and status = ".$_GPC['status'];
+				$where .= " and h.status = ".$_GPC['status'];
 			}
 			if($_GPC['province'])
 			{
-				$where .= " and province = ".$_GPC['province'];
+				$where .= " and h.province = ".$_GPC['province'];
 			}
 			if($_GPC['city'])
 			{
-				$where .= " and city = ".$_GPC['city'];
+				$where .= " and h.city = ".$_GPC['city'];
 			}
 			if($_GPC['area'])
 			{
-				$where .= " and area = ".$_GPC['area'];
+				$where .= " and h.area = ".$_GPC['area'];
 			}
-			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_ershou_house')." ".$where." ORDER BY  torder asc,id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
-			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_ershou_house')." ".$where);
+			if($_GPC['source'])
+			{
+				$where .= " and h.source = ".$_GPC['source'];
+			}
+			if($_GPC['tags'])
+			{
+				if(!empty($_GPC['tags']))
+				{
+					$arr_tags = $_GPC['tags'];
+					foreach($arr_tags as $tagId)
+					{
+						$where .= " and h.tags like '%,".$tagId.",%'";
+					}
+					$tag = implode(',',$arr_tags);
+				}
+			}
+			$where .= " and h.id = d.h_id";
+			$list = pdo_fetchall("SELECT h.*,d.tel,d.work_number FROM ".tablename('ace_ershou_house')." h, ".tablename('ace_ershou_house_details')." d ".$where." ORDER BY  h.torder asc,h.id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_ershou_house')." h,  ".tablename('ace_ershou_house_details')." d ".$where);
 			$pager = pagination($total, $pindex, $psize);
 		}
 		elseif($operation == 'delete')
@@ -120,6 +157,7 @@ class ErshouModule extends WeModule {
 				message('抱歉，信息不存在或是已经被删除！');
 			}
 			pdo_delete('ace_ershou_house', array('id' => $id));
+			pdo_delete('ace_ershou_house_details', array('h_id' => $id));
 			message('删除成功！', referer(), 'success');
 		}
 		elseif ($operation == 'paixu') {
@@ -132,10 +170,21 @@ class ErshouModule extends WeModule {
 		}
 		require_once IA_ROOT.'/source/modules/ershou/tags.php';  //引入标签
 		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
 		$_STATUS = array(
-				'-1' => '未发布',
-				'1' => '已发布',
-				'2' => '已出租',
+				'-1' => '下架',
+				'1' => '待撮合',
+				'2' => '撮合中',
+				'3' => '乙方成交',
+				'4' => '他方成交',
+				'5' => '待发布',
 			);
 		include $this->template('houses');	
 	}
@@ -152,7 +201,7 @@ class ErshouModule extends WeModule {
 		{
 			message('抱歉，路径不正确！');
 		}
-		$item = pdo_fetch("SELECT * FROM ".tablename('ace_ershou_house')." WHERE id = :id" , array(':id' => $id));
+		$item = pdo_fetch("SELECT * FROM ".tablename('ace_ershou_house_details')." WHERE h_id = :id" , array(':id' => $id));
 		if (empty($item)) {
 			message('抱歉，信息不存在或是已经删除！', '', 'error');
 		}
@@ -173,7 +222,7 @@ class ErshouModule extends WeModule {
 					{
 						$data['photo'] = $_W['attachurl'].$upload['path'];
 					}
-					pdo_update('ace_ershou_house', $data, array('id' => $id));
+					pdo_update('ace_ershou_house_details', $data, array('h_id' => $id));
 				}
 				message('信息更新成功！', $this->createWebUrl('photo', array('op' => 'display', 'id' => $id)), 'success');
 			}
@@ -209,7 +258,8 @@ class ErshouModule extends WeModule {
 			{
 				$data['photo'] = '';
 			}
-			pdo_update('ace_ershou_house', $data, array('id' => $id));
+			pdo_update('ace_ershou_house_details', $data, array('h_id' => $id));
+			@unlink($url);
 			message('删除成功！', referer(), 'success');
 		}
 		include $this->template('photo');	
@@ -221,14 +271,23 @@ class ErshouModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if($operation == 'display')
 		{
 			$pindex = max(1, intval($_GPC['page']));
 			$psize = 20;
 			$where = ' where 1 ';
+			$_GPC['status'] = $_GPC['status']?$_GPC['status']:1;
 			if($_GPC['key'])
 			{
-				$where .= " and (phone like '%".$_GPC['key']."%' or zfyx like '%".$_GPC['key']."%')";
+				$where .= " and (phone like '%".$_GPC['key']."%' or mediation_info like '%".$_GPC['key']."%' or house_number like '%".$_GPC['key']."%' or branch_number like '%".$_GPC['key']."%' or work_number like '%".$_GPC['key']."%')";
 			}
 			if($_GPC['province'])
 			{
@@ -238,14 +297,43 @@ class ErshouModule extends WeModule {
 			{
 				$where .= " and city = ".$_GPC['city'];
 			}
-			if($_GPC['area'])
+			if($_GPC['source'])
 			{
-				$where .= " and area = ".$_GPC['area'];
+				$where .= " and customer_source = ".$_GPC['source'];
+			}
+			if($_GPC['status'])
+			{
+				$where .= " and status = ".$_GPC['status'];
 			}
 			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_ershou_queue')." ".$where." ORDER BY  id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_ershou_queue')." ".$where);
 			$pager = pagination($total, $pindex, $psize);
 			$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		else if ($operation == 'post')
+		{
+			$id = intval($_GPC['id']);
+			if (!empty($id))
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_ershou_queue')." WHERE id = :id" , array(':id' => $id));
+				if (empty($item)) {
+					message('抱歉，信息不存在或是已经删除！', '', 'error');
+				}
+			}
+			if (checksubmit('submit'))
+			{
+				$data = $_GPC['data'];
+				$data['update_time'] = time();
+				if (empty($id))
+				{
+					pdo_insert('ace_ershou_queue', $data);
+				} 
+				else
+				{
+					pdo_update('ace_ershou_queue', $data, array('id' => $id));
+				}
+				message('信息更新成功！', $this->createWebUrl('queue', array('op' => 'display')), 'success');
+			}
 		}
 		elseif($operation == 'delete')
 		{
@@ -257,7 +345,67 @@ class ErshouModule extends WeModule {
 			pdo_delete('ace_ershou_queue', array('id' => $id));
 			message('删除成功！', referer(), 'success');
 		}
+		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		$_STATUS = array(
+				'-1' => '下架',
+				'1' => '待撮合',
+				'2' => '撮合中',
+				'3' => '乙方成交',
+				'4' => '他方成交',
+				'5' => '待发布',
+			);
+		require_once IA_ROOT.'/source/modules/ershou/tags.php';  //引入标签
+		require_once IA_ROOT.'/source/modules/ershou/config.php';  //引入配置文件
 		include $this->template('queue');	
+	}
+	//获取房源
+	public function dogetHouse()
+	{
+		global $_GPC, $_W;
+		$number = $_GPC['number'];
+		$data = [];
+		if($number)
+		{
+			require_once IA_ROOT.'/source/modules/ershou/tags.php';  //引入标签
+			$data = pdo_fetch("SELECT id,type,province,city,area,source,a_id FROM ".tablename('ace_ershou_house')." WHERE number like '%".$number."'");
+			if(!empty($data))
+			{
+				$data['type_name'] = $tags['types'][$data['type']];
+				$data['dizhi_name'] = $this->getRegion($data['province']).' '.$this->getRegion($data['city']).' '.$this->getRegion($data['area']);
+				$detail = pdo_fetch("SELECT branch_num,tel,branch_id FROM ".tablename('ace_ershou_house_details')." WHERE h_id =".$data['id']);
+				if($data['source'] == 3)//联盟中介
+				{
+					$alliance = pdo_fetch("SELECT * FROM ".tablename('ace_alliances')." WHERE id= ".$data['a_id']);
+					$data['source'] = '联盟'.'('.$alliance['number'].')';
+				}
+				else if($data['source'] == 2)//普通
+				{
+					$data['source'] = '普通';
+				}
+				else if($data['source'] == 1)//平台
+				{
+					$data['source'] = '平台'.'('.$detail['branch_num'].')';
+				}
+				$data['tel'] = $detail['tel'];
+				if($detail['branch_id'])//存在网点
+				{
+					$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." WHERE id= ".$detail['branch_id']);
+					$data['branch_num'] = $branch['number'];
+				}
+			}
+			else{
+				$data = [];
+			}
+		}
+		return json_encode($data);
 	}
 	//获取区域
 	public function doGetAllRegions()
@@ -284,6 +432,15 @@ class ErshouModule extends WeModule {
 			return $region['region_name'];
 		}
 	}
+	public function getAllianceNumber($id)
+	{
+		global $_GPC, $_W;
+		if($id)
+		{
+			$alliance = pdo_fetch("SELECT number FROM ".tablename('ace_alliances')." where id=".$id);
+			return $alliance['number'];
+		}
+	}
 	//获取区域
 	public function doGetAlltags()
 	{
@@ -297,7 +454,7 @@ class ErshouModule extends WeModule {
 		{
 			foreach($tags['items'][$id] as $v)
 			{
-				$str .= '<select name="tags[]">';
+				$str .= '<select name="tags[]" class="span2">';
 				$str .='<option value="">--'.$v['name'].'--</option>';
 				foreach($v['items'] as $ks => $vs)
 				{

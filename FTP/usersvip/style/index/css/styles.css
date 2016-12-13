@@ -28,7 +28,7 @@
 }
 .nav-list {
   padding: .5rem 0;
-  border-bottom:1px solid #6A635F;
+  border-bottom:1px solid #E0E0E0;
 }
 .nav-list li {
   width: 3.7rem;
@@ -69,8 +69,11 @@
 .nav-list li:nth-child(8) {
   background-image: url("../img/icon08.jpg");
 }
+.nav-list li:nth-child(9) {
+  background-image: url("../img/icon09.jpg");
+}
 .ad-page {
-  border-bottom:1px solid #6A635F;
+  border-bottom:1px solid #E0E0E0;
   margin-bottom: .2rem;
 }
 .menu-list {
@@ -80,7 +83,7 @@
   left: 0;
   padding-top: .19rem;
   background-color: #fff;
-  border-top:1px solid #959595;
+  border-top:1px solid #E0E0E0;
 }
 .menu-list li {
   display: inline-block;
@@ -130,6 +133,7 @@
   width: 4rem;
   height: 4rem;
   border-radius: 4rem;
+  margin-top:3rem;
 }
 .my-page p {
   color: #fff;
@@ -164,7 +168,7 @@
 }
 .tou-shu {
   background-color: #fff;
-  border-top: .05rem solid #484340;
+  border-top: .05rem solid #E0E0E0;
 }
 .tou-shu ul li {
   width: 15rem;
@@ -788,14 +792,15 @@ dl {
   position: relative;
 }
 dl dd a {
-  color: #8C8C8C;
-  border: 1px solid #484340;
+  _color: #8C8C8C;
+  _border: 1px solid #484340;
   font-family: cursive;
-  padding: 0 .4rem;
-  font-size: .7rem;
+  padding: 0 .2rem;
+  font-size: 12px;
   position: absolute;
   top: .5rem;
   right: .5rem;
+  background-color: #ccc;
 }
 dl:last-child {
   border-bottom: 0 none;

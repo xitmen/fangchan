@@ -25,6 +25,13 @@ $(function(){
 		var index = $(this).index();
 		divBox.hide().eq(index).show();
 		$('.mark').show();
+		return false;
+	});
+
+	$('body').click(function(){
+		$('.search-add,.search-type,.search-info').hide();
+		$('.mark').hide();
+		
 	});
 	(function(){
 		var w = document.body.clientWidth;

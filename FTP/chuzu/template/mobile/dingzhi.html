@@ -8,16 +8,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telphone=no" />
-    <title>二手房产</title>
+    <title>定制出租房</title>
     <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
     <link rel="stylesheet" type="text/css" href="./source/modules/ershou/asset/css/styles.css">   
     <script src="./source/modules/ershou/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/ershou/asset/js/base.js?_=v1.1"></script>
 </head>
-<body>
+<body class="index_fixed_2">
     <div class="top-title">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
-        <p>定制二手房</p>
+        <p>定制出租房</p>
     </div>
     <div class="custom-page">
         <img src="./source/modules/ershou/asset/img/custom-img.png" class="width100" />
@@ -27,14 +27,21 @@
 			<input type="hidden" value="{$area_id}" name="data[area]">
 			<input type="hidden" value="住宅" name="data[zfyx]" id="zfyx">
 			<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
+			<input type="hidden" name="data[area_name]" id="area_name" value="{$item['area_name']}"/>
 			<div class="custom-info">
-				<dl>
+				<dl class="yixiang_lis">
 					<dt>租房意向</dt>
 					<dd class="on">住宅</dd>
 					<dd>别墅</dd>
 					<dd>写字楼</dd>
 					<dd>商铺</dd>
 					<dd>商住两用</dd>
+				</dl>
+				<dl class="area_lis">
+					<dt>意向低区（最多选3项）</dt>
+					{loop $areas $area}
+					<dd>{$area['region_name']}</dd>
+					{/loop}
 				</dl>
 				<dl>
 					<dt>请填写购房需求信息</dt>
@@ -46,8 +53,30 @@
     </div>
 </body>
 </html>
+
 <script>
-$('dl dd').click(function(){
+$('.area_lis dd').click(function (){
+	var cla = $(this).attr('class');
+	if(cla == 'on')
+	{
+		$(this).removeClass('on');
+	}
+	else
+	{
+		var len = $('.area_lis .on').size();
+		if(len < 3)
+		{
+			$(this).addClass('on');
+		}
+	}
+	var area_name = '';
+	$(".area_lis .on").each(function(i){
+	   area_name += ' '+$(this).html();
+	 });
+	 $('#area_name').val(area_name);
+});
+
+$('.yixiang_lis dd').click(function(){
 	$(this).siblings().attr('class', '');
 	$(this).attr('class', 'on');
 	$('#zfyx').val($(this).html());

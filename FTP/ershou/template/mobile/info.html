@@ -13,6 +13,12 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/ershou/asset/css/styles.css">   
     <script src="./source/modules/ershou/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/ershou/asset/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
 </head>
 <body>
     <div class="top-title page-info-text">
@@ -45,12 +51,13 @@
                 <span style="width:49%"><label>楼层:</label><?=$item['louceng']?>/<?=$item['zongceng']?>F</span>
             </li>
             <li><span style="width:49%"><label>装修:</label>{$item['zhuangxiu']}</span>
-                <span style="width:49%"><label>产权:</label>{$item['chanquan']}年</span>
+                <span style="width:49%"><label>产权:</label>{$detail['chanquan']}年</span>
             </li>
-			<li><label>朝向:</label>{$item['chaoxiang']}</li>
-            <li><label>配套:</label>{$item['peitao']}</li>
+			<li><label>物业费:</label>{$detail['wyf']}元/平米/月</li>
+			<li><label>朝向:</label>{$detail['chaoxiang']}</li>
+            <li><label>配套:</label>{$detail['peitao']}</li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>房东描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+			<li><label>房东描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
         </ul>
 		{/if}
 		<!--别墅-->
@@ -64,10 +71,11 @@
             <li><span style="width:49%"><label>卧室个数:</label>{$item['woshi']}个</span>
                 <span style="width:49%"><label>建筑形式:</label>{$item['xingshi']}</span>
             </li>
+			<li><label>物业费:</label>{$detail['wyf']}元/平米/月</li>
 			<li><label>装修:</label>{$item['zhuangxiu']}</li>
-            <li><label>其他配套:</label>{$item['peitao']}</li>
+            <li><label>其他配套:</label>{$detail['peitao']}</li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>卖家描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+			<li><label>卖家描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
         </ul>
 		{/if}
 		<!--商铺、写字楼、商住两用-->
@@ -78,18 +86,19 @@
 			<a>单价<em><?=sprintf("%.2f",$item['jiage']/$item['pingfang'])?> 万/㎡</em></a>
         </div>
 		<ul class="list">
-            <li><span style="width:68%"><label>物业费:</label>{$item['wyf']}元/平米/月</span>
+            <li><span style="width:68%"><label>物业费:</label>{$detail['wyf']}元/平米/月</span>
                 <span style="width:30%"><label>楼层:</label>{$item['louceng']}/{$item['zongceng']}F</span>
             </li>
 			<li><label>装修:</label>{$item['zhuangxiu']}</li>
-            <li><label>其他配套:</label>{$item['peitao']}</li>
+            <li><label>其他配套:</label>{$detail['peitao']}</li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>卖家描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
+			<li><label>卖家描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
         </ul>
 		{/if}
-        <ul class="list">
+        <ul class="list branch" style="{if empty($attention)}display:none;{/if}">
 			{if !empty($branch)}
-            <li class="gray-bg"><label>看房联系人:</label>{$branch['linkman']} <a href="tel:{$branch['tel']}" style="color:#5f5e5d">{$branch['tel']}</a></li>
+            <li class="gray-bg"><label>看房联系人:</label>{$branch['linkman']} 
+			</li>
             <li class="gray-bg"><label>网点名称:</label>{$branch['name']}</li>
 			<li class="gray-bg"><label>网点编号:</label>{$branch['number']}</li>
             <li class="gray-bg"><?=$this->getRegion($branch['area'])?> {$branch['address']}
@@ -98,10 +107,13 @@
             </li>
 			{/if}
         </ul>
-		<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
         <div class="follow-box">
             <a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
-            <a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
+			{if empty($attention)}
+            <a class="share-icon" id="queue" onclick="queue({$_GPC['id']})" >立即预约</a>
+			{else}
+			<a class="share-icon" >等待预约中</a>
+			{/if}
         </div>
     </div>
 </body>
@@ -117,11 +129,73 @@ function guanzhu(id)
 		dataType: "json",
 		success: function(res){
 			if(res.ret == 1){
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '操作成功',
+					content : res.msg,
+					buttons : [
+						{
+							type : 'highlight',
+							text : '知道了',
+							handler:function(button,dialog)
+							{
+								dialog.close();
+							}
+						}
+					]
+				});	
 			}
 			else{
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '错误提醒！',
+					content : res.msg
+				});
 			}
+		}
+	});
+}
+function queue(id)
+{
+	var dialog = jDialog.confirm('确定要预约看房吗？',{
+		handler : function(button,dialog) {
+			dialog.close();
+			var data={id:id};
+			$.ajax({
+				data:data,
+				type: "post",
+				url: "{php echo $this->createMobileUrl('queue')}",
+				dataType: "json",
+				success: function(res){
+					if(res.ret == 1){
+					var dialog = jDialog.dialog({
+						title : '预约成功！',
+						content : res.msg,
+						buttons : [
+							{
+								type : 'highlight',
+								text : '知道了',
+								handler:function(button,dialog)
+								{
+									$('.branch').css('display','');
+									$('#queue').html('等待预约中');
+									$('#queue').removeAttr('onclick');
+									dialog.close();
+								}
+							}
+							]
+							});	
+						}
+						else{
+							var dialog = jDialog.dialog({
+								title : '错误提醒！',
+								content : res.msg
+							});
+						}
+					}
+				});
+		}
+	},{
+		handler : function(button,dialog) {
+			dialog.close();
 		}
 	});
 }

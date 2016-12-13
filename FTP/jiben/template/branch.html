@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">基本配置频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('branch', array('op' => 'post'))}">添加网点</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('branch', array('op' => 'display'))}">管理网点</a></li>
 </ul>
@@ -78,6 +79,13 @@
 						</div>
 					</div>
 					<span class="help-block">最佳尺寸(750px * 400px 72分辨率)</span>
+				</td>
+			</tr>
+			<tr>
+				<th>管辖片区</th>
+				<td>
+					<textarea style="height:100px; width:300px;"  name="data[including_community]">{$item['including_community']}</textarea>
+					<span class="help-block">请输入小区/街道/大厦名称，多个用空格分开</span>
 				</td>
 			</tr>
 		<tr>

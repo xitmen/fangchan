@@ -23,7 +23,7 @@
 <style>
 .info-box img{width:100%;}
 </style>
-<body>
+<body class="index_fixed_2">
     <div class="top-title page-info-text">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
         <p>{$item['name']}</p>
@@ -123,6 +123,7 @@
 			<input type="hidden" value="{$item['name']}" name="info">
 			<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
 			<div class="pop-box">
+				<i class="pop_close" onclick="javascript:hid();"></i>
 				<h4>楼盘通知信息</h4>
 				<h5>新盘优惠通过推送消息通知您</h5>
 				<ul>
@@ -180,7 +181,6 @@
 						$('.yz').html('已发送,再发');
 						$.cookie('yzm',json.code);
 						$.cookie('mtel',phone);
-						alert($.cookie('yzm'));
 					 }
 					}
 				 });	
@@ -229,10 +229,31 @@
 		</script>
 		{/if}
 		<div id="mcover" onclick="document.getElementById('mcover').style.display='';"><img src="/source/modules/lib/img/guide.png"></div>
-        <div class="follow-box">
-            <a onclick="guanzhu({$item['id']})" class="follow-icon">关注</a>
-            <a onclick="document.getElementById('mcover').style.display='block';" class="share-icon">分享</a>
-        </div>
+		<style>
+			.dianhua-icon,.yuyue-icon{
+				display: inline-block;
+				width: 6rem !important;
+				height: 2rem;
+				background-size: 1rem;
+				background-position: center top;
+				line-height: 2rem !important;
+				text-align: center;
+				font-size: .7rem;
+				color: #fff !important;
+				float: right;
+			}
+			.dianhua-icon{
+				background-color: rgb(188,141,51);
+			}
+			.yuyue-icon{
+				background-color: rgb(235,75,53);
+			}
+		</style>
+		<div class="follow-box">
+			<a onclick="guanzhu({$item['id']})" class="follow-icon" style="background-image:url(/source/modules/lib/img/xinxin.png); background-position:center top; background-repeat:no-repeat;">关注</a>
+			<a class="yuyue-icon">预约看房</a>
+			<a class="dianhua-icon">电话咨询</a>
+		</div>
     </div>
 </body>
 </html>
@@ -247,10 +268,26 @@ function guanzhu(id)
 		dataType: "json",
 		success: function(res){
 			if(res.ret == 1){
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '操作成功',
+					content : res.msg,
+					buttons : [
+						{
+							type : 'highlight',
+							text : '知道了',
+							handler:function(button,dialog)
+							{
+								dialog.close();
+							}
+						}
+					]
+				});	
 			}
 			else{
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '错误提醒！',
+					content : res.msg
+				});
 			}
 		}
 	});

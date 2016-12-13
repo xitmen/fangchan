@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">家政频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('photo', array('op' => 'post', 'id' => $id))}">添加展示</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $id))}">展示管理</a></li>
 	<li><a href="{php echo $this->createWebUrl('service', array('op' => 'display'))}">家政管理</a></li>

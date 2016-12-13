@@ -436,6 +436,191 @@ class JibenModuleSite extends WeModuleSite {
 		}
 	}
 	
+	/**
+	 * 后台-广告管理
+	 */
+	public function doWebAds() {
+		global $_GPC, $_W;
+		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if ($operation == 'display') 
+		{
+			$pindex = max(1, intval($_GPC['page']));
+			$psize = 20;
+			$where = ' where 1 ';
+			//条件搜索
+			if($_GPC['key'])
+			{
+				$where .= " and mobile like '%".$_GPC['key']."%' and openid like '%".$_GPC['key']."%'";
+			}
+			if($_GPC['type'])
+			{
+				$where .= " and type = " . $_GPC['type'];
+			}
+			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_ads')." ".$where." ORDER BY type asc,torder asc,id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_jiben_ads').' '.$where);
+			$pager = pagination($total, $pindex, $psize);
+			include $this->template('ads');
+		} 
+		elseif ($operation == 'post') 
+		{
+			$id = intval($_GPC['id']);
+			if(!empty($id))
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiben_ads')." WHERE id = '$id'");
+			}
+			if (checksubmit('submit')) 
+			{
+				$data = $_GPC['data'];
+				if (!empty($_FILES['pic']['tmp_name'])) {
+					$upload = file_upload($_FILES['pic']);
+					if (is_error($upload)) {
+						message($upload['message'], '', 'error');
+					}
+					$data['pic'] = $_W['attachurl'].$upload['path'];
+				}
+				if (empty($data['name'])) 
+				{
+					message('抱歉，请输入名称！');
+				}
+				if (!empty($id)) 
+				{
+					pdo_update('ace_jiben_ads', $data, array('id' => $id));
+				} else {
+					pdo_insert('ace_jiben_ads', $data);
+				}
+				message('更新成功！', $this->createWebUrl('ads', array('op' => 'display')), 'success');
+			}
+			include $this->template('ads');
+		}
+		elseif ($operation == 'delete') 
+		{
+			$id = intval($_GPC['id']);
+			$category = pdo_fetch("SELECT id FROM ".tablename('ace_jiben_ads')." WHERE id = '$id'");
+			if (empty($category)) {
+				message('抱歉，信息不存在或是已经被删除！', $this->createWebUrl('ads', array('op' => 'display')), 'error');
+			}
+			pdo_delete('ace_jiben_ads', array('id' => $id));
+			message('删除成功！', $this->createWebUrl('ads', array('op' => 'display')), 'success');
+		}
+		elseif ($operation == 'paixu') {
+			$ids = $_GPC['ids'];
+			foreach($ids as $k=>$id)
+			{
+			 pdo_update('ace_jiben_ads', array('torder'=>$id), array('id' => $k));
+			}
+			message('排序成功！', referer(), 'success');
+		}
+	}
+	/**
+	 * 后台-用户须知
+	 */
+	public function doWebNotices() {
+		global $_GPC, $_W;
+		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if ($operation == 'display') 
+		{
+			$pindex = max(1, intval($_GPC['page']));
+			$psize = 20;
+			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_notices')."  ORDER BY torder asc,id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_jiben_notices'));
+			$pager = pagination($total, $pindex, $psize);
+			include $this->template('notices');
+		} 
+		elseif ($operation == 'post') 
+		{
+			$id = intval($_GPC['id']);
+			if(!empty($id))
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiben_notices')." WHERE id = '$id'");
+			}
+			if (checksubmit('submit')) 
+			{
+				$data = $_GPC['data'];
+				if (empty($data['name'])) 
+				{
+					message('抱歉，请输入名称！');
+				}
+				if (!empty($id)) 
+				{
+					pdo_update('ace_jiben_notices', $data, array('id' => $id));
+				} else {
+					pdo_insert('ace_jiben_notices', $data);
+				}
+				message('更新成功！', $this->createWebUrl('notices', array('op' => 'display')), 'success');
+			}
+			include $this->template('notices');
+		}
+		elseif ($operation == 'delete') 
+		{
+			$id = intval($_GPC['id']);
+			$category = pdo_fetch("SELECT id FROM ".tablename('ace_jiben_notices')." WHERE id = '$id'");
+			if (empty($category)) {
+				message('抱歉，信息不存在或是已经被删除！', $this->createWebUrl('notices', array('op' => 'display')), 'error');
+			}
+			pdo_delete('ace_jiben_notices', array('id' => $id));
+			message('删除成功！', $this->createWebUrl('notices', array('op' => 'display')), 'success');
+		}
+		elseif ($operation == 'paixu') {
+			$ids = $_GPC['ids'];
+			foreach($ids as $k=>$id)
+			{
+			 pdo_update('ace_jiben_notices', array('torder'=>$id), array('id' => $k));
+			}
+			message('排序成功！', referer(), 'success');
+		}
+	}
+	
+	/**
+	 * 后台-员工管理
+	 */
+	public function doWebStaffs() {
+		global $_GPC, $_W;
+		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if ($operation == 'display') 
+		{
+			$pindex = max(1, intval($_GPC['page']));
+			$psize = 20;
+			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_jiben_staffs')."  ORDER BY id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_jiben_staffs'));
+			$pager = pagination($total, $pindex, $psize);
+			include $this->template('staffs');
+		} 
+		elseif ($operation == 'post') 
+		{
+			$id = intval($_GPC['id']);
+			if(!empty($id))
+			{
+				$item = pdo_fetch("SELECT * FROM ".tablename('ace_jiben_staffs')." WHERE id = '$id'");
+			}
+			if (checksubmit('submit')) 
+			{
+				$data = $_GPC['data'];
+				if (empty($data['name'])) 
+				{
+					message('抱歉，请输入名称！');
+				}
+				if (!empty($id)) 
+				{
+					pdo_update('ace_jiben_staffs', $data, array('id' => $id));
+				} else {
+					pdo_insert('ace_jiben_staffs', $data);
+				}
+				message('更新成功！', $this->createWebUrl('staffs', array('op' => 'display')), 'success');
+			}
+			include $this->template('staffs');
+		}
+		elseif ($operation == 'delete') 
+		{
+			$id = intval($_GPC['id']);
+			$category = pdo_fetch("SELECT id FROM ".tablename('ace_jiben_staffs')." WHERE id = '$id'");
+			if (empty($category)) {
+				message('抱歉，信息不存在或是已经被删除！', $this->createWebUrl('staffs', array('op' => 'display')), 'error');
+			}
+			pdo_delete('ace_jiben_staffs', array('id' => $id));
+			message('删除成功！', $this->createWebUrl('staffs', array('op' => 'display')), 'success');
+		}
+	}
+	
 	//获取中介名称
 	public function getAlliance($id)
 	{

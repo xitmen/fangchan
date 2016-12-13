@@ -144,24 +144,20 @@
 }
 .custom-page-info .follow-box a {
   display: inline-block;
-  width: 3rem;
-  height: 3rem;
+  width: 8rem;
+  height: 2rem;
   background-size: 1rem;
   background-position: center top;
-  line-height: 3rem;
+  line-height: 2rem;
   text-align: center;
   font-size: .7rem;
-  color: #808081;
+  color: #fff;
 }
 .custom-page-info .follow-box a.follow-icon {
-  background-image: url("/source/modules/lib/img/xinxin.png");
-  background-repeat: no-repeat;
-  float: left;
+  float: left; background-color:rgb(188,141,51);
 }
 .custom-page-info .follow-box a.share-icon {
-  background-image: url("/source/modules/lib/img/follow.png");
-  background-repeat: no-repeat;
-  float: right;
+  float: right; background-color:rgb(235,75,53);
 }
 .loop {
   width: 16rem;

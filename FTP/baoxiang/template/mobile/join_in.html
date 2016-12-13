@@ -106,14 +106,29 @@
 		});
 		</script>
 		{/if}
-        <p class="upload-img"><!--<a href="#">包厢环境</a>图片最多上传2张-->
-            请联系客服我们为您专门定制图片
-        </p>
+        {if $type==1}
+		<p class="upload-img"><a id="upload_img1">酒店大堂</a>图片最多上传2张,每张不得超过2M</p>
+		<input type="hidden" value="" class="pics1" name="data[datang_photo]">
+		
+		<p class="upload-img"><a id="upload_img2">酒店菜谱</a>图片最多上传20张,每张不得超过2M</p>
+		<input type="hidden" value="" class="pics2" name="data[caipu_photo]">
+		
+		<p class="upload-img"><a id="upload_img3">本店特色</a>图片最多上传6张,每张不得超过2M</p>
+		<input type="hidden" value="" class="pics3" name="data[tese_photo]">
+		{/if}
+		<p class="upload-img"><a id="upload_img">包厢环境</a>图片最多上传2张,每张不得超过2M</p>
+		<input type="hidden" value="" class="pics" name="data[photo]">
     </div>
 	</form>
     <a href="javascript:sb();" class="yellow-btn">提交审核</a>
 </body>
 </html>
+<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/diyUpload/css/webuploader.css">
+<link rel="stylesheet" type="text/css" href="/diyUpload/css/diyUpload.css?t=1">
+<script type="text/javascript" src="/diyUpload/js/webuploader.html5only.min.js"></script>
+<script type="text/javascript" src="/diyUpload/js/diyUpload.js"></script>
+
 <link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
 <script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
 <script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
@@ -134,5 +149,122 @@ function sb()
 	{
 		document.form1.submit();
 	}
+}
+</script>
+<script type="text/javascript">
+$('#upload_img').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics').val();
+        $('.pics').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:2,
+    fileSizeLimit:2 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img',
+        //label:"上传图片"
+    }
+});
+$('#upload_img1').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics1').val();
+        $('.pics1').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:2,
+    fileSizeLimit:2 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img1',
+        //label:"上传图片"
+    }
+});
+$('#upload_img2').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics2').val();
+        $('.pics2').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:20,
+    fileSizeLimit:20 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img2',
+        //label:"上传图片"
+    }
+});
+$('#upload_img3').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics3').val();
+        $('.pics3').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:6,
+    fileSizeLimit:6 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img3',
+        //label:"上传图片"
+    }
+});
+function upload_error(msg)
+{
+	var dialog = jDialog.dialog({
+		title : '错误提醒！',
+		content : msg
+	});
 }
 </script>

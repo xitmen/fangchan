@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>我的预约</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+    <style type="text/css">
+        .menu-link li.down-right {
+            background-image: url("./source/modules/usersvip/style/img/donw-arrow.jpg");
+            background-repeat: no-repeat;
+            background-position: 95% center;
+            background-size: 1rem auto;
+        }
+    </style>
+</head>
+<body class="gray-bg index_fixed_2" id="myguanzhu">
+    <div class="home-page">
+        <div class="top-title">
+            <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+            <p>我的预约</p>
+        </div>
+        <div class="block">
+            <ul class="menu-link" id="1">
+                <li class="arrow-right"><a href="">二手房（<span class="t1">{$total1}</span>）</a></li>
+            </ul>
+            <div class="item-list item1">
+			{loop $list1s $list1}
+				<dl class="del{$list1['aid']}">
+					<a href="/mobile.php?act=module&id={$list1['id']}&name=ershou&do=info&weid=<?=$_GPC['weid']?>">
+						<dt><img src="{$list1['pic']}" /></dt>
+						<dd class="title">{$list1['name']}</dd>
+						<dd class="info"><?=$this->getRegion($list1['area'])?> {$list1['dizhi']}</dd>
+						<dd class="info">{$list1['shi']}室{$list1['ting']}厅{$list1['wei']}卫 {$list1['pingfang']}㎡<span class="right">{$list1['louceng']}/{$list1['zongceng']}F</span></dd>
+						<dd class="price">售价<em>{$list1['jiage']}</em>万</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list1['aid']}" data-type="1">删除</a></dd>
+				</dl>
+			{/loop}
+            </div>
+        </div>
+        <div class="block">
+            <ul class="menu-link" id="2">
+                <li class="arrow-right"><a href="">出租房（<span class="t2">{$total2}</span>）</a></li>
+            </ul>
+            <div class="item-list item2">
+			{loop $list2s $list2}
+                <dl class="del{$list2['aid']}">
+					<a href="/mobile.php?act=module&id={$list2['id']}&name=chuzu&do=info&weid=<?=$_GPC['weid']?>">
+						<dt><img src="{$list2['pic']}" /></dt>
+						<dd class="title">{$list2['name']}</dd>
+						<dd class="info"><?=$this->getRegion($list2['area'])?> {$list2['dizhi']}</dd>
+						<dd class="info">{$list2['shi']}室{$list2['ting']}厅{$list2['wei']}卫 {$list2['pingfang']}㎡<span class="right">{$list2['louceng']}/{$list2['zongceng']}F</span></dd>
+						<dd class="price">租金<em>{$list2['zujin']}</em>元/月</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list2['aid']}" data-type="2">删除</a></dd>
+                </dl>
+			{/loop}
+            </div>
+        </div>
+        <div class="block">
+            <ul class="menu-link" id="3">
+                <li class="arrow-right"><a href="">新房（<span class="t3">{$total3}</span>）</a></li>
+            </ul>
+            <div class="item-list jia-zheng item3">
+			{loop $list3s $list3}
+                <dl class="del{$list3['id']}">
+					<a>
+						<dd class="title">类型：{$typs[$list3['type']]}</dd>
+						<dd class="info">描述：{$list3['info']}</dd>
+						<dd class="info">电话：{$list3['tel']}</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list3['id']}" data-type="3">删除</a></dd>
+                </dl>
+			{/loop}
+            </div>
+        </div>
+        <div class="block">
+            <ul class="menu-link" id="4">
+                <li class="arrow-right"><a href="">找家政（<span class="t4">{$total4}</span>）</a></li>
+            </ul>
+            <div class="item-list jia-zheng item4">
+			{loop $list4s $list4}
+                <dl class="del{$list4['id']}">
+					<a>
+						<dd class="title">{$list4['fwxm']}</dd>
+						<dd class="info">小区名称：{$list4['name']}</dd>
+					</a>
+					<dd><a class="close-btn" data-id="{$list4['id']}" data-type="4">删除</a></dd>
+                </dl>
+			{/loop}
+            </div>
+        </div>
+        <div class="menu-list">
+            <ul>
+                 <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
+				<li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="pop">
+        <div class="pop-box">
+            <h4>是否取消对该条信息的关注</h4>
+            <p class="btn-list">
+                <a href="#" class="ok-submit red-text">否</a>
+                <a href="#">是</a>
+            </p>
+        </div>
+    </div>-->
+</body>
+</html>
+<script>
+$(".close-btn").click(function(){
+	var id = $(this).attr('data-id');
+	var type = $(this).attr('data-type');
+	var dialog = jDialog.confirm('确定取消预约吗！',{
+		handler : function(button,dialog) {
+			dialog.close();
+			bk(id, type);
+		}
+	},{
+		handler : function(button,dialog) {
+			dialog.close();
+		}
+	});
+});
+function bk(id, type)
+{
+	var data={op:'quxiao',id:id,type:type};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "mobile.php?act=module&name=usersvip&do=myyuyue&weid={$_W['weid']}",
+		dataType: "html",
+		success: function(res){
+			if(res == 1){
+				$('.del'+id).remove();
+				var v = Number($('.t'+type).html());
+				$('.t'+type).html(v-1);
+			}
+			else{
+				jDialog.message('取消关注失败',{
+					autoClose : 3000,    // 3s后自动关闭
+					padding : '30px',    // 设置内部padding
+					modal: true         // 非模态，即不显示遮罩层
+				});
+			}
+		}
+	});
+}
+</script>

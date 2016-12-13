@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>我的投诉评价</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+    <style type="text/css">
+        .menu-link li.down-right {
+            background-image: url("./source/modules/usersvip/style/img/donw-arrow.jpg");
+            background-repeat: no-repeat;
+            background-position: 95% center;
+            background-size: 1rem auto;
+        }
+        .del{margin-left:0; width:14rem !important; padding-left:1rem !important;}
+        .del dd{
+            display:block !important; clear:both !important;
+            width:100% !important;
+        }
+    </style>
+</head>
+<body class="gray-bg index_fixed_2" id="myguanzhu">
+    <div class="home-page">
+        <div class="top-title">
+            <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+            <p>我的投诉评价</p>
+            </div>
+
+        <div class="block">
+            <ul class="menu-link" id="2">
+                <li class="arrow-right"><a href="">未处理（<span class="t2">{$total2}</span>）</a></li>
+            </ul>
+            <div class="item-list item2 jia-zheng">
+			{loop $list2s $list2}
+                <dl>
+                    <a>
+                        <dd class="title">{$list2['name']}[{$list2['pj']}]</dd>
+                        <dd class="info" style="width:100%;">{$list2['msg']}</dd>
+                        <dd class="time" style="width:100%;text-align:right"><?=date('Y-m-d',$list2['intime'])?></dd>
+                    </a>
+                    <dd>
+                        <a class="close-btn">联系客服</a>
+                    </dd>
+                </dl>
+			{/loop}
+            </div>
+        </div>
+            <div class="block">
+                <ul class="menu-link" id="1">
+                    <li class="arrow-right"><a href="">已解决（<span class="t1">{$total1}</span>）</a></li>
+                </ul>
+                <div class="item-list item2 jia-zheng">
+				{loop $list1s $list1}
+                    <dl class="del{$list1['id']}">
+                        <a>
+                            <dd class="title">{$list1['name']}[{$list1['pj']}]</dd>
+                            <dd class="info" style="width:100%;">{$list1['msg']}</dd>
+                            <dd class="time" style="width:100%;text-align:right"><?=date('Y-m-d',$list1['intime'])?></dd>
+                        </a>
+                        <dd>
+                            <a class="close-btn " id="del" data-id="{$list1['id']}">删  除</a>
+                        </dd>
+                    </dl>
+				{/loop}
+                </div>
+            </div>
+        </div>
+        <div class="menu-list">
+            <ul>
+                 <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
+				<li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
+				<li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+$("#del").click(function(){
+	var id = $(this).attr('data-id');
+	var dialog = jDialog.confirm('确定删除吗！',{
+		handler : function(button,dialog) {
+			dialog.close();
+			bk(id);
+		}
+	},{
+		handler : function(button,dialog) {
+			dialog.close();
+		}
+	});
+});
+function bk(id)
+{
+	var data={op:'del',id:id};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "mobile.php?act=module&name=usersvip&do=mytousu&weid={$_W['weid']}",
+		dataType: "html",
+		success: function(res){
+			if(res == 1){
+				$('.del'+id).remove();
+				var v = Number($('.t1').html());
+				$('.t1').html(v-1);
+			}
+			else{
+				jDialog.message('删除失败',{
+					autoClose : 3000,    // 3s后自动关闭
+					padding : '30px',    // 设置内部padding
+					modal: true         // 非模态，即不显示遮罩层
+				});
+			}
+		}
+	});
+}
+</script>

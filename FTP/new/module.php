@@ -24,6 +24,14 @@ class NewModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if ($operation == 'post')
 		{
 			$id = intval($_GPC['id']);
@@ -117,6 +125,14 @@ class NewModule extends WeModule {
 			message('排序成功！', referer(), 'success');
 		}
 		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
 		$_STATUS = array(
 				'-1' => '未发布',
 				'1' => '已发布',
@@ -185,6 +201,14 @@ class NewModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if($operation == 'display')
 		{
 			$pindex = max(1, intval($_GPC['page']));
@@ -210,6 +234,14 @@ class NewModule extends WeModule {
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_new_msg')." ".$where);
 			$pager = pagination($total, $pindex, $psize);
 			$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+			if($_GPC['province'])
+			{
+				$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+			}
+			if($_GPC['city'])
+			{
+				$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+			}
 			$type = array('1' => '开盘通知', '2' => '变价通知', '3' => '优惠通知');
 		}
 		elseif($operation == 'delete')

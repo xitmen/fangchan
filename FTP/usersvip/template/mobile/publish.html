@@ -13,12 +13,13 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/css/styles.css">   
     <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
-	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
+	
 	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
-	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+	<script src="./source/modules/ershou/asset/js/cookie.js"></script>
 </head>
 <body class="index_fixed_2">
     <div class="top-title">
@@ -72,23 +73,22 @@
 						data:data,
 						type: 'POST',
 						url: "{php echo $this->createMobileUrl('yzm')}",
-						dataType:'html',
-						success: function(html){
-						 if(html=='0')
+						dataType:'json',
+						success: function(json){
+						 if(json.ret != 1)
 						 {
 							$('.yz').html('暂时关闭');
 							$('.yz').removeClass('yz');
 							var dialog = jDialog.dialog({
 								title : '错误提醒！',
-								content : '对不起短信通道暂时关闭，稍等后再试！'
+								content : json.msg
 							});
 						 }
 						 else
 						 {
 							$('.yz').html('已发送,再发');
-							$.cookie('yzm',html);
+							$.cookie('yzm',json.code);
 							$.cookie('mtel',phone);
-							alert($.cookie('yzm'));
 						 }
 						}
 					 });	

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,user-scalable=no, initial-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telphone=no" />
+    <title>红包活动</title>
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
+    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
+    <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+    <style>
+        .radio
+        {
+            border: 1px solid #ccc;
+            border-radius: 13px;
+            display: block;
+            height: 25px;
+            width: 25px;
+            float: left;
+            margin-right: 8px;
+        }
+        .radio_ck{
+            background-color: #ea562d;
+            border: 1px solid #ea562d;
+        }
+        </style>
+</head>
+<body class="gray-bg">
+    <div class="top-title page-info-text">
+        <a href="#" class="arrow-left">&lt;</a>
+    </div>
+    <div class="ad-page-info" style="padding-top:0">
+        <img src="./source/modules/usersvip/style/img/hongbao.jpg" class="width100" />
+        <h3 class="red-text">使用范围</h3>
+        <p>本活动仅限于通过吉本良全购二手房或租房的客户。</p>
+        <h3 class="red-text">额度说明</h3>
+        <p>购二手房：话费红包金额100元<br />租房：话费红包金额30元</p>
+        <h3 class="red-text">领取说明</h3>
+        <p>填写相关验证信息点击“确认领取”，我们将对你的信息进行核对，通过审核后即可获得话费返利，(发放时间为：每月15号前发放上个月度的话费红包）。</p>
+        <h3 class="red-text">截至日期：房源过户或租房成交后20个工作日内有效</h3>
+        <style>
+            ul{font-size:.5rem !important;}
+            label{font-size:.5rem !important;}
+        </style>
+        <div class="tou-shu">
+            <h3 class="red-text">联系电话</h3>
+            <ul>
+                <li><input type="text" value="" placeholder="请输入您的手机号码"></li>
+                <li><input type="text" value="" placeholder="请输入房东手机号码"></li>
+                <li><input type="text" value="" placeholder="请输入中介手机号码"></li>
+                <li class="line" style="border-bottom:0 none"><label>服务评价：</label><br />
+                    <span><a class="radio" id="较差"></a>较差</span>
+                    <span><a class="radio" id="一般"></a>一般</span>
+                    <span><a class="radio radio_ck" id="较好"></a>较好</span>
+                    <input type="hidden" name="data[pj]" value="较好" id="pj"/>
+                </li>
+                <li><label>投诉建议：</label><br />
+                    <textarea placeholder="为了更好的为您服务，请你您我们的服务进行评价，（不超过150个字）" name="data[msg]" id="msg"></textarea>
+                </li>
+                <li style="text-align:right; color:#ccc; font-size:.5rem">该活动最终解释权归本平台所有</li>
+            </ul>
+            <a class="yellow-btn" style="margin-bottom:3rem;">确认</a>
+        </div>
+    </div>
+    <div class="menu-list">
+        <ul>
+            <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
+            <li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
+            <li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
+            <li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+        </ul>
+    </div>
+</body>
+<script>
+    $('.radio').click(function (){
+        $('.radio').removeClass('radio_ck');
+        $(this).addClass('radio_ck');
+        $('#pj').val($(this).attr('id'));
+    });
+</script>
+</html>

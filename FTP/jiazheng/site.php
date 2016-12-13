@@ -91,21 +91,25 @@ class JiazhengModuleSite extends ComVerControl {
 		if($_GPC['op'] == 'submit' && $this->repeatSubmit())
 		{
 			$data = $_GPC['data'];
-			$data['address'] = $_GPC['a1'].$_GPC['a2'];
-			$data['openid'] = $_W['fans']['from_user'];
-			pdo_insert('ace_jiazheng_look', $data);
 			$member = pdo_fetch("SELECT mobile FROM ".tablename('ace_members')." WHERE from_user = :from_user" , array(':from_user' => $_W['fans']['from_user']));
 			if(empty($member))
 			{
-				$data = array();
-				$data['from_user'] = $_W['fans']['from_user'];
-				$data['mobile'] = $data['phone'];
-				pdo_insert('ace_members', $data);
+				$data1 = array();
+				$data1['from_user'] = $_W['fans']['from_user'];
+				$data1['mobile'] = $data['phone'];
+				$data['gzdh'] = $data['phone'];
+				pdo_insert('ace_members', $data1);
 			}
 			else
 			{
 				pdo_update('ace_members', array('mobile' => $data['phone']), array('from_user' => $_W['fans']['from_user']));
+				$data['phone'] = $member['mobile'];
+				$data['gzdh'] = $member['mobile'];
 			}
+			$data['name'] = $_GPC['a1'];
+			$data['address'] = $_GPC['a2'];
+			$data['openid'] = $_W['fans']['from_user'];
+			pdo_insert('ace_jiazheng_look', $data);
 			message('提交成功！', $this->createMobileUrl('index'), 'success');
 		}
 		else
@@ -145,7 +149,8 @@ class JiazhengModuleSite extends ComVerControl {
 		if($_GPC['op'] == 'submit' && $this->repeatSubmit())
 		{
 			$data = $_GPC['data'];
-			$data['y_m'] = $_GPC['nian'].'年'.$_GPC['yue'].'月';
+			$data['years'] = $_GPC['nian'];
+			$data['month'] = $_GPC['yue'];
 			$data['openid'] = $_W['fans']['from_user'];
 			pdo_insert('ace_jiazheng_resume', $data);
 			$member = pdo_fetch("SELECT mobile FROM ".tablename('ace_members')." WHERE from_user = :from_user" , array(':from_user' => $_W['fans']['from_user']));

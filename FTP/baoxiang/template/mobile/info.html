@@ -13,6 +13,12 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/baoxiang/asset/css/styles.css?t=1">   
     <script src="./source/modules/baoxiang/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/baoxiang/asset/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
 </head>
 <body class="index_fixed_2">
 <div class="top-title gray-bg-title">
@@ -124,10 +130,26 @@ function guanzhu(id)
 		dataType: "json",
 		success: function(res){
 			if(res.ret == 1){
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '操作成功',
+					content : res.msg,
+					buttons : [
+						{
+							type : 'highlight',
+							text : '知道了',
+							handler:function(button,dialog)
+							{
+								dialog.close();
+							}
+						}
+					]
+				});	
 			}
 			else{
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '错误提醒！',
+					content : res.msg
+				});
 			}
 		}
 	});

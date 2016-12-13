@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telphone=no" />
-    <title>{$tags['types'][$_GPC['type']]}出租房源发布</title>
+    <title>出租房源发布-{$tags[$_GPC['type']]}</title>
     <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
     <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/css/styles.css">   
     <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
@@ -17,7 +17,7 @@
 <body>
     <div class="top-title gray-bg-title">
         <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
-        <p>{$tags['types'][$_GPC['type']]}出租房源发布</p>
+        <p>{$tags[$_GPC['type']]}</p>
     </div>
     <ul class="send-list">
 	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('chuzu_publish', array('op' => 'submit'))}">
@@ -111,20 +111,20 @@
         </li>
 		<li>
             <label>配套</label>
-            <span><input type="text" name="data[peitao]" class="line long" placeholder="如：花园、楼阁、楼台等" /></span>
+            <span><input type="text" name="detail[peitao]" class="line long" placeholder="如：花园、楼阁、楼台等" /></span>
         </li>
 		<li class="two">
             <label>卧室</label><input type="text" class="one" name="data[woshi]" /> 个
         </li>
 		{/if}
-		{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
+		
         <li>
             <label>物业费</label>
             <span>
-                <input type="text" name="data[wyf]" class="two" />元/平方米/月
+                <input type="text" name="detail[wyf]" class="two" />元/平方米/月
             </span>
         </li>
-		{/if}
+		
         <li class="two">
             <label>面积</label><input type="text" class="one" name="data[pingfang]" /> M<sup>2</sup>
         </li>
@@ -143,6 +143,19 @@
             <label>租金</label><input type="text" class="one" name="data[zujin]" placeholder="元/月"/>
         </li>
     </ul>
+	<?php
+	if(empty($alliance))
+	{
+	?>
+	<div class="tou-shu">
+        <ul>
+			<li class="line"><label>类型</label>
+				<span><input type="radio" name="data[source]" value="1" checked />个人</span>
+				<span><input type="radio" name="data[source]" value="2" />中介</span>
+			</li>
+        </ul>
+    </div>
+	<?php } ?>
     <div class="tou-shu">
         <ul>
 			{if $_GPC['type'] == 1}
@@ -161,12 +174,12 @@
 			{/if}
 			{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
 				<li>
-					<span><input type="text" name="data[peitao]"  placeholder="配套如：办公桌、沙发等" /></span>
+					<span><input type="text" name="detail[peitao]"  placeholder="配套如：办公桌、沙发等" /></span>
 				</li>
 			{/if}
 			{if $_GPC['type'] == 2}
 				<li>
-					<span><input type="text" name="data[peitao]"  placeholder="配套如：花园、露台等" /></span>
+					<span><input type="text" name="detail[peitao]"  placeholder="配套如：花园、露台等" /></span>
 				</li>
 			{/if}
             <li>
@@ -174,7 +187,8 @@
             </li>
         </ul>
     </div>
-     <p class="upload-img" style="padding-left:22px;color:#EA562D">图片上传请联系客服，我们为你专业定制</p>
+    <p class="upload-img"><a id="upload_img">上传图片</a>图片最多上传8张,每张不得超过2M</p>
+	<input type="hidden" value="" class="pics" name="detail[photo]">
     <a href="javascript:sb();" class="yellow-btn">发布</a>
 	</form>
 </body>
@@ -184,6 +198,48 @@
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
 	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
+	
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="/diyUpload/css/diyUpload.css?t=1">
+    <script type="text/javascript" src="/diyUpload/js/webuploader.html5only.min.js"></script>
+    <script type="text/javascript" src="/diyUpload/js/diyUpload.js"></script>
+<script type="text/javascript">
+$('.upload-img a').diyUpload({
+    url:'fileupload.php',
+    success:function( data ) {
+        console.info( data );
+        var pics = $('.pics').val();
+        $('.pics').val(pics + '|' + data._raw);
+    },
+    error:function( err ) {
+        console.info( err );
+    },
+    //chunked:true,
+    // 分片大小
+    //chunkSize:1 * 1024,
+    //最大上传的文件数量, 总文件大小,单个文件大小(单位字节);
+    fileNumLimit:8,
+    fileSizeLimit:8 * 2048 * 1024,
+    fileSingleSizeLimit:2048 * 1024,
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    },
+    pick:{
+        id:'#upload_img',
+        //label:"上传图片"
+    }
+});
+function upload_error(msg)
+{
+	var dialog = jDialog.dialog({
+		title : '错误提醒！',
+		content : msg
+	});
+}
+</script>
 <script>
 function sb()
 {

@@ -24,6 +24,14 @@ class ShangmenModule extends WeModule {
 	{
 		global $_GPC, $_W;
 		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($_COOKIE['province'])
+		{
+			$_GPC['province'] = $_COOKIE['province'];
+		}
+		if($_COOKIE['city'])
+		{
+			$_GPC['city'] = $_COOKIE['city'];
+		}
 		if ($operation == 'post')
 		{
 			$id = intval($_GPC['id']);
@@ -121,6 +129,14 @@ class ShangmenModule extends WeModule {
 			message('排序成功！', referer(), 'success');
 		}
 		$regions = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=0 and status=1 ORDER BY torder asc,region_id DESC");
+		if($_GPC['province'])
+		{
+			$citys = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['province']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
+		if($_GPC['city'])
+		{
+			$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$_GPC['city']." and status=1 ORDER BY torder asc,region_id DESC");
+		}
 		include $this->template('merchant');	
 	}
 	

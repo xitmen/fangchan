@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">包厢频道</a></li>
 	<li><a href="{php echo $this->createWebUrl('photo', array('op' => 'display', 'id' => $id))}">相册管理</a></li>
 	{if $item['type'] == 1}
 	<li><a href="{php echo $this->createWebUrl('datang', array('op' => 'display', 'id' => $id))}">大堂相册管理</a></li>

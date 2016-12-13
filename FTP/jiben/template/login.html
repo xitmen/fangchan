@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">基本配置频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('login', array('op' => 'post'))}">添加ip</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('login', array('op' => 'display'))}">管理ip</a></li>
 </ul>

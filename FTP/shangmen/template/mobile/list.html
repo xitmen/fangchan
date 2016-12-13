@@ -13,6 +13,12 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/shangmen/asset/css/styles.css">   
     <script src="./source/modules/shangmen/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/shangmen/asset/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
 </head>
 <body class="index_fixed_4">
     <div class="top-title gray-bg-title">
@@ -87,7 +93,10 @@ function guanzhu(id)
 				$('.follow'+id).html('已关注');
 			}
 			else{
-				alert(res.msg);
+				var dialog = jDialog.dialog({
+					title : '错误提醒！',
+					content : res.msg
+				});
 			}
 		}
 	});

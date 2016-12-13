@@ -1,4 +1,3 @@
-
 .home-page {
   margin-bottom: 3rem;
 }
@@ -15,7 +14,7 @@
   margin-left: .5rem;
   vertical-align: top;
   margin-top: .25rem;
-  color:#fff;
+  color: #fff;
 }
 .contact span {
   float: right;
@@ -28,7 +27,7 @@
 }
 .nav-list {
   padding: .5rem 0;
-  border-bottom:1px solid #6A635F;
+  border-bottom: 1px solid #6A635F;
 }
 .nav-list li {
   width: 3.7rem;
@@ -70,7 +69,7 @@
   background-image: url("../img/icon08.jpg");
 }
 .ad-page {
-  border-bottom:1px solid #6A635F;
+  border-bottom: 1px solid #6A635F;
   margin-bottom: .2rem;
 }
 .menu-list {
@@ -80,13 +79,13 @@
   left: 0;
   padding-top: .19rem;
   background-color: #fff;
-  border-top:1px solid #959595;
+  border-top: 1px solid #959595;
 }
 .menu-list li {
   display: inline-block;
   width: 3.7rem;
   height: .5rem;
-  padding-top:1rem;
+  padding-top: 1rem;
   font-size: .6rem;
   background-position: center top;
   background-repeat: no-repeat;
@@ -164,7 +163,7 @@
 }
 .tou-shu {
   background-color: #fff;
-  border-top: .05rem solid #484340;
+  border-top: .05rem solid #E0E0E0;
 }
 .tou-shu ul li {
   width: 15rem;
@@ -217,7 +216,7 @@
   background-color: #fff;
 }
 .tou-shu ul li.line {
-  border-bottom: 1px solid #959595;
+  border-bottom: 1px solid #E0E0E0;
 }
 .tou-shu ul li.line input[type="text"] {
   width: 9rem;
@@ -375,6 +374,7 @@
 }
 .send-list {
   overflow: hidden;
+  margin-top: 44px;
 }
 .send-list li {
   font-size: .7rem;
@@ -388,7 +388,7 @@
 }
 .send-list li label {
   display: inline-block;
-  width: 2rem;
+  width: 2rem; font-size:.6rem;
   text-align: right;
   padding-right: .5rem;
 }
@@ -409,6 +409,7 @@
   border: 1px solid #5B5451;
   width: 11.6rem;
   color: #949495;
+  padding: .1rem 0;
 }
 .send-list li span select {
   padding: .5rem .3rem;
@@ -429,10 +430,20 @@
   width: 11rem;
   border: 1px solid #5B5451;
 }
-.send-list li span .two {
+.send-list li span .two,select.two {
+  border: 0 none;
+  border-radius: 0;
   border: 1px solid #5B5451;
   width: 5.35rem;
+  height: 2rem;
   margin-right: 1rem;
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  background-color: #fff;
+}
+.send-list li span .two select {
+  width: 10rem;
 }
 .upload-img {
   color: #949495;
@@ -448,7 +459,6 @@
   font-size: .7rem;
   border-radius: 0.3rem;
 }
-
 .custom-info h3.title {
   font-size: .8rem;
   font-weight: normal;

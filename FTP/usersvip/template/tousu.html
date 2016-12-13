@@ -26,6 +26,11 @@
 							<option value="{$_GPC['area']}" selected><?=$this->getRegion($_GPC['area'])?></option>
 							{/if}
 						</select>
+						<select name="status" class="span2">
+							<option value="">--状态--</option>
+								<option value="-1" <?=$_GPC['status'] == -1?'selected':''?>>未处理</option>
+								<option value="1" <?=$_GPC['status'] == 1?'selected':''?>>已处理</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -40,13 +45,13 @@
 		<table class="table table-hover">
 			<thead class="navbar-inner">
 				<tr>
-					<th style="width:15%;">商家名称</th>
-					<th style="width:10%;">评价</th>
+					<th style="width:10%;">商家名称</th>
+					<th style="width:5%;">评价</th>
 					<th style="width:30%;">投诉建议</th>
 					<th style="width:15%;">地区</th>
 					<th style="width:10%;">投诉者电话</th>
 					<th style="width:15%;">时间</th>
-					<th style="text-align:right; width:5%;">操作</th>
+					<th style="text-align:right; width:15%;">操作</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,6 +64,12 @@
 					<td>{$item['phone']}</td>
 					<td><?=date('Y-m-d H:i',$item['intime'])?></td>
 					<td style="text-align:right;">
+					{if $item['status'] == 1}
+					<a href="{php echo $this->createWebUrl('tousu', array('id' => $item['id'], 'op' => 'status', 'status' => -1))}">已处理</a>
+					{else}
+					<a href="{php echo $this->createWebUrl('tousu', array('id' => $item['id'], 'op' => 'status', 'status' => 1))}">未处理</a>
+					{/if}
+					
 						<a href="{php echo $this->createWebUrl('tousu', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
 					</td>
 				</tr>

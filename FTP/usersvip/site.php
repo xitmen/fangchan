@@ -79,6 +79,14 @@ class UsersvipModuleSite extends WeModuleSite {
 		require_once 'front.cls.php';
 		UsersvipFrontModel::E($this)->doMobileXuzhi();
 	}
+	public function doMobileXuzhi_info(){//使用须知
+		require_once 'front.cls.php';
+		UsersvipFrontModel::E($this)->doMobileXuzhi_info();
+	}
+	public function doMobileAds_info(){//广告详情
+		require_once 'front.cls.php';
+		UsersvipFrontModel::E($this)->doMobileAds_info();
+	}
 	public function doMobileTousu(){//投诉评价
 		require_once 'front.cls.php';
 		UsersvipFrontModel::E($this)->doMobileTousu();
@@ -95,40 +103,20 @@ class UsersvipModuleSite extends WeModuleSite {
 		require_once 'front.cls.php';
 		UsersvipFrontModel::E($this)->doMobileMyfabu();
 	}
-	/**以上为注册登陆相关函数**/
-	
-	public function doMobileRecharge(){
-		global $_W, $_GPC;
-		@session_start();
-		if(!empty($_W['fans']['from_user']) && $_SESSION['weid']!=$_W['weid']){
-			$fans=pdo_fetch("SELECT id FROM ".tablename('ace_members')." WHERE `from_user`=:f_user and `u_id` =:weid",array(':f_user'=>$_W['fans']['from_user'],':weid'=>$_W['weid']));
-			if(!empty($fans)){
-				$_SESSION['fromUser']=$fans['id'];
-				$_SESSION['weid']=$_W['weid'];
-			}
-		}
-		if(empty($_SESSION['fromUser'])){
-			message('您没有登陆，无法访问充值页！',referer(),'error');
-			exit;
-		}
-		if(!empty($_GPC['action']) && $_GPC['action']=='recharge'){
-			if(preg_match('/^\d+(\.\d{1,2})?$/', $_GPC['money'])){
-				$oid=$this->createOrderNo().$this->createRndStr();
-				$exfee=$this->getGift(floatval($_GPC['money']));
-				$dat=array('rmid'=>$oid,'content'=>'在线充值'.$_GPC['money'].'元','fee'=>floatval($_GPC['money']),'exfee'=>$exfee,'createtime'=>TIMESTAMP,'weid'=>$_W['weid'],'mid'=>$_SESSION['fromUser'],'openid'=>'');
-				if(pdo_insert('ace_recharge_list',$dat)){
-					message($oid,referer(),'success','ajax');
-					exit;
-				}
-				message('创建充值订单失败，暂时无法充值！',referer(),'error','ajax');
-			}
-			else{
-				message('充值金额输入有误，请检查金额是否输入正确',referer(),'error','ajax');
-			}
-			exit;
-		}
-		include $this->template('recharge');
+	public function doMobileMyyuyue(){//我的预约
+		require_once 'front.cls.php';
+		UsersvipFrontModel::E($this)->doMobileMyyuyue();
 	}
+	public function doMobileMytousu(){//我的投诉
+		require_once 'front.cls.php';
+		UsersvipFrontModel::E($this)->doMobileMytousu();
+	}
+	public function doMobileHongbao(){//红包界面
+		require_once 'front.cls.php';
+		UsersvipFrontModel::E($this)->doMobileHongbao();
+	}
+	/**以上为注册登陆相关函数**/
+
 	/*** ************************************************************************************************后台-代码*******************************************************************************/
 
 	/**
@@ -159,6 +147,10 @@ class UsersvipModuleSite extends WeModuleSite {
 			{
 				$where .= " and area = ".$_GPC['area'];
 			}
+			if($_GPC['status'])
+			{
+				$where .= " and status = ".$_GPC['status'];
+			}
 			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_tousu_pingjia')." ".$where." ORDER BY  id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_tousu_pingjia')." ".$where);
 			$pager = pagination($total, $pindex, $psize);
@@ -173,6 +165,17 @@ class UsersvipModuleSite extends WeModuleSite {
 			}
 			pdo_delete('ace_tousu_pingjia', array('id' => $id));
 			message('删除成功！', referer(), 'success');
+		}
+		elseif($operation == 'status')
+		{
+			$id = intval($_GPC['id']);
+			$status = intval($_GPC['status']);
+			$row = pdo_fetch("SELECT id FROM ".tablename('ace_tousu_pingjia')." WHERE id = :id", array(':id' => $id));
+			if (empty($row)) {
+				message('抱歉，信息不存在或是已经被删除！');
+			}
+			pdo_update('ace_tousu_pingjia', array('status'=>$status), array('id' => $id));
+			message('处理成功！', referer(), 'success');
 		}
 		include $this->template('tousu');	
 	}

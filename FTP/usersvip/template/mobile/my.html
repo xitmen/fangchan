@@ -14,7 +14,7 @@
     <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
 </head>
-<body class="gray-bg index_fixed_2">
+<body class="gray-bg">
     <div class="home-page">
         <div class="top-title">
             <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
@@ -22,13 +22,14 @@
         </div>
         <div class="my-page">
             <img src="{$tmp['avatar']}" class="head-icon" />
-            <p>{$tmp['uname']}</p>
+            <p>{$tmp['uname']}<br><span style="font-size:14px;text-align:center;">{$_W['fans']['from_user']}</span></p>
+			
         </div>
         <ul class="menu-link">
             <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=myguanzhu&weid={$_W['weid']}"><i class="icon01"></i>我的关注</a></li>
             <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=myfabu&weid={$_W['weid']}"><i class="icon02"></i>我的发布</a></li>
-            <li class="arrow-right"><a href=""><i class="icon03"></i>我的预约</a></li>
-            <li class="arrow-right"><a href=""><i class="icon04"></i>我的投诉评价</a></li>
+            <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=myyuyue&weid={$_W['weid']}"><i class="icon03"></i>我的预约</a></li>
+            <li class="arrow-right"><a href="mobile.php?act=module&name=usersvip&do=mytousu&weid={$_W['weid']}"><i class="icon04"></i>我的投诉评价</a></li>
         </ul>
         <p class="tel-line">客服电话400-6288-609</p>
         <div class="menu-list">

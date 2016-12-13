@@ -1,0 +1,86 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">基本配置频道</a></li>
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('notices', array('op' => 'post'))}">添加须知</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('notices', array('op' => 'display'))}">管理须知</a></li>
+</ul>
+{if $operation == 'post'}
+<script charset="utf-8" src="/source/library/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="/source/library/kindeditor/lang/zh_CN.js"></script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}" />
+		<h4>基本信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">名称</label></th>
+				<td>
+					<input type="text" name="data[name]" class="span6" value="{$item['name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th>内容
+				<span class="help-block">最佳尺寸(750px * 自定义 72分辨率)</span>
+				</th>
+				<td>
+					<textarea style="height:400px; width:100%;"  name="data[content]" cols="70" id="info">{$item['content']}</textarea>
+				</td>
+			</tr>
+		<tr>
+			<th></th>
+			<td>
+				<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</td>
+		</tr>
+		</table>
+	</form>
+</div>
+<script>
+KindEditor.ready(function(K) {
+  K.create('#info', {
+	themeType : 'default'
+	});});
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div style="padding:15px;">
+	<form action="{php echo $this->createWebUrl('notices', array('op' => 'paixu'))}" method="post" class="form-horizontal form" >
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:10%;">ID</th>
+					<th style="width:40%;text-align:center;">名称</th>
+					<th style="width:25%;">排序</th>
+					<th style="text-align:right; width:25%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td style="text-align:center;">{$item['name']}</td>
+					<td>
+						<input type="text" name="ids[{$item['id']}]" class="span1" value="{$item['torder']}" />
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('notices', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('notices', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				<tr>
+					<td></td>
+					<td colspan="6">
+						<input name="token" type="hidden" value="{$_W['token']}" />
+						<input name="submit" type="submit" value="排序" class="btn btn-primary span3">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

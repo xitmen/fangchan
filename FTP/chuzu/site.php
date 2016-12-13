@@ -24,7 +24,7 @@ class ChuzuModuleSite extends ComVerControl {
 	    global $_W, $_GPC;
 		(new check())->ckCity();
 		$type = intval($_GPC['type'])?intval($_GPC['type']):1;//类型
-		$condition = " where status = 1 ";
+		$condition = " where status in (1,2)  ";
 		if($type)
 		{
 			$condition .= " and type = " . $type;
@@ -64,10 +64,16 @@ class ChuzuModuleSite extends ComVerControl {
 		$key = $_GPC['key'];
 		if($key)
 		{
-		  $condition .= " and name like '%" . $key ."%'";
+		  $condition .= " and (name like '%" . $key ."%' or number like'%". $key ."')";
 		}
 		$items = pdo_fetchall("SELECT * FROM ".tablename('ace_chuzu_house')." ".$condition." order by torder asc,id desc");
 		require_once IA_ROOT.'/source/modules/chuzu/tags.php';  //引入标签
+		$all_arrs = [];
+		$alliances = pdo_fetchall("SELECT * FROM ".tablename('ace_alliances'));
+		foreach($alliances as $alliance)
+		{
+			$all_arrs[$alliance['id']] = $alliance['number'];
+		}
 		include $this->template('index');
 	 }
 	 
@@ -83,23 +89,26 @@ class ChuzuModuleSite extends ComVerControl {
 			{
 				message('抱歉，信息不存在或是已经删除！');
 			}
-			else if ($item['status'] != 1) 
+			else if ($item['status'] != 1 && $item['status'] != 2) 
 			{
-				message('抱歉，该房已下架！');
+				message('抱歉，该房暂时无法查看！');
 			}
 			else
 			{
+				$detail = pdo_fetch("SELECT * FROM ".tablename('ace_chuzu_house_details')." WHERE h_id = :h_id" , array(':h_id' => $id));
 				//网点
-				if($item['branch_id'])
+				if($detail['branch_id'])
 				{
-					$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." where id = ".$item['branch_id']);
+					$branch = pdo_fetch("SELECT * FROM ".tablename('ace_branch')." where id = ".$detail['branch_id']);
 				}
 				//相册
-				if(!empty($item['photo']))
+				if(!empty($detail['photo']))
 				{
-				    $photos = explode('|', $item['photo']);
+				    $photos = explode('|', $detail['photo']);
 				}
 				$len = count($photos);
+				//判断是否关注过 
+				$attention = pdo_fetch("SELECT * FROM ".tablename('ace_chuzu_queue')." WHERE openid = :openid  and house_number = :house_number" , array(':house_number' => substr($item['number'], -8),':openid' => $_W['fans']['from_user']));
 				include $this->template('info');
 			}
 		}
@@ -150,6 +159,10 @@ class ChuzuModuleSite extends ComVerControl {
 				$city_id = $_COOKIE['city_id'];
 				$area_id = $_COOKIE['area_id'];
 				//加载定制页面
+				if($city_id)
+				{
+					$areas = pdo_fetchall("SELECT * FROM ".tablename('ace_region')." where parent_id=".$city_id." and status=1 ORDER BY torder asc,region_id DESC");
+				}
 				include $this->template('dingzhi');
 			}
 		}
@@ -204,6 +217,95 @@ class ChuzuModuleSite extends ComVerControl {
 				{
 					echo json_encode(
 						array('ret' => '0', 'msg' => '您已经关注过')
+					);
+				}
+			}
+			else
+			{
+				echo json_encode(
+					array('ret' => '0', 'msg' => '获取不到个人资料')
+				);
+			}
+		}
+		else
+		{
+			echo json_encode(
+				array('ret' => '0', 'msg' => '缺少参数')
+			);
+		}
+	}
+	
+	//预约
+	public function doMobileQueue() 
+	{
+		global $_GPC, $_W;
+		checkauth();
+		ComFunc::startSession();
+		if(!empty($_GPC['id']))
+		{
+			if($_W['fans']['from_user'])
+			{
+				//查询房源信息
+				
+				$house = pdo_fetch("SELECT * FROM ".tablename('ace_chuzu_house')." WHERE id = :id" , array(':id' => $_GPC['id']));
+				if(empty($house))
+				{
+					echo json_encode(
+						array('ret' => '0', 'msg' => '房屋信息不存在')
+					);
+				}
+				//判断是否关注过 
+				$attention = pdo_fetch("SELECT * FROM ".tablename('ace_chuzu_queue')." WHERE openid = :openid  and house_number = :house_number" , array(':house_number' => substr($house['number'], -8),':openid' => $_W['fans']['from_user']));
+				if(empty($attention))
+				{
+					$member = pdo_fetch("SELECT mobile FROM ".tablename('ace_members')." WHERE from_user = :from_user" , array(':from_user' => $_W['fans']['from_user']));
+					$detail = pdo_fetch("SELECT * FROM ".tablename('ace_chuzu_house_details')." WHERE h_id = :id" , array(':id' => $_GPC['id']));
+					$data = array();
+					$data['nickname'] = '';//客户昵称
+					$data['phone'] = $member['mobile'];//客户电话
+					$data['owner_tel'] = $detail['tel'];//房东电话
+					$data['house_number'] = substr($house['number'], -8);//房源编号
+					$data['house_id'] = $house['id'];//房源号
+					if($detail['branch_id'])
+					{
+						$branch = pdo_fetch("SELECT number FROM ".tablename('ace_branch')." WHERE id = :id" , array(':id' => $detail['branch_id']));
+						$data['branch_number'] = $branch['number'];//网点编号
+					}
+					$data['mediation_info'] = $detail['middleman_tel'];//中介信息电话
+					if($house['source'] == 1)
+					{
+						$data['house_source'] = '平台';//房源来源
+					}
+					else if($house['source'] == 2)
+					{
+						$data['house_source'] = '普通';//房源来源
+					}
+					else if($house['source'] == 3 && $house['a_id'])
+					{
+						$alliance = pdo_fetch("SELECT number FROM ".tablename('ace_alliances')." WHERE id = :id" , array(':id' => $house['a_id']));
+						$data['house_source'] = '联盟('.$alliance['number'].')';//房源来源
+					}
+					require_once IA_ROOT.'/source/modules/chuzu/tags.php';  //引入标签
+					$data['zfyx'] = $tags['types'][$house['type']];//租房意向
+					$data['province'] = $house['province'];
+					$data['city'] = $house['city'];
+					$data['area'] = $house['area'];
+					$data['area_name'] = $this->getRegion($house['area']);
+					$data['shi'] = $house['shi'];
+					$data['ting'] = $house['ting'];
+					$data['wei'] = $house['wei'];
+					$data['zhuangxiu'] = $house['zhuangxiu'];
+					$data['type'] = $house['type'];
+					$data['openid'] = $_W['fans']['from_user'];
+					pdo_insert('ace_chuzu_queue', $data);
+					echo json_encode(
+						array('ret' => '1', 'msg' => '客服为您确认看房时间，请等待通知。')
+					);
+				}
+				else
+				{
+					echo json_encode(
+						array('ret' => '0', 'msg' => '您已经预约过')
 					);
 				}
 			}

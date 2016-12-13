@@ -71,6 +71,10 @@ class BaoxiangModuleSite extends ComVerControl {
 		{
 			message('抱歉，信息不存在或是已经删除！', '', 'error');
 		}
+		else if ($item['status'] == -1) 
+		{
+			message('抱歉，该包厢暂未通过审核！');
+		}
 		$xing = array('1' => '一','2' => '二','3' => '三','4' => '四','5' => '五');
 		include $this->template('info');
 	}

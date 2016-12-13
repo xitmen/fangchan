@@ -19,21 +19,28 @@
         <div class="banner">
             <div class="loop img-box">
                 <div class="img-list">
-                    <img src="./source/modules/usersvip/style/index/img/banner.jpg" class="width100" />
-                    <img src="./source/modules/usersvip/style/index/img/banner02.jpg" class="width100" />
-                    <img src="./source/modules/usersvip/style/index/img/banner03.jpg" class="width100" />
+				{loop $topAds $topAd}
+					{if $topAd['url']}
+						<a href="{$topAd['url']}"><img src="{$topAd['pic']}" class="width100" /></a>
+					{else if $topAd['content']}
+						<a href="{php echo $this->createMobileUrl('ads_info', array('id' => $topAd['id']))}">
+						<img src="{$topAd['pic']}" class="width100" /></a>
+					{else}
+					<img src="{$topAd['pic']}" class="width100" />
+					{/if}
+				{/loop}
                 </div>
                 <div class="page-list">
-                    <i class="on"></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                    <i></i>
+				{loop $topAds $topAd}
+					<?php $i=1;?>
+                    <i <?=$i==1?'class="on"':''?>></i>
+					<?php $i++;?>
+                {/loop}
                 </div>
             </div>
         </div>
-        <div class="contact line-tel">
-            <label>{$city['region_name']}</label>
+        <div class="contact line-tel" style="margin-top:-.2rem;">
+            <label><a href="mobile.php?act=module&name=usersvip&do=city&weid={$_W['weid']}" style="color:#fff;">{$city['region_name']}</a></label>
             <span>咨询热线:400-6288-609</span>
         </div>
         <div class="nav-list">
@@ -48,12 +55,18 @@
                 <li onclick="javascript:window.location.href='mobile.php?act=module&name=usersvip&do=qiye&weid={$_W['weid']}'"><a>企业策划</a></li>
             </ul>
         </div>
+		{loop $topBottom $topBottom}
         <div class="ad-page">
-            <img src="./source/modules/usersvip/style/index/img/ad01.jpg" class="width100" />
+			{if $topBottom['url']}
+				<a href="{$topBottom['url']}"><img src="{$topBottom['pic']}" class="width100" /></a>
+			{else if $topBottom['content']}
+				<a href="{php echo $this->createMobileUrl('ads_info', array('id' => $topBottom['id']))}">
+				<img src="{$topBottom['pic']}" class="width100" /></a>
+			{else}
+			<img src="{$topBottom['pic']}" class="width100" />
+			{/if}
         </div>
-        <div class="ad-page">
-            <img src="./source/modules/usersvip/style/index/img/ad02.jpg" class="width100" />
-        </div>
+		{/loop}
     </div>
     <div class="menu-list">
         <ul>

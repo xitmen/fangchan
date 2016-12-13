@@ -13,6 +13,11 @@
     <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
     <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+	<script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
     <style type="text/css">
         .menu-link li.down-right {
             background-image: url("./source/modules/usersvip/style/img/donw-arrow.jpg");
@@ -30,37 +35,73 @@
         </div>
         <div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">二手房（2）</a></li>
+                <li class="arrow-right"><a href="">二手房（<?=$total1?>）</a></li>
             </ul>
             <div class="item-list">
+			{loop $list1s $item}
                 <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">东湖大郡五期</dd>
-                    <dd class="info">姑苏区 苏胜路榭雨街66号</dd>
-                    <dd class="info">2室1厅1卫 85㎡<span class="right">底层/23F</span></dd>
-                    <dd class="price">售价<em>230</em>万</dd>
-                    <dd><a href="#" class="edit-btn">修改</a></dd>
+				<a href="mobile.php?act=module&name=ershou&do=info&id={$item['id']}&weid={$_W['weid']}">
+                    <dt><img src="{$item['pic']}" /></dt>
+                    <dd class="title">{$item['name']} (<?=substr($item['number'], -8)?>)</dd>
+                    <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+                    {if $item['type'] == 1}
+					<dd class="info">{$item['shi']}室{$item['ting']}厅{$item['wei']}卫 {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+					{/if}
+					{if $item['type'] == 2}
+					<dd class="info">{$item['xingshi']} {$item['woshi']}个卧室<span class="right">{$item['pingfang']}㎡</span></dd>
+					{/if}
+					{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
+					<dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+					{/if}
+                    <dd class="price">售价<em>{$item['jiage']}</em>万</dd>
+					</a>
+					{if $item['status'] == '-1'}
+					<dd><a class="edit-btn">已下架</a></dd>
+					{else}
+					<dd><a class="edit-btn 1c{$item['id']}" onclick="ck({$item['id']}, 1)">下架</a></dd>
+					{/if}
+					
+                    <!--<dd><a href="#" class="edit-btn">修改</a></dd>-->
                 </dl>
+			
+			{/loop}
             </div>
         </div>
         <div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">出租房（0）</a></li>
+                <li class="arrow-right"><a href="">出租房（<?=$total2?>）</a></li>
             </ul>
             <div class="item-list">
+			{loop $list2s $item}
                 <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">东湖大郡五期</dd>
-                    <dd class="info">姑苏区 苏胜路榭雨街66号</dd>
-                    <dd class="info">2室1厅1卫 85㎡<span class="right">底层/23F</span></dd>
-                    <dd class="price">租金<em>3300</em>元/月</dd>
-                    <dd><a href="#" class="edit-btn">修改</a></dd>
+				<a href="mobile.php?act=module&name=chuzu&do=info&id={$item['id']}&weid={$_W['weid']}">
+                    <dt><img src="{$item['pic']}" /></dt>
+                    <dd class="title">{$item['name']} (<?=substr($item['number'], -8)?>)</dd>
+                    <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+                    {if $item['type'] == 1}
+					<dd class="info">{$item['shi']}室{$item['ting']}厅{$item['wei']}卫 {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+					{/if}
+					{if $item['type'] == 2}
+					<dd class="info">{$item['xingshi']} {$item['woshi']}个卧室<span class="right">{$item['pingfang']}㎡</span></dd>
+					{/if}
+					{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
+					<dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right"><?=$item['louceng']?>/<?=$item['zongceng']?>F</span></dd>
+					{/if}
+					<dd class="price">租金<em>{$item['zujin']}</em>万</dd>
+					{if $item['status'] == '-1'}
+					<dd><a class="edit-btn">已下架</a></dd>
+					{else}
+					<dd><a class="edit-btn 2c{$item['id']}" onclick="ck({$item['id']}, 2)">下架</a></dd>
+					{/if}
+                    <!--<dd><a href="#" class="edit-btn">修改</a></dd>-->
+				</a>
                 </dl>
+				{/loop}
             </div>
         </div>
-        <div class="block">
+        <!--<div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">新房（2）</a></li>
+                <li class="arrow-right"><a href="">新房（<?=$total3?>）</a></li>
             </ul>
             <div class="new-item-list">
                 <dl>
@@ -72,45 +113,71 @@
                     <dd><a href="#" class="edit-btn">修改</a></dd>
                 </dl>
             </div>
-        </div>
+        </div>-->
         <div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">家政求职（1）</a></li>
+                <li class="arrow-right"><a href="">家政求职（<?=$total4?>）</a></li>
             </ul>
             <div class="item-list">
+			{loop $list4s $item}
                 <dl>
-                    <dt><img src="img/temp.png" /></dt>
-                    <dd class="title">刘爱雪（38岁）</dd>
-                    <dd class="info">本科 2年工作经验</dd>
-                    <dd class="info">求职岗位：保姆/月嫂</dd>
-                    <dd class="info">求职地区：苏州市姑苏区</dd>
-                    <dd><a href="#" class="edit-btn">修改</a></dd>
+                    <dt><img src="{$item['pic']}" /></dt>
+                    <dd class="title">{$item['name']}（{$item['y_m']}）</dd>
+                    <dd class="info">{$item['y_m']} {$item['gzjy']}</dd>
+                    <dd class="info">求职岗位：{$item['gangwei']}</dd>
+                    <dd class="info">求职地区：<?=$this->getRegion($item['city'])?><?=$this->getRegion($item['area'])?></dd>
+					
+                    <!--<dd><a class="edit-btn 3c{$item['id']}" onclick="ck({$item['id']}, 3)">下架</a></dd><dd><a href="#" class="edit-btn">修改</a></dd>-->
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">上门维修（1）</a></li>
+                <li class="arrow-right"><a href="">上门维修（<?=$total5?>）</a></li>
             </ul>
             <div class="item-list new-list">
+			{loop $list5s $item}
                 <dl>
-                    <dd class="title">瑞森特拖车有限公司<span class="c-icon"></span><span class="v-icon"></span></dd>
-                    <dd class="info">地址：姑苏区干将西楼23号</dd>
-                    <dd class="info">电话： 0512-67700688</dd>
+                    <dd class="title">{$item['name']}
+					{if $item['is_c']}
+					<span class="c-icon"></span>
+					{/if}
+					{if $item['is_v']}
+					<span class="v-icon"></span>
+					{/if}
+					</dd>
+                    <dd class="info">地址：<?=$this->getRegion($item['area'])?>{$item['address']}</dd>
+                    <dd class="info">电话： {$item['tel']}</dd>
+					{if $item['status'] == '2'}
+					<dd><a class="edit-btn">已下架</a></dd>
+					{else}
+					<dd><a class="edit-btn 4c{$item['id']}" onclick="ck({$item['id']}, 4)">下架</a></dd>
+					{/if}
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="block">
             <ul class="menu-link">
-                <li class="arrow-right"><a href="">包厢预订（3）</a></li>
+                <li class="arrow-right"><a href="">包厢预订（<?=$total6?>）</a></li>
             </ul>
             <div class="item-list">
+			{loop $list6s $item}
                 <dl>
-                    <dt><img src="../temp/temp.png" /></dt>
-                    <dd class="title">姑苏饭店<span class="start two"></span></dd>
-                    <dd class="info">姑苏区十全街相王路133</dd>
-                    <dd class="info">电话： 0512-67700688</dd>
+				<a href="mobile.php?act=module&name=baoxiang&do=info&id={$item['id']}&weid={$_W['weid']}">
+                    <dt><img src="{$item['pic']}" /></dt>
+                    <dd class="title">{$item['name']}<span class="start {$xing[$item['xing']]}"></span></dd>
+                    <dd class="info"><?=$this->getRegion($item['area'])?> {$item['dizhi']}</dd>
+                    <dd class="info">电话： {$item['tel']}</dd>
+					{if $item['status'] == '2'}
+					<dd><a class="edit-btn">已下架</a></dd>
+					{else}
+					<dd><a class="edit-btn 5c{$item['id']}" onclick="ck({$item['id']}, 5)">下架</a></dd>
+					{/if}
+				</a>
                 </dl>
+			{/loop}
             </div>
         </div>
         <div class="menu-list">
@@ -118,7 +185,7 @@
                 <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
 				<li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
 				<li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
-				<li><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+				<li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
             </ul>
         </div>
     </div>
@@ -133,13 +200,42 @@
     </div>-->
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
+<script>
+function ck(id, type)
+{
+	var data={op:'xiajia',id:id,type:type};
+	$.ajax({
+		data:data,
+		type: "post",
+		url: "mobile.php?act=module&name=usersvip&do=myfabu&weid={$_W['weid']}",
+		dataType: "html",
+		success: function(res){
+			if(res == 1){
+				$('.'+type+'c'+id).removeAttr('onclick');
+				$('.'+type+'c'+id).html('已下架');
+				var dialog = jDialog.dialog({
+					title : '操作成功',
+					content : '下架成功！',
+					buttons : [
+						{
+							type : 'highlight',
+							text : '知道了',
+							handler:function(button,dialog)
+							{
+								dialog.close();
+							}
+						}
+					]
+				});
+			}
+			else{
+				jDialog.message('下架失败',{
+					autoClose : 3000,    // 3s后自动关闭
+					padding : '30px',    // 设置内部padding
+					modal: true         // 非模态，即不显示遮罩层
+				});
+			}
+		}
+	});
+}
+</script>

@@ -1,5 +1,6 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
+<li><a style="color:red;font-size: 16px;">新房频道</a></li>
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('types', array('op' => 'post', 'id' => $id, 'h_id' => $h_id))}">添加户型</a></li>
 	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('types', array('op' => 'display', 'id' => $id, 'h_id' => $h_id))}">户型管理</a></li>
 	<li><a href="{php echo $this->createWebUrl('houses', array('op' => 'display'))}">房源管理</a></li>
