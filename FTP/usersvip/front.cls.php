@@ -464,7 +464,7 @@ class UsersvipFrontModel extends WeModuleSite{
 					}
 				}
 			}
-			if($data['type'] == 1)//住宅
+			if(!empty($_GPC['tese']))
 			{
 				//特色
 				$detail['tese'] = implode(' ', $_GPC['tese']);
@@ -899,11 +899,20 @@ class UsersvipFrontModel extends WeModuleSite{
 			}
 		}
 	}
-	//我的投诉
+	//红包
 	public function doMobileHongbao()
 	{
 		global $_GPC, $_W;  //全局变量
 		checkauth();
+		if($_GPC['op'] == 'submit' && $this->repeatSubmit())
+		{
+			$data = $_GPC['data'];
+			$data['openid'] = $_W['fans']['from_user'];
+			$data['intime'] = time();
+			pdo_insert('ace_uservip_hongbao', $data);
+			message('提交成功！', $this->createMobileUrl('index'), 'success');
+		}
+		$member = pdo_fetch("SELECT mobile FROM ".tablename('ace_members')." WHERE from_user = :from_user" , array(':from_user' => $_W['fans']['from_user']));
 		include $this->template('hongbao');
 	}
 	

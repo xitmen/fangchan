@@ -11,8 +11,12 @@
     <title>红包活动</title>
     <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css"> 
     <link rel="stylesheet" type="text/css" href="./source/modules/usersvip/style/index/css/styles.css">   
-    <script src="./source/modules/usersvip/style/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/usersvip/style/js/base.js?_=v1.1"></script>
+	<link rel="stylesheet" href="./source/modules/lib/window/js/jDialog/jDialog.css" type="text/css">
+    <script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
+    <script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.drag.js"></script>
+    <script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.mask.js"></script>
+    <script type="text/javascript" src="./source/modules/lib/window/js/jDialog/jquery.dialog.js"></script>
     <style>
         .radio
         {
@@ -48,23 +52,26 @@
             label{font-size:.5rem !important;}
         </style>
         <div class="tou-shu">
+		<form name="form1" method="POST" action="{php echo $this->createMobileUrl('hongbao', array('op' => 'submit'))}">
+		<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
             <h3 class="red-text">联系电话</h3>
             <ul>
-                <li><input type="text" value="" placeholder="请输入您的手机号码"></li>
-                <li><input type="text" value="" placeholder="请输入房东手机号码"></li>
-                <li><input type="text" value="" placeholder="请输入中介手机号码"></li>
+                <li><input type="text" name="data[phone]" value="{$member['mobile']}" placeholder="请输入您的手机号码" id="phone"></li>
+                <li><input type="text" name="data[fd_phone]" value="" placeholder="请输入房东手机号码" id="fd_phone"></li>
+                <li><input type="text" name="data[zj_phone]" value="" placeholder="请输入中介手机号码" id="zj_phone"></li>
                 <li class="line" style="border-bottom:0 none"><label>服务评价：</label><br />
                     <span><a class="radio" id="较差"></a>较差</span>
                     <span><a class="radio" id="一般"></a>一般</span>
                     <span><a class="radio radio_ck" id="较好"></a>较好</span>
-                    <input type="hidden" name="data[pj]" value="较好" id="pj"/>
+                    <input type="hidden" name="data[pingjia]" value="较好" id="pj"/>
                 </li>
                 <li><label>投诉建议：</label><br />
-                    <textarea placeholder="为了更好的为您服务，请你您我们的服务进行评价，（不超过150个字）" name="data[msg]" id="msg"></textarea>
+                    <textarea placeholder="为了更好的为您服务，请你您我们的服务进行评价，（不超过150个字）" name="data[content]" id="content"></textarea>
                 </li>
                 <li style="text-align:right; color:#ccc; font-size:.5rem">该活动最终解释权归本平台所有</li>
             </ul>
-            <a class="yellow-btn" style="margin-bottom:3rem;">确认</a>
+            <a class="yellow-btn" style="margin-bottom:3rem;" href="javascript:sb();">确认</a>
+			</form>
         </div>
     </div>
     <div class="menu-list">
@@ -72,7 +79,7 @@
             <li><a href="mobile.php?act=module&name=usersvip&do=index&weid={$_W['weid']}">首页</a></li>
             <li><a href="mobile.php?act=module&name=usersvip&do=xuzhi&weid={$_W['weid']}">使用须知</a></li>
             <li><a href="mobile.php?act=module&name=usersvip&do=tousu&weid={$_W['weid']}">投诉评价</a></li>
-            <li class="on"><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
+            <li><a href="mobile.php?act=module&name=usersvip&do=my&weid={$_W['weid']}">我的</a></li>
         </ul>
     </div>
 </body>
@@ -82,5 +89,49 @@
         $(this).addClass('radio_ck');
         $('#pj').val($(this).attr('id'));
     });
+</script>
+<script>
+function sb()
+{
+	var phone = $('#phone').val();
+	var fd_phone = $('#fd_phone').val();
+	var zj_phone = $('#zj_phone').val();
+	var content = $('#content').val();
+	var reg1=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	var reg2=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	var reg3=/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/ig;
+	if(phone == '' || fd_phone == '' || zj_phone == '' || content == '')
+	{
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '请将信息填写完整！'
+		});
+	}
+	else if(!reg1.test(phone))
+	 {
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '您的手机号格式不正确！'
+		});
+	 }
+	 else if(!reg2.test(fd_phone))
+	 {
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '房东手机号格式不正确！'
+		});
+	 }
+	 else if(!reg3.test(zj_phone))
+	 {
+		var dialog = jDialog.dialog({
+			title : '错误提醒！',
+			content : '中介手机号格式不正确！'
+		});
+	 }
+	else
+	{
+		document.form1.submit();
+	}
+}
 </script>
 </html>

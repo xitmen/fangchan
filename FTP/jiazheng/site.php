@@ -151,6 +151,8 @@ class JiazhengModuleSite extends ComVerControl {
 			$data = $_GPC['data'];
 			$data['years'] = $_GPC['nian'];
 			$data['month'] = $_GPC['yue'];
+			$data['gzjy'] = $_GPC['jy_s'].'-'.$_GPC['jy_s'].'年';
+			$data['xinzi'] = $_GPC['xz_s'].'-'.$_GPC['xz_e'];
 			$data['openid'] = $_W['fans']['from_user'];
 			pdo_insert('ace_jiazheng_resume', $data);
 			$member = pdo_fetch("SELECT mobile FROM ".tablename('ace_members')." WHERE from_user = :from_user" , array(':from_user' => $_W['fans']['from_user']));

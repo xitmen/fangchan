@@ -53,11 +53,10 @@
             <li><span style="width:49%"><label>装修:</label>{$item['zhuangxiu']}</span>
                 <span style="width:49%"><label>产权:</label>{$detail['chanquan']}年</span>
             </li>
+			<li><label>特色:</label>{$detail['tese']}</li>
 			<li><label>物业费:</label>{$detail['wyf']}元/平米/月</li>
-			<li><label>朝向:</label>{$detail['chaoxiang']}</li>
-            <li><label>配套:</label>{$detail['peitao']}</li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>房东描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
+			<li><label>房东描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
         </ul>
 		{/if}
 		<!--别墅-->
@@ -71,11 +70,16 @@
             <li><span style="width:49%"><label>卧室个数:</label>{$item['woshi']}个</span>
                 <span style="width:49%"><label>建筑形式:</label>{$item['xingshi']}</span>
             </li>
+			<li>
+			<span style="width:49%"><label>楼层:</label><?=$item['louceng']?>/<?=$item['zongceng']?>F</span>
+			<span style="width:49%"><label>产权:</label>{$detail['chanquan']}年</span>
+			
+			</li>
+			<li><label>特色:</label>{$detail['tese']}</li>
 			<li><label>物业费:</label>{$detail['wyf']}元/平米/月</li>
 			<li><label>装修:</label>{$item['zhuangxiu']}</li>
-            <li><label>其他配套:</label>{$detail['peitao']}</li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>卖家描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
+			<li><label>房东描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
         </ul>
 		{/if}
 		<!--商铺、写字楼、商住两用-->
@@ -86,13 +90,18 @@
 			<a>单价<em><?=sprintf("%.2f",$item['jiage']/$item['pingfang'])?> 万/㎡</em></a>
         </div>
 		<ul class="list">
+		    {if $item['type'] == 5}
+			<li><label>特色:</label>{$detail['tese']}</li>
+			<li><label>户型:</label>{$item['shi']}室{$item['ting']}厅{$item['wei']}卫</li>
+			{/if}
             <li><span style="width:68%"><label>物业费:</label>{$detail['wyf']}元/平米/月</span>
                 <span style="width:30%"><label>楼层:</label>{$item['louceng']}/{$item['zongceng']}F</span>
             </li>
-			<li><label>装修:</label>{$item['zhuangxiu']}</li>
-            <li><label>其他配套:</label>{$detail['peitao']}</li>
+			<li><span style="width:68%"><label>装修:</label>{$item['zhuangxiu']}</span>
+                <span style="width:30%"><label>产权:</label>{$detail['chanquan']}年</span>
+            </li>
             <li><label>地址:</label>【<?=$this->getRegion($item['area'])?>】{$item['dizhi']}</li>
-			<li><label>卖家描述:</label><em class="green-text">{$detail['miaoshu']}</em></li>
+			<li><label>房东描述:</label><em class="green-text">{$item['miaoshu']}</em></li>
         </ul>
 		{/if}
         <ul class="list branch" style="{if empty($attention)}display:none;{/if}">

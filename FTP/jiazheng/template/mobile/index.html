@@ -9,18 +9,17 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telphone=no" />
     <title>家政联盟</title>
-	<link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css?"> 
+    <link rel="stylesheet" type="text/css" href="./source/modules/lib/main.css">
     <link rel="stylesheet" type="text/css" href="./source/modules/jiazheng/asset/css/styles.css">   
     <script src="./source/modules/jiazheng/asset/js/jquery-1.9.0.min.js"></script>
     <script src="./source/modules/jiazheng/asset/js/base.js?_=v1.1"></script>
 
 </head>
 <body class="index_fixed_2">
-    <div class="top-title gray-bg-title">
-        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
-        <p><a href="{php echo $this->createMobileUrl('resume')}">我要求职</a><a href="{php echo $this->createMobileUrl('find')}">帮我找</a></p>
+    <div class="top-title" style="background-color:transparent">
+        <a href="javascript:history.go(-1);" class="arrow-left" style="background-image:url(/source/modules/lib/img/arrow-w.png)">&lt;</a>
     </div>
-    <div class="banner">
+    <div class="banner" style="margin-top:-2rem;">
         <img src="./source/modules/jiazheng/asset/img/banner.jpg" class="width100" />
     </div>
     <div class="info">
@@ -35,6 +34,38 @@
 			{/loop}
         </ul>
         {/loop}
+    </div>
+    <style type="text/css">
+        .follow-box {
+            height: 2rem;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 16rem;
+            z-index: 4;
+            background-color: #fff;
+        }
+        .follow-box a {
+            display: inline-block;
+            width: 8rem;
+            height: 2rem;
+            background-size: 1rem;
+            background-position: center top;
+            line-height: 2rem;
+            text-align: center;
+            font-size: .7rem;
+            color: #fff;
+        }
+        .follow-box a.follow-icon {
+            float: left; background-color:rgb(188,141,51);
+        }
+        .follow-box a.share-icon {
+            float: right; background-color:rgb(235,75,53);
+        }
+    </style>
+    <div class="follow-box" style="border-top:0 none">
+        <a href="{php echo $this->createMobileUrl('resume')}" class="follow-icon">我要求职</a>
+        <a href="{php echo $this->createMobileUrl('find')}" class="share-icon">帮我找</a>
     </div>
 </body>
 </html>

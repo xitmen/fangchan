@@ -103,7 +103,7 @@ class ErshouModule extends WeModule {
 			$psize = 20;
 			$where = ' where 1 ';
 			$tag = '';
-			$_GPC['status'] = $_GPC['status']?$_GPC['status']:1;
+			$_GPC['status'] = $_GPC['status']?$_GPC['status']:5;
 			if($_GPC['key'])
 			{
 				$where .= " and (h.name like '%".$_GPC['key']."%' or h.number like '%".$_GPC['key']."%')";
@@ -326,6 +326,7 @@ class ErshouModule extends WeModule {
 				$data['update_time'] = time();
 				if (empty($id))
 				{
+					$data['status'] = $data['status']?$data['status']:1;
 					pdo_insert('ace_ershou_queue', $data);
 				} 
 				else

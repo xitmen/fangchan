@@ -22,7 +22,7 @@
 </head>
 <body class="index_fixed_2">
     <div class="top-title purple-bg-title">
-        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <a href="javascript:history.go(-1);" class="arrow-left" style="background-image:url(/source/modules/lib/img/arrow-w.png)">&lt;</a>
         <p>求职简历</p>
     </div>
 	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('saveresume', array('op' => 'submit'))}">
@@ -31,48 +31,7 @@
 		<input type="hidden" name="data[gangwei]" id="gangwei" value="长期钟点工"/>
 		<input type="hidden" name="token" value="<?=mt_rand(111111, 999999)?>" />
     <ul class="send-list">
-        <li class="two">
-            <label>姓名</label><input type="text" class="one" name="data[name]" id="name"/>
-        </li>
-        <li class="two" style="margin-left: -1.5rem;width: 9rem;">
-            <label>年龄</label>
-            <span style="width: 6rem;">
-                <input type="text" style="width:2rem;" class="two" value="1975" name="nian"/>年
-                <input type="text" class="two"value="5" name="yue"/>月
-            </span>
-        </li>
-        <li class="two">
-            <label>性别</label>
-            <select name="data[sex]"><option value="女">女</option><option value="男">男</option></select>
-        </li>
-        <li class="two">
-            <label>学历</label>
-            <select name="data[xueli]">
-				<option value="初中">初中</option>
-				<option value="高中">高中</option>
-				<option value="大专">大专</option>
-				<option value="本科">本科</option>
-				<option value="本科以上">本科以上</option>
-			</select>
-        </li>
-        <li class="two">
-            <label>工作经验</label>
-            <select name="data[gzjy]">
-				<option value="暂无">暂无</option>
-				<option value="1-2年">1-2年</option>
-				<option value="3-5年">3-5年</option>
-				<option value="5年以上">5年以上</option>
-			</select>
-        </li>
-        <li class="two">
-            <label>求职地区</label>
-            <select name="data[area]">
-			{loop $areas $are}
-			<option value="{$are['region_id']}">{$are['region_name']}</option>
-			{/loop}
-			</select>
-        </li>
-        <li class="lis">
+	<li class="lis">
             <label>应聘岗位(最多选3项）</label><br />
             <a href="#">住家保姆</a>
             <a href="#" class="on">长期钟点工</a>
@@ -103,22 +62,75 @@
 			 $('#gangwei').val(gangwei);
 		});
 		</script>
-        <li class="noBorder"><label>薪资要求</label>
-            <input type="text" placeholder="填写月工资或小时报酬" name="data[xinzi]" id="xinzi"/>元
+		<li class="noBorder"><label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+            <input type="text"  name="data[name]" id="name"/>
         </li>
-        <li class="noBorder"><label>相关证书</label>
+		<li class="noBorder libs"><label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+			<a href="#" class="on">男</a>
+            <a href="#">女</a>
+            <input type="hidden"  name="data[sex]" id="sex" value="男"/>
+        </li>
+		<script>
+		$('.libs a').click(function (){
+			var cla = $(this).attr('class');
+			if(cla != 'on')
+			{
+				$('.libs a').removeClass('on');
+				$(this).addClass('on');
+				var sex = $(".libs .on").html();
+				$('#sex').val(sex);
+			}
+			
+		});
+		</script>
+		<li class="noBorder"><label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄</label>
+            <input type="text" style="width:3rem;" class="two" value="1975" name="nian"/>&nbsp;年
+            <input type="text" class="two"value="5" name="yue" style="width:3rem;"/>&nbsp;月
+        </li>
+        <li class="noBorder">
+            <label>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历</label>
+            <select name="data[xueli]">
+				<option value="初中">初中</option>
+				<option value="高中">高中</option>
+				<option value="大专">大专</option>
+				<option value="本科">本科</option>
+				<option value="本科以上">本科以上</option>
+			</select>
+        </li>
+        <li class="noBorder">
+            <label>工作经验</label>
+			<input type="text" style="width:3rem;" class="two" value="" name="jy_s"/>&nbsp;-
+            <input type="text" class="two"value="" name="jy_e" style="width:3rem;"/>&nbsp;年
+        </li>
+		<li class="noBorder">
+            <label>薪资要求</label>
+			<input type="text" style="width:3rem;" class="two" value="" name="xz_s" placeholder="元"/>&nbsp;-
+            <input type="text" class="two"value="" name="xz_e" style="width:3rem;" placeholder="元"/>月(小时)
+        </li>
+        <li class="noBorder">
+            <label>求职地区</label>
+			<select name="data[area]">
+				{loop $areas $are}
+				<option value="{$are['region_id']}">{$are['region_name']}</option>
+				{/loop}
+			</select>
+			<select name="data[area]">
+			{loop $areas $are}
+			<option value="{$are['region_id']}">{$are['region_name']}</option>
+			{/loop}
+			</select>
+        </li>
+		<li class="noBorder"><label>居住小区</label>
+			<input type="text" placeholder="填写小区名称" name="data[xiaoqu]"/>
+		</li>
+		<li class="noBorder"><label>相关证书</label>
             <input type="text" placeholder="填写证书名称" name="data[zhengshu]"/>
         </li>
     </ul>
-    <ul class="send-list">
-        <li class="noBorder"><label>居住小区</label>
-            <input type="text" placeholder="填写小区名称" name="data[xiaoqu]"/>
-        </li>
-    </ul>
-	<p class="upload-img"><a id="upload_img">上传照片</a>图片最多上传1张,每张不得超过2M</p>
+	<p class="upload-img"><label style="color:#332D2B;">本人照片</label>&nbsp;&nbsp;<a id="upload_img">上传照片</a></p>
 	<input type="hidden" value="" class="pics" name="data[pic]">
-	<p class="upload-img"><a id="upload_img1">上传证书</a>图片最多上传8张,每张不得超过2M</p>
-	<input type="hidden" value="" class="pics1" name="data[photo]">
+	<!--<p class="upload-img"><a id="upload_img1">上传证书</a>图片最多上传8张,每张不得超过2M</p>
+	<input type="hidden" value="" class="pics1" name="data[photo]">-->
 	{if !empty($member['mobile'])}
 		<input type="hidden" name="data[phone]" value="{$member['mobile']}"/>
 		<script>
@@ -254,7 +266,7 @@
 			<script src="./source/modules/ershou/asset/js/cookie.js"></script>
 		{/if}
 	</form>
-    <a href="javascript:sb();" class="yellow-btn">下一步</a>
+    <a href="javascript:sb();" class="yellow-btn">提交简历</a>
 </body>
 <script type="text/javascript" src="./source/modules/lib/window/js/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/diyUpload/css/webuploader.css">

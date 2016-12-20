@@ -68,8 +68,8 @@ input {
 }
 .top-title {
   width: 16rem;
-  height: 3rem;
-  line-height: 1.7rem;
+  _height: 3rem;
+  _line-height: 1.7rem;
   background-color: #fff;
   z-index: 4;
   font-size: .8rem;

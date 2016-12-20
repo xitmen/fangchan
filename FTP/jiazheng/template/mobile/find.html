@@ -21,7 +21,7 @@
 </head>
 <body class="index_fixed_2">
     <div class="top-title purple-bg-title">
-        <a href="javascript:history.go(-1);" class="arrow-left">&lt;</a>
+        <a href="javascript:history.go(-1);" class="arrow-left" style="background-image:url(/source/modules/lib/img/arrow-w.png)">&lt;</a>
         <p>帮我找家政</p>
     </div>
 	<form name="form1" method="POST" action="{php echo $this->createMobileUrl('savefind', array('op' => 'submit'))}">
@@ -41,8 +41,51 @@
             <a href="#">育儿嫂</a>
         </li>
     </ul>
+	<ul class="send-list" style="border-top: 0.05rem solid #89827d;">
+	<li class="noBorder"><label>年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龄</label>
+		<input type="text" style="width:3rem;" class="two"  name="data[age_min]"/>&nbsp;-
+		<input type="text" class="two" name="data[age_max]" style="width:3rem;"/>&nbsp;岁
+	</li>
+	<li class="noBorder">
+		<label>待&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;遇</label>
+		<input type="text" style="width:3rem;" class="two" value="" name="data[yqxz_min]" placeholder="元"/>&nbsp;-
+		<input type="text" class="two"value="" name="data[yqxz_max]" style="width:3rem;" placeholder="元"/>月(小时)
+	</li>
+	
+	<li class="noBorder libs"><label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+		<a href="#" class="on">男</a>
+		<a href="#">女</a>
+		<input type="hidden"  name="data[sex]" id="sex" value="男"/>
+	</li>
+	<script>
+	$('.libs a').click(function (){
+		var cla = $(this).attr('class');
+		if(cla != 'on')
+		{
+			$('.libs a').removeClass('on');
+			$(this).addClass('on');
+			var sex = $(".libs .on").html();
+			$('#sex').val(sex);
+		}
+		
+	});
+	</script>
+	</ul>
+		<style>
+			textarea{
+				width: 14.5rem;
+				height:5rem;
+				padding: .2rem;
+				font-size: .7rem;
+				border: .05rem solid #242322;
+			}
+		</style>
     <div class="custom-page">
-        <p>居住小区</p>
+		<p>其他需求</p>
+		<ul>
+			<li><textarea placeholder="填写您的详细要求，以便我们更好的为您匹配。"></textarea></li>
+		</ul>
+        <p>您要服务的地址</p>
         <ul>
             <li>
                 <input type="text" name="a1" id="a1" placeholder="请输入所在小区、街道或大厦名称" />

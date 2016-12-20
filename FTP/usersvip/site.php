@@ -179,6 +179,50 @@ class UsersvipModuleSite extends WeModuleSite {
 		}
 		include $this->template('tousu');	
 	}
+	
+	/**
+	 * 投诉评价
+	**/
+	public function doWebHongbao ()
+	{
+		global $_GPC, $_W;
+		$operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+		if($operation == 'display')
+		{
+			$pindex = max(1, intval($_GPC['page']));
+			$psize = 20;
+			$where = ' where 1 ';
+			if($_GPC['status'])
+			{
+				$where .= " and status = ".$_GPC['status'];
+			}
+			$list = pdo_fetchall("SELECT * FROM ".tablename('ace_uservip_hongbao')." ".$where." ORDER BY  id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_uservip_hongbao')." ".$where);
+			$pager = pagination($total, $pindex, $psize);
+		}
+		elseif($operation == 'delete')
+		{
+			$id = intval($_GPC['id']);
+			$row = pdo_fetch("SELECT id FROM ".tablename('ace_uservip_hongbao')." WHERE id = :id", array(':id' => $id));
+			if (empty($row)) {
+				message('抱歉，信息不存在或是已经被删除！');
+			}
+			pdo_delete('ace_uservip_hongbao', array('id' => $id));
+			message('删除成功！', referer(), 'success');
+		}
+		elseif($operation == 'status')
+		{
+			$id = intval($_GPC['id']);
+			$status = intval($_GPC['status']);
+			$row = pdo_fetch("SELECT id FROM ".tablename('ace_uservip_hongbao')." WHERE id = :id", array(':id' => $id));
+			if (empty($row)) {
+				message('抱歉，信息不存在或是已经被删除！');
+			}
+			pdo_update('ace_uservip_hongbao', array('status'=>$status), array('id' => $id));
+			message('处理成功！', referer(), 'success');
+		}
+		include $this->template('hongbao');	
+	}
 	public function getRegion($id)
 	{
 		global $_GPC, $_W;

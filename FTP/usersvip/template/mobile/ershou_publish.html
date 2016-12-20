@@ -46,7 +46,8 @@
             <label>小区</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入小区名称" /></span>
         </li>
-        <li>
+		{/if}
+		<li>
             <label>楼栋</label>
             <span class="border">
                 <input type="text" name="data[dong]" class="three" />栋
@@ -54,20 +55,10 @@
                 <input type="text" name="data[shis]" class="three" />室
             </span>
         </li>
-		{/if}
 		{if $_GPC['type'] == 4 || $_GPC['type'] == 5}
 		<li>
             <label>名称</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入商铺名称" /></span>
-        </li>
-		<li>
-            <label>楼层</label>
-            <span class="border">
-                共
-                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
-               第
-                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
-            </span>
         </li>
 		{/if}
 		{if $_GPC['type'] == 3}
@@ -75,7 +66,8 @@
             <label>名称</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入写字楼或大厦的名称" /></span>
         </li>
-		 <li>
+		{/if}
+		<li>
             <label>楼层</label>
             <span class="border">
                 共
@@ -84,8 +76,7 @@
                 <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
             </span>
         </li>
-		{/if}
-		{if $_GPC['type'] == 1}
+		{if $_GPC['type'] == 1 || $_GPC['type'] == 5}
 		<li>
             <label>布局</label>
             <span class="border">
@@ -93,19 +84,6 @@
                 <input type="text" name="data[ting]" class="three" />厅
                 <input type="text" name="data[wei]" class="three" />卫
             </span>
-        </li>
-        <li>
-            <label>楼层</label>
-            <span class="border">
-                共
-                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
-               第
-                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
-            </span>
-        </li>
-		<li>
-            <label>朝向</label>
-            <span><input type="text" name="detail[chaoxiang]" class="line long" placeholder="如：南北" /></span>
         </li>
 		{/if}
 		<li>
@@ -126,10 +104,6 @@
 			</select>
 			</span>
         </li>
-		<li>
-            <label>配套</label>
-            <span><input type="text" name="detail[peitao]" class="line long" placeholder="如：花园、楼阁、楼台等" /></span>
-        </li>
 		<li class="two">
             <label>卧室</label><input type="text" class="one" name="data[woshi]" /> 个
         </li>
@@ -145,16 +119,12 @@
 			<select class="two" name="data[zhuangxiu]" style="width:3.5rem">
 				<option value="毛坯">毛坯</option>
 				<option value="简装">简装</option>
-				<option value="中装修">中装修</option>
 				<option value="精装">精装</option>
-				<option value="豪华装修">豪华装修</option>
 			</select>
         </li>
-		{if $_GPC['type'] == 1}
 		<li class="two">
             <label>产权</label><input type="text" class="one" name="detail[chanquan]" /> 年
         </li>
-		{/if}
     </ul>
 	<?php
 	if(empty($alliance))
@@ -171,21 +141,11 @@
 	<?php } ?>
     <div class="tou-shu">
         <ul>
-			{if $_GPC['type'] == 1}
+			{if $_GPC['type'] == 1 || $_GPC['type'] == 2 || $_GPC['type'] == 5}
 				<li class="line" style="border-bottom:0 none">
 					<span><input type="checkbox" name="tese[]" value="唯一住房" />唯一住房</span>
 					<span><input type="checkbox" name="tese[]" value="无贷款" />无贷款</span>
 					<span><input type="checkbox" name="tese[]" value="满五年" />满五年</span>
-				</li>
-			{/if}
-			{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
-				<li>
-					<span><input type="text" name="detail[peitao]"  placeholder="配套如：办公桌、沙发等" /></span>
-				</li>
-			{/if}
-			{if $_GPC['type'] == 2}
-				<li>
-					<span><input type="text" name="detail[peitao]"  placeholder="配套如：花园、露台等" /></span>
 				</li>
 			{/if}
             <li>

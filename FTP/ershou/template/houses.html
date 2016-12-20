@@ -118,18 +118,16 @@ $('#top_city').change(function (){
 			</tr>
 			
 			<tr>
-				<th class="hi c c1 c2 c3 c5"><label for="">楼栋</label></th>
-				<td class="hi c c1 c2 c3 c5">
-					<span>
-						<input type="text" name="data[dong]" class="span1 dong" value="{$item['dong']}" />栋&nbsp;&nbsp;
-						<input type="text" name="data[danyuan]" class="span1 danyuan" value="{$item['danyuan']}" />单元&nbsp;&nbsp;
-					</span>
+				<th><label for="">楼栋</label></th>
+				<td>
+					<input type="text" name="data[dong]" class="span1 dong" value="{$item['dong']}" />栋&nbsp;&nbsp;
+					<input type="text" name="data[danyuan]" class="span1 danyuan" value="{$item['danyuan']}" />单元&nbsp;&nbsp;
 					<input type="text" name="data[shis]" class="span1 shi" value="{$item['shis']}" />室
 				</td>
 			</tr>
 			<tr>
-				<th class="hi c c1 c3 c4 c5"><label for="">楼层</label></th>
-				<td class="hi c c1 c3 c4 c5">
+				<th><label for="">楼层</label></th>
+				<td>
 					第<input type="text" name="data[louceng]" class="span1" value="{$item['louceng']}" />层/共
 					<input type="text" name="data[zongceng]" class="span1" value="{$item['zongceng']}" />
 					层
@@ -149,8 +147,8 @@ $('#top_city').change(function (){
 				</td>
 			</tr>
 			<tr>
-				<th class="hi c c1"><label for="">户型</label></th>
-				<td class="hi c c1">
+				<th class="hi c c1 c5"><label for="">户型</label></th>
+				<td class="hi c c1 c5">
 					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
 					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
 					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
@@ -168,14 +166,8 @@ $('#top_city').change(function (){
 				</td>
 			</tr>
 			<tr>
-				<th class="hi c c1"><label for="">朝向</label></th>
-				<td class="hi c c1">
-					<input type="text" name="detail[chaoxiang]" class="span3" value="{$detail['chaoxiang']}" />&nbsp;如：南北
-				</td>
-			</tr>
-			<tr>
-				<th class="hi c c1"><label for="">产权</label></th>
-				<td class="hi c c1">
+				<th><label for="">产权</label></th>
+				<td>
 					<input type="text" name="detail[chanquan]" class="span3" value="{$detail['chanquan']}" />&nbsp;年
 				</td>
 			</tr>
@@ -189,8 +181,8 @@ $('#top_city').change(function (){
 			$tese = explode(',', $detail['tese']);
 			?>
 			<tr>
-				<th><label for="">其他特色</label></th>
-				<td>
+				<th  class="hi c c1 c2 c5"><label for="">其他特色</label></th>
+				<td  class="hi c c1 c2 c5">
 					<input type="checkbox" name="tese[]" value="唯一住房" <?=in_array('唯一住房', $tese)?'checked':''?>/>&nbsp;唯一住房&nbsp;
 					<input type="checkbox" name="tese[]" value="无贷款" <?=in_array('无贷款', $tese)?'checked':''?>/>&nbsp;无贷款&nbsp;
 					<input type="checkbox" name="tese[]" value="满五年" <?=in_array('满五年', $tese)?'checked':''?>/>&nbsp;满五年
@@ -212,12 +204,6 @@ $('#top_city').change(function (){
 				<th class="hi c c2"><label for="">别墅卧室个数</label></th>
 				<td class="hi c c2">
 					<input type="text" name="data[woshi]" class="span3" value="{$item['woshi']}" />&nbsp;个
-				</td>
-			</tr>
-			<tr>
-				<th><label for="">配套设施</label></th>
-				<td>
-					<input type="text" name="detail[peitao]" class="span6" value="{$detail['peitao']}" />&nbsp;空调/洗衣机/电视
 				</td>
 			</tr>
 			<tr>
@@ -451,16 +437,8 @@ function is_show(v)
  if(v)
  {
 	$('.c').addClass('hi');
-	$('.c input').val('');
+	//$('.c input').val('');
 	$('.c'+v).removeClass('hi');
-	if(v == 3 || v == 5)
-	{
-		$('.c'+v+' span').attr('style','display:none;');
-	}
-	else
-	{
-		$('.c'+v+' span').removeAttr('style');
-	}
  }
 }
 </script>

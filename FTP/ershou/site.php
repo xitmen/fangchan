@@ -185,6 +185,7 @@ class ErshouModuleSite extends ComVerControl {
 			$data = $_GPC['data'];
 			$data['phone'] = $member['mobile'];
 			$data['openid'] = $_W['fans']['from_user'];
+			$data['update_time'] = time();
 			pdo_insert('ace_ershou_queue', $data);
 			message('提交成功！', $this->createMobileUrl('index'), 'success');
 		}
