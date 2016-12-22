@@ -27,10 +27,10 @@
         <li>
             <label>地区</label>
             <span>
-				<select class="two" name="data[city]">
+				<select class="two" name="data[city]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
 					<option value="{$_COOKIE['city_id']}">{$city_name['region_name']}</option>
 				</select>
-				<select class="two" name="data[area]">
+				<select class="two" name="data[area]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
 					{loop $areas $area}
 					<option value="{$area['region_id']}">{$area['region_name']}</option>
 					{/loop}
@@ -96,7 +96,7 @@
 		<li>
             <label>形式</label>
             <span>
-			<select class="two" name="data[xingshi]">
+			<select class="two" name="data[xingshi]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
 				<option value="联排">联排</option>
 				<option value="独栋">独栋</option>
 				<option value="双拼">双拼</option>
@@ -116,7 +116,7 @@
         </li>
         <li class="two">
             <label>装修</label>
-			<select class="two" name="data[zhuangxiu]" style="width:3.5rem">
+			<select class="two" name="data[zhuangxiu]" style="width:3.5rem; background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:2.5rem center">
 				<option value="毛坯">毛坯</option>
 				<option value="简装">简装</option>
 				<option value="精装">精装</option>

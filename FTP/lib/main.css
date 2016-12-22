@@ -135,7 +135,7 @@ input {
 }
 .top-title .top-search button{
   display:inline-block; width:3rem;
-  height:2rem; background-color:rgba(176,177,180,1);
+  height:2.1rem; background-color:rgba(176,177,180,1);
   border:0 none; float:right; font-size:.7rem;
 }
 .search-box {
@@ -205,9 +205,8 @@ input {
   background-color: #fff;
   position: absolute;
   z-index: 4;
-  padding-bottom: 3rem;
   overflow-y: auto;
-  height: 25rem;
+  height: 23rem;
 }
 .search-box .search-info dl {
   padding: .6rem;
@@ -283,8 +282,11 @@ input {
   color: #6C6B6B;
 }
 .item-list dl dd.desc{
-  line-height:.7rem !important;
   color:rgb(84,170,157);
+  overflow:hidden;
+  height:1.3rem;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .item-list dl dd .right {
   float: right;

@@ -60,6 +60,10 @@ class ChuzuModule extends WeModule {
 			    $data = $_GPC['data'];
 				$detail = $_GPC['detail'];
 				$tagarrs = $_GPC['tags'];
+				if($data['type'] == 1 || $data['type'] == 2 || $data['type'] == 5)
+				{
+					$detail['peitao'] = implode('/', $_GPC['peitao']);
+				}
 				if(!empty($tagarrs))
 				{
 					$data['tags'] = ','.implode(',', $tagarrs).',';
@@ -127,6 +131,10 @@ class ChuzuModule extends WeModule {
 			{
 				$where .= " and h.source = ".$_GPC['source'];
 			}
+			if($_GPC['work_number'])
+			{
+				$where .= " and d.work_number = ".$_GPC['work_number'];
+			}
 			if($_GPC['tags'])
 			{
 				if(!empty($_GPC['tags']))
@@ -140,7 +148,7 @@ class ChuzuModule extends WeModule {
 				}
 			}
 			$where .= " and h.id = d.h_id";
-			$list = pdo_fetchall("SELECT h.*,d.tel,d.work_number FROM ".tablename('ace_chuzu_house')." h, ".tablename('ace_chuzu_house_details')." d ".$where." ORDER BY  h.torder asc,h.id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$list = pdo_fetchall("SELECT h.*,d.tel,d.branch_num,d.work_number FROM ".tablename('ace_chuzu_house')." h, ".tablename('ace_chuzu_house_details')." d ".$where." ORDER BY  h.torder asc,h.id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_chuzu_house')." h,  ".tablename('ace_chuzu_house_details')." d ".$where);
 			$pager = pagination($total, $pindex, $psize);
 		}
@@ -383,7 +391,7 @@ class ChuzuModule extends WeModule {
 			{
 				$data['type_name'] = $tags['types'][$data['type']];
 				$data['dizhi_name'] = $this->getRegion($data['province']).' '.$this->getRegion($data['city']).' '.$this->getRegion($data['area']);
-				$detail = pdo_fetch("SELECT branch_num,tel,branch_id FROM ".tablename('ace_ershou_chuzu_details')." WHERE h_id =".$data['id']);
+				$detail = pdo_fetch("SELECT branch_num,tel,branch_id FROM ".tablename('ace_chuzu_house_details')." WHERE h_id =".$data['id']);
 				if($data['source'] == 3)//联盟中介
 				{
 					$alliance = pdo_fetch("SELECT * FROM ".tablename('ace_alliances')." WHERE id= ".$data['a_id']);

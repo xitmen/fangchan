@@ -49,20 +49,20 @@ $('#top_city').change(function (){
 .hi{display:none;}
 </style>
 <div class="main">
-	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return sb();">
 		<input type="hidden" name="id" value="{$item['id']}" />
 		<h4>房源基本信息</h4>
 		<table class="tb">
 			<tr>
-				<th><label for="">省市区</label></th>
+				<th><label for="">省市区&nbsp;<span style="color:red;">*</span></label></th>
 				<td>
-					<select name="data[province]" id="province">
+					<select name="data[province]" id="province" class="required">
 						<option value="">--省份--</option>
 						{loop $regions $it}
 							<option value="{$it['region_id']}" <?=$item['province'] == $it['region_id']?'selected':''?>>{$it['region_name']}</option>
 						{/loop}
 					</select>
-					<select name="data[city]" id="city">
+					<select name="data[city]" id="city" class="required">
 						<option value="">--市--</option>
 						{if $item['city']}
 						<option value="{$item['city']}" selected><?=$this->getRegion($item['city'])?></option>
@@ -77,9 +77,9 @@ $('#top_city').change(function (){
 				</td>
 			</tr>
 			<tr>
-				<th><label for="">类型</label></th>
+				<th><label for="">类型&nbsp;<span style="color:red;">*</span></label></th>
 				<td>
-					<select name="data[type]" id="type" {if $item['id']}disabled='true'{/if}>
+					<select name="data[type]" id="type" {if $item['id']}disabled='true'{/if} class="required">
 						<option value="">--类型--</option>
 						{loop $tags['types'] $k=>$v}
 							<option value="{$k}" <?=$item['type'] == $k?'selected':''?>>{$v}</option>
@@ -99,15 +99,15 @@ $('#top_city').change(function (){
 				</td>
 			</tr>
 			<tr>
-				<th><label for="">房东电话</label></th>
+				<th><label for="">房东电话&nbsp;<span style="color:red;">*</span></label></th>
 				<td>
-					<input type="text" name="detail[tel]" class="span6 fangdong_tel" value="{$detail['tel']}" />
+					<input type="text" name="detail[tel]" class="span6 fangdong_tel required" value="{$detail['tel']}" />
 				</td>
 			</tr>
 			<tr>
-				<th><label for="">小区名称</label></th>
+				<th><label for="">小区名称&nbsp;<span style="color:red;">*</span></label></th>
 				<td>
-					<input type="text" name="data[name]" class="span6 xiaoqu_name" value="{$item['name']}" />
+					<input type="text" name="data[name]" class="span6 xiaoqu_name required" value="{$item['name']}" />
 				</td>
 			</tr>
 			<tr>
@@ -125,46 +125,7 @@ $('#top_city').change(function (){
 					<input type="text" name="data[shis]" class="span1 shi" value="{$item['shis']}" />室
 				</td>
 			</tr>
-			<tr>
-				<th><label for="">楼层</label></th>
-				<td>
-					第<input type="text" name="data[louceng]" class="span1" value="{$item['louceng']}" />层/共
-					<input type="text" name="data[zongceng]" class="span1" value="{$item['zongceng']}" />
-					层
-				</td>
-			</tr>
-			<tr>
-				<th><label for="">面积</label></th>
-				<td>
-					<input type="text" name="data[pingfang]" class="span1" value="{$item['pingfang']}" />&nbsp;平方米
-				</td>
-			</tr>
 			
-			<tr>
-				<th><label for="">价格</label></th>
-				<td>
-					<input type="text" name="data[jiage]" class="span1" value="{$item['jiage']}" />&nbsp;万元
-				</td>
-			</tr>
-			<tr>
-				<th class="hi c c1 c5"><label for="">户型</label></th>
-				<td class="hi c c1 c5">
-					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
-					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
-					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
-				</td>
-			</tr>
-			<tr>
-				<th><label for="">装修</label></th>
-				<td>
-					<select name="data[zhuangxiu]">
-						<option value="" ></option>
-						<option value="毛坯" <?=$item['zhuangxiu']=='毛坯'?'selected':''?>>毛坯</option>
-						<option value="简装" <?=$item['zhuangxiu']=='简装'?'selected':''?>>简装</option>
-						<option value="精装" <?=$item['zhuangxiu']=='精装'?'selected':''?>>精装</option>
-					</select>
-				</td>
-			</tr>
 			<tr>
 				<th><label for="">产权</label></th>
 				<td>
@@ -189,6 +150,18 @@ $('#top_city').change(function (){
 				</td>
 			</tr>
 			<tr>
+				<th><label for="">价格</label></th>
+				<td>
+					<input type="text" name="data[jiage]" class="span1" value="{$item['jiage']}" />&nbsp;万元
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">面积</label></th>
+				<td>
+					<input type="text" name="data[pingfang]" class="span1" value="{$item['pingfang']}" />&nbsp;平方米
+				</td>
+			</tr>
+			<tr>
 				<th class="hi c c2"><label for="">别墅户型</label></th>
 				<td class="hi c c2">
 					<select name="data[xingshi]">
@@ -197,6 +170,33 @@ $('#top_city').change(function (){
 						<option value="独栋" <?=$item['xingshi']=='独栋'?'selected':''?>>独栋</option>
 						<option value="双拼" <?=$item['xingshi']=='双拼'?'selected':''?>>双拼</option>
 						<option value="叠加" <?=$item['xingshi']=='叠加'?'selected':''?>>叠加</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th class="hi c c1 c5"><label for="">户型</label></th>
+				<td class="hi c c1 c5">
+					<input type="text" name="data[shi]" class="span1" value="{$item['shi']}" />&nbsp;室&nbsp;
+					<input type="text" name="data[ting]" class="span1" value="{$item['ting']}" />&nbsp;厅&nbsp;
+					<input type="text" name="data[wei]" class="span1" value="{$item['wei']}" />&nbsp;卫
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">楼层</label></th>
+				<td>
+					第<input type="text" name="data[louceng]" class="span1" value="{$item['louceng']}" />层/共
+					<input type="text" name="data[zongceng]" class="span1" value="{$item['zongceng']}" />
+					层
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">装修</label></th>
+				<td>
+					<select name="data[zhuangxiu]">
+						<option value="" ></option>
+						<option value="毛坯" <?=$item['zhuangxiu']=='毛坯'?'selected':''?>>毛坯</option>
+						<option value="简装" <?=$item['zhuangxiu']=='简装'?'selected':''?>>简装</option>
+						<option value="精装" <?=$item['zhuangxiu']=='精装'?'selected':''?>>精装</option>
 					</select>
 				</td>
 			</tr>
@@ -349,6 +349,9 @@ $('#top_city').change(function (){
 					<input type="text" name="detail[customer_tel]" class="span3" value="{$detail['customer_tel']}" placeholder="撮合时请输入客户电话"/>
 				</td>
 			</tr>
+			<?php
+			$item['status'] = $item['status']?$item['status']:1;
+			?>
 			<tr>
 				<th><label for="">跟踪状态</label></th>
 				<td>
@@ -441,6 +444,36 @@ function is_show(v)
 	$('.c'+v).removeClass('hi');
  }
 }
+function sb()
+{
+	var f = true;
+	$(".required").each(function(){
+		var v = $(this).val();
+	  if(v == ''){
+		alert('红色*标记的为必填项');
+		f = false;return f;
+	  }
+	});
+	var r_v = '';
+	<?php
+	if($item['id']){
+	?>
+	var radio = document.getElementsByName("data[status]");  
+    for (i=0; i<radio.length; i++) {  
+        if (radio[i].checked) {  
+            r_v = radio[i].value; 
+        }  
+    }  
+	if(r_v == <?=$item['status']?>)
+	{
+		if(!confirm('确定不改变跟踪状态吗？'))
+		{
+			f = false;return f;
+		}
+	}
+	<?php } ?>
+	return f;
+}
 </script>
 {elseif $operation == 'display'}
 <style>
@@ -465,7 +498,7 @@ function is_show(v)
 				</tr>
 				<tr><th></th>
 					<td>
-						<input class="span2" name="" type="text" value="" placeholder="工号">
+						<input class="span2" name="work_number" type="text" value="{$_GPC['work_number']}" placeholder="工号">
 						<select name="source" class="span2">
 							<option value="">--信息来源--</option>
 							<option value="1" <?=$_GPC['source'] == 1?'selected':''?>>平台</option>
@@ -543,7 +576,7 @@ function is_show(v)
 					<td>{$item['tel']}</td>
 					<td>
 					{if $item['source'] == 1}
-					平台
+					平台({$item['branch_num']})
 					{else if $item['source'] == 2}
 					普通
 					{else}

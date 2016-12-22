@@ -52,7 +52,7 @@
             </dl>
 			{/loop}
 			<input type="hidden" value="{$tag}" id="tegs" autocomplete="off">
-            <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" class="yellow-btn" style="margin-bottom: 68px;">确认</a>
+            <a href="{php echo $this->createMobileUrl('index', array('type' => $type, 'area_id' => $area_id))}" class="yellow-btn">确认</a>
         </div>
         <div class="mark" style="display:none"></div>
     </div>
@@ -81,8 +81,11 @@
 			{if $item['type'] == 2}
             <dd class="info">{$item['xingshi']} {$item['woshi']}个卧室 {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
 			{/if}
-			{if $item['type'] == 4 ||  $item['type'] == 3 ||  $item['type'] == 5}
+			{if $item['type'] == 3 ||  $item['type'] == 5}
             <dd class="info">{$item['zhuangxiu']} {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
+			{/if}
+			{if $item['type'] == 4}
+            <dd class="info">{$item['zhuanrang']}万转 {$item['pingfang']}㎡<span class="right price"><em>{$item['zujin']}</em>元/月</span></dd>
 			{/if}
 			<dd class="desc">{$item['miaoshu']}</dd>
         </dl>

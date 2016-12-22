@@ -793,7 +793,7 @@ dl {
 }
 dl dd a {
   _color: #8C8C8C;
-  _border: 1px solid #484340;
+  _border: 1px solid #E0E0E0;
   font-family: cursive;
   padding: 0 .2rem;
   font-size: 12px;
@@ -808,7 +808,7 @@ dl:last-child {
 .item-list {
   background-color: #fff;
   margin-bottom: 0;
-  border-top: 1px solid #484340;
+  border-top: 1px solid #E0E0E0;
 }
 .item-list span {
   vertical-align: sub;

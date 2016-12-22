@@ -132,6 +132,10 @@ class ErshouModule extends WeModule {
 			{
 				$where .= " and h.source = ".$_GPC['source'];
 			}
+			if($_GPC['work_number'])
+			{
+				$where .= " and d.work_number = ".$_GPC['work_number'];
+			}
 			if($_GPC['tags'])
 			{
 				if(!empty($_GPC['tags']))
@@ -145,7 +149,7 @@ class ErshouModule extends WeModule {
 				}
 			}
 			$where .= " and h.id = d.h_id";
-			$list = pdo_fetchall("SELECT h.*,d.tel,d.work_number FROM ".tablename('ace_ershou_house')." h, ".tablename('ace_ershou_house_details')." d ".$where." ORDER BY  h.torder asc,h.id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
+			$list = pdo_fetchall("SELECT h.*,d.tel,d.branch_num,d.work_number FROM ".tablename('ace_ershou_house')." h, ".tablename('ace_ershou_house_details')." d ".$where." ORDER BY  h.torder asc,h.id DESC LIMIT ".($pindex - 1) * $psize.','.$psize);
 			$total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('ace_ershou_house')." h,  ".tablename('ace_ershou_house_details')." d ".$where);
 			$pager = pagination($total, $pindex, $psize);
 		}

@@ -27,10 +27,10 @@
         <li>
             <label>地区</label>
             <span>
-				<select class="two" name="data[city]">
+				<select class="two" name="data[city]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
 					<option value="{$_COOKIE['city_id']}">{$city_name['region_name']}</option>
 				</select>
-				<select class="two" name="data[area]">
+				<select class="two" name="data[area]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
 					{loop $areas $area}
 					<option value="{$area['region_id']}">{$area['region_name']}</option>
 					{/loop}
@@ -46,28 +46,11 @@
             <label>小区</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入小区名称" /></span>
         </li>
-        <li>
-            <label>楼栋</label>
-            <span class="border">
-                <input type="text" name="data[dong]" class="three" />栋
-                <input type="text" name="data[danyuan]" class="three" />单元
-                <input type="text" name="data[shis]" class="three" />室
-            </span>
-        </li>
 		{/if}
 		{if $_GPC['type'] == 4 || $_GPC['type'] == 5}
 		<li>
             <label>名称</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入商铺名称" /></span>
-        </li>
-		<li>
-            <label>楼层</label>
-            <span class="border">
-                共
-                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
-               第
-                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
-            </span>
         </li>
 		{/if}
 		{if $_GPC['type'] == 3}
@@ -75,7 +58,16 @@
             <label>名称</label>
             <span><input type="text" name="data[name]" id="name" class="line long" placeholder="请输入写字楼或大厦的名称" /></span>
         </li>
-		 <li>
+		{/if}
+		<li>
+            <label>楼栋</label>
+            <span class="border">
+                <input type="text" name="data[dong]" class="three" />栋
+                <input type="text" name="data[danyuan]" class="three" />单元
+                <input type="text" name="data[shis]" class="three" />室
+            </span>
+        </li>
+		<li>
             <label>楼层</label>
             <span class="border">
                 共
@@ -84,8 +76,13 @@
                 <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
             </span>
         </li>
+		{if $_GPC['type'] == 4}
+        <li>
+            <label>转让费</label>
+            <span><input type="text" name="detail[zhuanrang]" class="line long" />万</span>
+        </li>
 		{/if}
-		{if $_GPC['type'] == 1}
+		{if $_GPC['type'] == 1 || $_GPC['type'] == 5}
 		<li>
             <label>布局</label>
             <span class="border">
@@ -94,20 +91,19 @@
                 <input type="text" name="data[wei]" class="three" />卫
             </span>
         </li>
-        <li>
-            <label>楼层</label>
-            <span class="border">
-                共
-                <input type="text" name="data[zongceng]" class="three"  id="zongceng"/>层
-               第
-                <input type="text" name="data[louceng]" class="three"  id="louceng"/>层
-            </span>
-        </li>
 		{/if}
+		
 		{if $_GPC['type'] == 2}
 		<li>
             <label>形式</label>
-            <span><input type="text" name="data[xingshi]" class="line long" placeholder="如：联排、独栋、双拼、叠加" /></span>
+            <span>
+			<select  class="two" name="data[xingshi]" style="background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:4rem center;">
+				<option value="联排">联排</option>
+				<option value="独栋">独栋</option>
+				<option value="双拼">双拼</option>
+				<option value="叠加">叠加</option>
+			</select>
+			</span>
         </li>
 		<li>
             <label>配套</label>
@@ -118,7 +114,7 @@
         </li>
 		{/if}
 		
-        <li>
+        <li style="clear:both">
             <label>物业费</label>
             <span>
                 <input type="text" name="detail[wyf]" class="two" />元/平方米/月
@@ -128,15 +124,25 @@
         <li class="two">
             <label>面积</label><input type="text" class="one" name="data[pingfang]" /> M<sup>2</sup>
         </li>
-        
+        {if $_GPC['type'] != 4}
         <li class="two">
             <label>装修</label>
-			<select class="two" name="data[zhuangxiu]">
+			<select class="two" name="data[zhuangxiu]" style="width:3.5rem;background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:2.5rem center;">
 				<option value="毛坯">毛坯</option>
 				<option value="简装">简装</option>
 				<option value="精装">精装</option>
 			</select>
         </li>
+		{/if}
+		{if $_GPC['type'] == 1 || $_GPC['type'] == 2 || $_GPC['type'] == 5}
+		<li class="two">
+            <label>出租形式</label>
+			<select class="two" name="data[chuzu_xingshi]" style="width:3.5rem;background-image:url(./source/modules/lib/img/down-link.png); background-size:.8rem; background-repeat:no-repeat; background-position:2.5rem center;">
+				<option value="整租" <?=$item['chuzu_xingshi']=='整租'?'selected':''?>>整租</option>
+				<option value="合租" <?=$item['chuzu_xingshi']=='合租'?'selected':''?>>合租</option>
+			</select>
+        </li>
+		{/if}
 		<li class="two">
             <label>租金</label><input type="text" class="one" name="data[zujin]" placeholder="元/月"/>
         </li>
@@ -156,28 +162,23 @@
 	<?php } ?>
     <div class="tou-shu">
         <ul>
-			{if $_GPC['type'] == 1}
+			{if $_GPC['type'] == 1 || $_GPC['type'] == 2}
 			<li class="line">生活配套</li>
 				<li class="line">
-					<span><input type="checkbox" name="peitao[]" value="床" />床</span>
-					<span><input type="checkbox" name="peitao[]" value="家具" />家具</span>
-					<span><input type="checkbox" name="peitao[]" value="空调" />空调</span>
-					<span><input type="checkbox" name="peitao[]" value="冰箱" />冰箱</span>
-					<span><input type="checkbox" name="peitao[]" value="wifi" />wifi</span>
-					<span><input type="checkbox" name="peitao[]" value="电视" />电视</span>
+					<span><input type="checkbox" name="peitao[]" value="床" />&nbsp;&nbsp;&nbsp;床&nbsp;&nbsp;&nbsp;</span>
+					<span><input type="checkbox" name="peitao[]" value="家具" />&nbsp;&nbsp;家具&nbsp;</span>
+					<span><input type="checkbox" name="peitao[]" value="空调" />&nbsp;&nbsp;空调&nbsp;</span>
+					<span><input type="checkbox" name="peitao[]" value="冰箱" />&nbsp;&nbsp;冰箱&nbsp;</span>
+					<span><input type="checkbox" name="peitao[]" value="wifi" />&nbsp;&nbsp;wifi&nbsp;</span>
+					<span><input type="checkbox" name="peitao[]" value="电视" />&nbsp;&nbsp;电视&nbsp;</span>
 					<span><input type="checkbox" name="peitao[]" value="洗衣机" />洗衣机</span>
-					<span><input type="checkbox" name="peitao[]" value="煤气" />煤气</span>
+					<span><input type="checkbox" name="peitao[]" value="煤气" />&nbsp;&nbsp;煤气&nbsp;</span>
 					<span><input type="checkbox" name="peitao[]" value="热水器" />热水器</span>
 				</li>
 			{/if}
 			{if $_GPC['type'] == 3 || $_GPC['type'] == 4 || $_GPC['type'] == 5}
 				<li>
 					<span><input type="text" name="detail[peitao]"  placeholder="配套如：办公桌、沙发等" /></span>
-				</li>
-			{/if}
-			{if $_GPC['type'] == 2}
-				<li>
-					<span><input type="text" name="detail[peitao]"  placeholder="配套如：花园、露台等" /></span>
 				</li>
 			{/if}
             <li>

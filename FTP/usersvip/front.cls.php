@@ -460,6 +460,7 @@ class UsersvipFrontModel extends WeModuleSite{
 					$photos_arr = array_filter($photos);
 					if(!empty($photos_arr))
 					{
+						$data['pic'] = $photos_arr[0];
 						$detail['photo'] = implode('|', $photos_arr);
 					}
 				}
@@ -543,6 +544,7 @@ class UsersvipFrontModel extends WeModuleSite{
 					$photos_arr = array_filter($photos);
 					if(!empty($photos_arr))
 					{
+						$data['pic'] = $photos_arr[0];
 						$detail['photo'] = implode('|', $photos_arr);
 					}
 				}

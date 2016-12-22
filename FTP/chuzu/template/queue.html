@@ -52,7 +52,7 @@ $('#top_city').change(function (){
 .area_lis .on{border:1px solid orange;background-color:orange;color:#fff;}
 </style>
 <div class="main">
-	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return sb();">
 		<input type="hidden" name="id" value="{$item['id']}" />
 		<input type="hidden" name="data[zfyx]" id="zfyx" value="{$item['zfyx']}"/>
 		<input type="hidden" name="data[area_name]" id="area_name" value="{$item['area_name']}"/>
@@ -266,7 +266,9 @@ $('#top_city').change(function (){
 					<hr>
 				</td>
 			</tr>
-			
+			<?php
+			$item['status'] = $item['status']?$item['status']:1;
+			?>
 			<tr>
 				<th><label for="">跟踪状态</label></th>
 				<td>
@@ -372,6 +374,29 @@ $('.house_number').blur(function (){
 		}
 	});
 });
+function sb()
+{
+	var f = true;
+	var r_v = '';
+	<?php
+	if($item['id']){
+	?>
+	var radio = document.getElementsByName("data[status]");  
+    for (i=0; i<radio.length; i++) {  
+        if (radio[i].checked) {  
+            r_v = radio[i].value; 
+        }  
+    }  
+	if(r_v == <?=$item['status']?>)
+	{
+		if(!confirm('确定不改变跟踪状态吗？'))
+		{
+			f = false;return f;
+		}
+	}
+	<?php } ?>
+	return f;
+}
 </script>
 {elseif $operation == 'display'}
 <div class="main">
