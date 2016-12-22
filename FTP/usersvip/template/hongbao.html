@@ -1,0 +1,63 @@
+{template 'common/header'}
+<div class="main">
+	<div class="search">
+	<form action="{php echo $this->createWebUrl('tousu', array('op' => 'display'))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>搜素</th>
+					<td>
+						<select name="status" class="span2">
+							<option value="">--状态--</option>
+								<option value="-1" <?=$_GPC['status'] == -1?'selected':''?>>未处理</option>
+								<option value="1" <?=$_GPC['status'] == 1?'selected':''?>>已处理</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+	</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:10%;">电话</th>
+					<th style="width:10%;">房东电话</th>
+					<th style="width:10%;">中介电话</th>
+					<th style="width:10%;">服务评价</th>
+					<th style="width:40%;">投诉建议</th>
+					<th style="width:10%;">时间</th>
+					<th style="text-align:right; width:10%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['phone']}</td>
+					<td>{$item['fd_phone']}</td>
+					<td>{$item['zj_phone']}</td>
+					<td>{$item['pingjia']}</td>
+					<td>{$item['content']}</td>
+					<td><?=date('Y-m-d H:i',$item['intime'])?></td>
+					<td style="text-align:right;">
+					{if $item['status'] == 1}
+					<a href="{php echo $this->createWebUrl('hongbao', array('id' => $item['id'], 'op' => 'status', 'status' => -1))}">已处理</a>
+					{else}
+					<a href="{php echo $this->createWebUrl('hongbao', array('id' => $item['id'], 'op' => 'status', 'status' => 1))}">未处理</a>
+					{/if}
+					
+						<a href="{php echo $this->createWebUrl('hongbao', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{template 'common/footer'}
